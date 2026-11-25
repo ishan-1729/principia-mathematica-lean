@@ -22,7 +22,7 @@ section Aux
 
 open Function
 
-variable {α : Type*} {β : Type*} {γ : Type*}
+variable {α : Type*} {β : Type*} {γ : Type*} {δ : Type*}
 
 /-! ### Progressions as injective sequences -/
 
@@ -320,7 +320,7 @@ private theorem cardN_nonempty_of_infinite [Infinite β] (k : ℕ) : (cardN β k
   obtain ⟨t, -, ht, hk⟩ := (Set.infinite_univ (α := β)).exists_subset_ncard_eq k
   exact ⟨t, ht, hk⟩
 
-private theorem cardN_eq_n₀c {B : Set β} (hB : B ∈ cardN β k) : cardN β k = n₀c B := by
+private theorem cardN_eq_n₀c {B : Set β} {k : ℕ} (hB : B ∈ cardN β k) : cardN β k = n₀c B := by
   rw [n₀c_eq_cardN hB.1, hB.2]
 
 private theorem cardN_inj {m n : ℕ} (hm : (cardN β m).Nonempty) (h : cardN β m = cardN β n) :

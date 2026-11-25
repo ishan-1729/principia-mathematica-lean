@@ -108,7 +108,7 @@ def main() -> int:
         slot = acquire('slot', a.slots)
         try:
             t0 = time.time()
-            r = subprocess.run(['lake', 'env', 'lean', str(path)], cwd=ROOT, capture_output=True,
+            r = subprocess.run(['lake', 'env', 'lean', '-DautoImplicit=false', str(path)], cwd=ROOT, capture_output=True,
                                text=True, encoding='utf-8', errors='replace')
         finally:
             slot.unlink(missing_ok=True)

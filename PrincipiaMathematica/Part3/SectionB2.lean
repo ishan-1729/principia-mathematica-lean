@@ -11,6 +11,8 @@ gives the formula as printed (MathJax TeX). The full text is in `data/principia.
 
 namespace PrincipiaMathematica
 
+universe u v w u'
+
 /-! ## Helper lemmas (not propositions of PM) -/
 
 section Helpers
