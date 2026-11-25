@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installs the toolchain from lean-toolchain, fetches the mathlib cache, runs `lake build`.
+      - uses: leanprover/lean-action@v1
+
+      - name: Axiom audit (no sorry, only standard axioms)
+        run: lake env lean scripts/AxiomsAudit.lean
+
+      - name: Proposition map is complete and honest
+        run: |
+          python3 scripts/prop_table.py --check
+          git diff --exit-code docs/PROPOSITIONS.md || (echo "docs/PROPOSITIONS.md is stale: run scripts/prop_table.py" && exit 1)
