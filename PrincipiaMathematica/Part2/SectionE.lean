@@ -2659,9 +2659,8 @@ theorem pm92_34 {R : α → α → Prop} :
 description `Desc (Rfwd …)`). `gen'P` is `gen P` (✱93·03), `ᗡ''Pot'P` is `Dcnv ʻʻ pot P`, `p'`
 and `s'` are `prodCls`, `sumCls`, `∃!α` is `A.Nonempty`, `Cls² excl` and `Cls ex² excl` are
 `Cls2excl`, `ClsEx2excl`, `|S''κ` is `relProdR S ʻʻ K` and `T|''κ` is `relProdL T ʻʻ K`. The
-proposition PM cites as ✱93·2 (`α ∈ gen'P . ≡ . (∃T) . T ∈ Potid'P . α = min⃗_P'ᗡ'T`) is printed in
-the e-text inside the demonstration of ✱93·132 (as "✱92·2"), not as a separate entry; it is used
-through a private helper. ✱93·132 needs the hypothesis `ᗡ'T ⊂ C'P` (see its docstring). ✱93·31
+e-text numbers ✱93·12 and ✱93·2 "✱92·12" and "✱92·2" (their anchors are `*93·12`, `*93·2`).
+✱93·132 needs the hypothesis `ᗡ'T ⊂ C'P` (see its docstring). ✱93·31
 prints `min⃗_P'(T|P)` for `min⃗_P'ᗡ'(T|P)` (as its demonstration has it).
 
 **Status.** proved (all propositions; ✱93·01–✱93·03 definition; ✱93·132 proved (corrected), ✱93·31
@@ -2794,7 +2793,19 @@ theorem pm93_118 {P : α → α → Prop} {A : Set α} : refs (maxP P) A ⊆ A �
   rw [fld_cnv] at h'
   exact h'
 
-/-- ✱93·13. \(\vdash.\overrightarrow{\text{min}}_{P}ʻ\text{ᗡ}ʻ(I\upharpoonright CʻP)=\overrightarrow{B}ʻP \quad[\text{*50·5·52.*93·112}]\) -/
+/-- ✱93·12. \(\vdash.\overrightarrow{B}ʻ\breve{P}=\text{ᗡ}ʻP-\text{D}ʻP=CʻP-\text{D}ʻP \quad[\text{*93·101·103.*33·2·21·22}]\) -/
+theorem pm93_12 {P : α → α → Prop} :
+    refs Beg P˘ = codom P \ dom P ∧ codom P \ dom P = fld P \ dom P := by
+  refine ⟨rfl, ?_⟩
+  ext x
+  constructor
+  · rintro ⟨⟨y, h⟩, h'⟩
+    exact ⟨⟨y, Or.inr h⟩, h'⟩
+  · rintro ⟨⟨y, h | h⟩, h'⟩
+    · exact absurd ⟨y, h⟩ h'
+    · exact ⟨⟨y, h⟩, h'⟩
+
+/-- ✱93·13.\(\vdash.\overrightarrow{\text{min}}_{P}ʻ\text{ᗡ}ʻ(I\upharpoonright CʻP)=\overrightarrow{B}ʻP \quad[\text{*50·5·52.*93·112}]\) -/
 theorem pm93_13 {P : α → α → Prop} : refs (minP P) (codom (I ↾ fld P)) = refs Beg P := by
   have e : codom (I ↾ fld P) = fld P := by
     ext x
@@ -2831,7 +2842,13 @@ theorem pm93_132_printed_false :
     ⟨⟨(), trivial⟩, fun ⟨_, _, _, h⟩ => h⟩
   obtain ⟨⟨-, _, h | h⟩, -⟩ := e.2 hr <;> exact h
 
-/-- ✱93·21. \[\begin{align}&\vdash:\alpha\in \text{gen}ʻP.\equiv.(\exists T).T\in \text{Potid}ʻP.\alpha=\text{ᗡ}ʻT-\text{ᗡ}ʻ(T\mid P)\\ &[\text{*93·2·132}]\end{align}\] -/
+/-- ✱93·2. \[\begin{align}&\vdash:\alpha\in \text{gen}ʻP.\equiv.(\exists T).T\in \text{Potid}ʻP.\alpha=\overrightarrow{\text{min}}_{P}ʻ\text{ᗡ}ʻT\\ &[\text{*37·67.(*93·03)}]\end{align}\] -/
+theorem pm93_2 {P : α → α → Prop} {A : Set α} :
+    A ∈ gen P ↔ ∃ T, T ∈ potid P ∧ A = refs (minP P) (codom T) := by
+  rw [gen]
+  exact mem_minImg P (potid P) A
+
+/-- ✱93·21.\[\begin{align}&\vdash:\alpha\in \text{gen}ʻP.\equiv.(\exists T).T\in \text{Potid}ʻP.\alpha=\text{ᗡ}ʻT-\text{ᗡ}ʻ(T\mid P)\\ &[\text{*93·2·132}]\end{align}\] -/
 theorem pm93_21 {P : α → α → Prop} {A : Set α} :
     A ∈ gen P ↔ ∃ T, T ∈ potid P ∧ A = codom T \ codom (T ⨾ P) := by
   rw [gen, mem_minImg]

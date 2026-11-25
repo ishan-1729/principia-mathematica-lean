@@ -676,8 +676,8 @@ In ✱160·41 the relation `⤉R` (✱38·02) is `opR rsum R`, so `⤉R''λ` is 
 in ✱160·412 `λ⤉,,` is the relation `opL (opImg rsum) L`. The correlators of ✱160·45–·47 are
 heterogeneous `S : α → β → Prop`. ✱160·35 is false as printed (`P ⤉ Q ⊂̇ R ⤉ S` from
 `P ⊂̇ Q . R ⊂̇ S`); its proof `[✱160·33·34]` gives `P ⤉ R ⊂̇ Q ⤉ S`, which is proved, with the
-counterexample to the printed form. (The e-text prints ✱160·34, `R ⊂̇ S . ⊃ . Q ⤉ R ⊂̇ Q ⤉ S`,
-inside the comment of ✱160·33; it is used in the proof of ✱160·35 and is proved as `pm160_34`.)
+counterexample to the printed form. (The e-text numbers ✱160·34, `R ⊂̇ S . ⊃ . Q ⤉ R ⊂̇ Q ⤉ S`,
+`*160*34.`, a star for the centred dot; it is used in the proof of ✱160·35.)
 
 **Status.** proved (all propositions; ✱160·01·32 definition; ✱160·35 proved (corrected),
 ✱160·41 proved (reading), see their docstrings)
@@ -796,7 +796,7 @@ theorem pm160_33 {α : Type*} {P Q R : α → α → Prop} : P ⪽ Q → P ⤉ R
 
 /-- ✱160·34. \(\vdash :R\,\unicode{x2abd}\, S.\supset .Q\unicode{x2909}R\,\unicode{x2abd}\, Q\unicode{x2909}S \quad [*33·265.*160·1]\)
 
-(The e-text prints this proposition inside the comment of ✱160·33, not as a separate entry.) -/
+The e-text numbers it `*160*34.` (a star for the centred dot). -/
 theorem pm160_34 {α : Type*} {Q R S : α → α → Prop} : R ⪽ S → Q ⤉ R ⪽ Q ⤉ S := by
   rintro h x y ((h1 | h1) | ⟨h1, h2⟩)
   · exact Or.inl (Or.inl h1)
@@ -1513,8 +1513,8 @@ theorem pm161_43 {α β : Type*} {Q : α → α → Prop} {x : α} {y : β} :
 Where PM leaves brackets to the types (✱162·372, `Σ'(ι'P) ↑ β`, i.e. `Σ'{(ι'P) ↑ β}`), Lean
 writes them. The e-text has transcription errors in ✱162·12 (`Q ⊂̇ C'P` for `Q ∈ C'P`), ✱162·14
 (`=` for `≡`), ✱162·332 (`ṡ'C'ṡ'P` for `ṡ'C'ṡ'C'P`) and ✱162·34 (`Σ'Σ;` for `Σ'Σ;P`); they are
-read as PM's demonstrations and summary show. (The e-text also prints the unnumbered-in-the-list
-✱162·44 inside the comment of ✱162·431; it is proved as `pm162_44`.)
+read as PM's demonstrations and summary show. (The e-text numbers ✱162·44 `*162.44.`, a full stop
+for the centred dot.)
 
 **Status.** proved (all propositions; ✱162·01 definition; ✱162·12·14·332·34 proved (reading),
 see their docstrings)
@@ -1979,8 +1979,7 @@ theorem pm162_431 {α : Type*} {P : (α → α → Prop) → (α → α → Prop
 
 /-- ✱162·44. \(\vdash . \Sigma ʻ(P\unicode{x21f8} \dot{\Lambda} ) = \Sigma ʻ(\dot{\Lambda} \unicode{x21f7}P) = \Sigma ʻP\)
 
-(The e-text prints this proposition inside the comment of ✱162·431, not as a separate entry.)
-`Λ̇` is of the type of the members of `C'P`; the chain is the conjunction of its links. -/
+The e-text numbers it `*162.44.` (a full stop for the centred dot). `Λ̇` is of the type of the members of `C'P`; the chain is the conjunction of its links. -/
 theorem pm162_44 {α : Type*} {P : (α → α → Prop) → (α → α → Prop) → Prop} :
     relSigma (P ⇸ (rNull : α → α → Prop)) = relSigma (rNull ⇷ P) ∧
       relSigma (rNull ⇷ P) = relSigma P := by

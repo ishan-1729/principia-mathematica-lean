@@ -3636,7 +3636,8 @@ theorem pm213_58 {P Q : α → α → Prop} (h : (po P ⪽ J ∧ po Q ∈ Ser) �
 proofs go through Dedekind cuts: for a section `α`, `seq_P'α = min_P'(C'P − α)` (✱211·721); for
 transitive `P` a class and the section it generates have the same maxima and sequents. ✱214·3·31
 take `κ`, `Q` as real variables with PM's hypotheses; ✱214·32–·34 apply them. Likeness is used
-through its correlator `S` (`P = S;Q`), transporting maxima and sequents.
+through its correlator `S` (`P = S;Q`), transporting maxima and sequents. The e-text numbers
+✱214·11 "✱21·411" (it stands between ✱214·101 and ✱214·12).
 
 **Status.** proved (all propositions; ✱214·01·02 definition; ✱214·131, ·141, ·151 proved (reading),
 e-text misprints).
@@ -3704,7 +3705,37 @@ theorem pm214_101 {P : α → α → Prop} :
       obtain ⟨x, hx, -⟩ := h hA
       exact ⟨x, hx⟩
 
-/-- ✱214·12. \[\begin{align}& \vdash \colon\ldotp P\in \text{Ded}. \equiv :\alpha \subset CʻP.\supset _{\alpha }.\alpha \in \text{ᗡ}ʻ\text{max}_{P}\cup \text{ᗡ}ʻ\text{seq}_{P}\\ &[*214·1.*205·151.*206·131]\end{align}\] -/
+/-- ✱214·11. \[\begin{align}& \vdash :P\in \text{Ded}. \equiv .(\alpha ).\alpha \in \text{ᗡ}ʻ\text{max}_{P}\cup \text{ᗡ}ʻ\text{lt}_P. \equiv .(\alpha ).\alpha \in \text{ᗡ}ʻ\text{limax}_P\\ &[*214·1.*207·14·44]\end{align}\] -/
+theorem pm214_11 {P : α → α → Prop} :
+    (P ∈ Ded ↔ ∀ A : Set α, A ∈ codom (maxP P) ∪ codom (ltP P)) ∧
+      ((∀ A : Set α, A ∈ codom (maxP P) ∪ codom (ltP P)) ↔ ∀ A : Set α, A ∈ codom (limaxP P)) := by
+  have e1 : ∀ A : Set α, A ∈ codom (limaxP P) ↔ A ∈ codom (maxP P) ∪ codom (ltP P) := by
+    intro A
+    constructor
+    · rintro ⟨x, hx | hx⟩
+      · exact Or.inl ⟨x, hx⟩
+      · exact Or.inr ⟨x, hx⟩
+    · rintro (⟨x, hx⟩ | ⟨x, hx⟩)
+      · exact ⟨x, Or.inl hx⟩
+      · exact ⟨x, Or.inr hx⟩
+  have e2 : ∀ A : Set α,
+      A ∈ codom (maxP P) ∪ codom (ltP P) ↔ A ∈ codom (maxP P) ∪ codom (seqP P) := by
+    intro A
+    constructor
+    · rintro (h | ⟨x, hx, -⟩)
+      · exact Or.inl h
+      · exact Or.inr ⟨x, hx⟩
+    · rintro (h | ⟨x, hx⟩)
+      · exact Or.inl h
+      · by_cases hA : A ∈ codom (maxP P)
+        · exact Or.inl hA
+        · exact Or.inr ⟨x, hx, hA⟩
+  refine ⟨?_, ?_⟩
+  · rw [pm214_1]
+    exact forall_congr' fun A => (e2 A).symm
+  · exact forall_congr' fun A => (e1 A).symm
+
+/-- ✱214·12.\[\begin{align}& \vdash \colon\ldotp P\in \text{Ded}. \equiv :\alpha \subset CʻP.\supset _{\alpha }.\alpha \in \text{ᗡ}ʻ\text{max}_{P}\cup \text{ᗡ}ʻ\text{seq}_{P}\\ &[*214·1.*205·151.*206·131]\end{align}\] -/
 theorem pm214_12 {P : α → α → Prop} :
     P ∈ Ded ↔ ∀ A, A ⊆ fld P → A ∈ codom (maxP P) ∪ codom (seqP P) := by
   constructor

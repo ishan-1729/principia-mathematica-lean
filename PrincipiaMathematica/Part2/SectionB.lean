@@ -1344,11 +1344,9 @@ theorem pm63_68 {K : Set (Set (Set α))} : cl (typ₂ K) = typ₁ K := by typ_si
 >
 > …
 
-**Lean reading.** The Dfs ✱64·01–·041 and the propositions ✱64·1·11·12 are printed in the e-text
-inside the Summary and have no entries of their own in `data/principia.json`; they are declared
-here all the same (`pm64_01`–`pm64_041` as their Defs targets, `pm64_1`, `pm64_11`, `pm64_12`).
-`t₀₀'α`, `t^{11}'x`, `t^{22}'x`,
-`t₁₁'α` are `typ₀₀ A`, `typ11 x`, `typ22 x`, `typ₁₁ A`, and `t₂₂'α` (one of the "etc." of
+**Lean reading.** The e-text numbers the Dfs ✱64·01–·041 and the propositions ✱64·1·11·12
+`*64.01.`, …, `*64.12.` (a full stop for the centred dot); `pm64_01`–`pm64_041` are their Defs
+targets. `t₀₀'α`, `t^{11}'x`, `t^{22}'x`, `t₁₁'α` are `typ₀₀ A`, `typ11 x`, `typ22 x`, `typ₁₁ A`, and `t₂₂'α` (one of the "etc." of
 ✱64·022) is written out as `t'(t₂'α ↑ t₂'α)`, `typ (cross (typ₂ A) (typ₂ A))`. Relations are
 heterogeneous `α → β → Prop`, `α ↑ β` is `cross A B`, `Rl'(…)` is `rl (…)`, `ṡ'λ` is `sumRel L`.
 The type `t'R` of a relation is `Set.univ` of its relation type, and every proposition is proved by
@@ -1364,8 +1362,7 @@ docstrings).
 
 /-- ✱64·01 (Df). \(t_{00}ʻ\alpha=tʻ(t_{0}ʻ\alpha\uparrow t_{0}ʻ\alpha) \quad\text{Df}\)
 
-(Printed in the e-text inside the Summary of ✱64, with no entry of its own in
-`data/principia.json`.) -/
+The e-text numbers ✱64·01–✱64·12 `*64.01.`, …, `*64.12.` (a full stop for the centred dot). -/
 theorem pm64_01 {A : Set α} : typ₀₀ A = typ (cross (typ₀ A) (typ₀ A)) := rfl
 
 /-- ✱64·011 (Df). \(t^{11}ʻx=tʻ(tʻx\uparrow tʻx) \quad\text{Df}\) -/
@@ -1401,20 +1398,13 @@ theorem pm64_04 {A : Set α} : typ1₀ A = typ (cross (typ A) (typ₀ A)) := rfl
 /-- ✱64·041 (Df). \(^{1}t_{1}ʻ\alpha=tʻ(tʻ\alpha\uparrow t_{1}ʻ\alpha) \quad\text{Df}\) -/
 theorem pm64_041 {A : Set (Set α)} : typ1₁ A = typ (cross (typ A) (typ₁ A)) := rfl
 
-/-- ✱64·1. \(\vdash.\alpha\uparrow \alpha\in t_{00}ʻ\alpha\)
-
-(Printed in the e-text inside the Summary of ✱64, with no entry of its own in
-`data/principia.json`.) -/
+/-- ✱64·1. \(\vdash.\alpha\uparrow \alpha\in t_{00}ʻ\alpha\) -/
 theorem pm64_1 {A : Set α} : cross A A ∈ typ₀₀ A := by typ_simp
 
-/-- ✱64·11. \(\vdash.t_{00}ʻ\alpha=tʻ(\alpha\uparrow\alpha) \quad[\text{*64·1.*63·16}]\)
-
-(Printed inside the Summary of ✱64.) -/
+/-- ✱64·11. \(\vdash.t_{00}ʻ\alpha=tʻ(\alpha\uparrow\alpha) \quad[\text{*64.1.*63.16}]\) -/
 theorem pm64_11 {A : Set α} : typ₀₀ A = typ (cross A A) := by typ_simp
 
-/-- ✱64·12. \(\vdash.\alpha\uparrow\beta\in tʻ(t_{0}ʻ\alpha\uparrow t_{0}ʻ\beta)\)
-
-(Printed inside the Summary of ✱64.) -/
+/-- ✱64·12. \(\vdash.\alpha\uparrow\beta\in tʻ(t_{0}ʻ\alpha\uparrow t_{0}ʻ\beta\)) -/
 theorem pm64_12 {A : Set α} {B : Set β} : cross A B ∈ typ (cross (typ₀ A) (typ₀ B)) := by
   typ_simp
 

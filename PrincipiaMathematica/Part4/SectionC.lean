@@ -175,7 +175,70 @@ theorem pm170_12 {P : α → α → Prop} {A B : Set α} : Pcl P A B ↔
     (A ∈ cl (fld P) ∧ B ∈ cl (fld P)) ∧ ((A \ (A ∩ B)) \ P˘ ʻʻ (B \ (A ∩ B))).Nonempty := by
   rw [pm170_1, Set.sdiff_self_inter, Set.sdiff_inter_self_eq_sdiff]
 
-/-- ✱170·14. \[\begin{align}&\vdash \colon\ldotp \alpha ,\beta \in \text{Cl}ʻCʻP.\supset :\alpha \dot{-} P_{\text{cl}}\beta .\equiv .\alpha -\beta \subset \breve{P} ʻʻ(\beta -\alpha )\\ &[*170·1.*24·55]\end{align}\] -/
+/-- ✱170·121. \[\begin{align}&\vdash \colon\ldotp \alpha P_{\text{cl}}\beta .\equiv .\alpha ,\beta \in \text{Cl}ʻCʻP.\exists !(\alpha \cup \beta )-\beta -\breve{P} ʻʻ\{(\alpha \cup \beta )-\alpha\}\\ &[*170·1.*22·9]\end{align}\] -/
+theorem pm170_121 {P : α → α → Prop} {A B : Set α} : Pcl P A B ↔
+    (A ∈ cl (fld P) ∧ B ∈ cl (fld P)) ∧ (((A ∪ B) \ B) \ P˘ ʻʻ ((A ∪ B) \ A)).Nonempty := by
+  rw [pm170_1, Set.union_diff_right, Set.union_diff_left]
+
+/-- ✱170·13. \[\begin{align}&\vdash \colon\ldotp \alpha P_{\text{cl}}\beta .\equiv :(\exists \rho ,\sigma ,\gamma ).\rho ,\sigma ,\gamma \in \text{Cl}ʻCʻP.\\ &\rho \cap \gamma =\Lambda .\sigma \cap \gamma =\Lambda .\rho \cap \sigma =\Lambda .\alpha =\gamma \cup \rho .\beta =\gamma \cup \sigma .\exists !\rho -\breve{P} ʻʻ\sigma\end{align}\]
+
+`ρ, σ, γ ∈ Cl'C'P` is `Mem3 ρ σ γ (cl (fld P))`. -/
+theorem pm170_13 {P : α → α → Prop} {A B : Set α} : Pcl P A B ↔
+    ∃ ρ σ γ : Set α, ((((((Mem3 ρ σ γ (cl (fld P)) ∧ ρ ∩ γ = Λ) ∧ σ ∩ γ = Λ) ∧ ρ ∩ σ = Λ) ∧
+      A = γ ∪ ρ) ∧ B = γ ∪ σ) ∧ (ρ \ P˘ ʻʻ σ).Nonempty) := by
+  rw [pm170_1]
+  simp only [Null_eq_empty]
+  constructor
+  · rintro ⟨⟨hA, hB⟩, hne⟩
+    refine ⟨A \ B, B \ A, A ∩ B, ⟨⟨⟨⟨⟨⟨⟨fun x hx => hA hx.1, fun x hx => hB hx.1⟩,
+      fun x hx => hA hx.1⟩, ?_⟩, ?_⟩, ?_⟩, (Set.inter_union_diff A B).symm⟩, ?_⟩, hne⟩
+    · exact Set.subset_empty_iff.1 fun x ⟨⟨_, h1⟩, _, h2⟩ => h1 h2
+    · exact Set.subset_empty_iff.1 fun x ⟨⟨_, h1⟩, h2, _⟩ => h1 h2
+    · exact Set.subset_empty_iff.1 fun x ⟨⟨h1, _⟩, _, h2⟩ => h2 h1
+    · rw [Set.inter_comm]
+      exact (Set.inter_union_diff B A).symm
+  · rintro ⟨ρ, σ, γ, ⟨⟨⟨⟨⟨⟨⟨hρ, hσ⟩, hγ⟩, d1⟩, d2⟩, d3⟩, rfl⟩, rfl⟩, hne⟩
+    have e1 : (γ ∪ ρ) \ (γ ∪ σ) = ρ := by
+      ext x
+      constructor
+      · rintro ⟨hx | hx, hn⟩
+        · exact absurd (Or.inl hx) hn
+        · exact hx
+      · intro hx
+        refine ⟨Or.inr hx, ?_⟩
+        rintro (h | h)
+        · have h' : x ∈ ρ ∩ γ := ⟨hx, h⟩
+          rw [d1] at h'
+          exact h'
+        · have h' : x ∈ ρ ∩ σ := ⟨hx, h⟩
+          rw [d3] at h'
+          exact h'
+    have e2 : (γ ∪ σ) \ (γ ∪ ρ) = σ := by
+      ext x
+      constructor
+      · rintro ⟨hx | hx, hn⟩
+        · exact absurd (Or.inl hx) hn
+        · exact hx
+      · intro hx
+        refine ⟨Or.inr hx, ?_⟩
+        rintro (h | h)
+        · have h' : x ∈ σ ∩ γ := ⟨hx, h⟩
+          rw [d2] at h'
+          exact h'
+        · have h' : x ∈ ρ ∩ σ := ⟨h, hx⟩
+          rw [d3] at h'
+          exact h'
+    refine ⟨⟨?_, ?_⟩, ?_⟩
+    · rintro x (hx | hx)
+      · exact hγ hx
+      · exact hρ hx
+    · rintro x (hx | hx)
+      · exact hγ hx
+      · exact hσ hx
+    · rw [e1, e2]
+      exact hne
+
+/-- ✱170·14.\[\begin{align}&\vdash \colon\ldotp \alpha ,\beta \in \text{Cl}ʻCʻP.\supset :\alpha \dot{-} P_{\text{cl}}\beta .\equiv .\alpha -\beta \subset \breve{P} ʻʻ(\beta -\alpha )\\ &[*170·1.*24·55]\end{align}\] -/
 theorem pm170_14 {P : α → α → Prop} {A B : Set α} (h : A ∈ cl (fld P) ∧ B ∈ cl (fld P)) :
     (∸Pcl P) A B ↔ A \ B ⊆ P˘ ʻʻ (B \ A) := by
   show ¬ Pcl P A B ↔ _
@@ -1136,7 +1199,31 @@ theorem pm171_102 {P : α → α → Prop} {A B : Set α} : Pfd P A B ↔ (A ∈
   rw [pm171_1, pm170_aux_fld_cnv]
   exact and_congr and_comm Iff.rfl
 
-/-- ✱171·12. \[\begin{align}&\vdash \colon\ldotp \alpha P_{\text{df}}\beta .\equiv :\alpha ,\beta \in \text{Cl}ʻCʻP:\\ &(\exists z).z\in \alpha -\beta .\overrightarrow{P}ʻz\cap \alpha -\iota ʻz=\overrightarrow{P}ʻz\cap \beta -\iota ʻz \quad[*171·1.*51·222]\end{align}\] -/
+/-- ✱171·11. \[\begin{align}\vdash \colon\colon\ldotp \alpha P_{\text{df}}&\beta .\equiv \colon\colon \alpha ,\beta \in \text{Cl}ʻCʻP\colon\colon \\ &(\exists z)\colon\ldotp z\in \alpha -\beta \colon\ldotp yPz.y\neq z.\supset _{y}:y\in \alpha .\equiv .y\in \beta \quad [*171·1]\end{align}\] -/
+theorem pm171_11 {P : α → α → Prop} {A B : Set α} : Pdf P A B ↔ (A ∈ cl (fld P) ∧ B ∈ cl (fld P)) ∧
+    ∃ z, z ∈ A \ B ∧ ∀ y, P y z ∧ y ≠ z → (y ∈ A ↔ y ∈ B) := by
+  rw [pm171_1]
+  refine and_congr Iff.rfl (exists_congr fun z => ?_)
+  constructor
+  · rintro ⟨hz, e⟩
+    refine ⟨hz, fun y ⟨hyz, hne⟩ => ⟨fun hy => ?_, fun hy => ?_⟩⟩
+    · have h : y ∈ (refs P z ∩ A) \ ι z := ⟨⟨hyz, hy⟩, fun h => hne h⟩
+      rw [e] at h
+      exact h.2
+    · have h : y ∈ refs P z ∩ B := ⟨hyz, hy⟩
+      rw [← e] at h
+      exact h.1.2
+  · rintro ⟨hz, h⟩
+    refine ⟨hz, ?_⟩
+    ext y
+    constructor
+    · rintro ⟨⟨hyz, hy⟩, hne⟩
+      exact ⟨hyz, (h y ⟨hyz, fun e => hne e⟩).1 hy⟩
+    · rintro ⟨hyz, hy⟩
+      have hne : y ≠ z := fun e => hz.2 (e ▸ hy)
+      exact ⟨⟨hyz, (h y ⟨hyz, hne⟩).2 hy⟩, hne⟩
+
+/-- ✱171·12.\[\begin{align}&\vdash \colon\ldotp \alpha P_{\text{df}}\beta .\equiv :\alpha ,\beta \in \text{Cl}ʻCʻP:\\ &(\exists z).z\in \alpha -\beta .\overrightarrow{P}ʻz\cap \alpha -\iota ʻz=\overrightarrow{P}ʻz\cap \beta -\iota ʻz \quad[*171·1.*51·222]\end{align}\] -/
 theorem pm171_12 {P : α → α → Prop} {A B : Set α} : Pdf P A B ↔ (A ∈ cl (fld P) ∧ B ∈ cl (fld P)) ∧
     ∃ z, z ∈ A \ B ∧ (refs P z ∩ A) \ ι z = (refs P z ∩ B) \ ι z := by
   rw [pm171_1]

@@ -144,8 +144,8 @@ descriptions `R'y` of ✱40·4–·45 (where `R` is arbitrary) are kept as `Desc
 hypothesis `E!!R''β` (`EE R B`) exactly where PM has it; in ✱40·42 and ✱40·45 the descriptions
 occurring first have the larger scopes. `R⃗'x`, `R⃖'x` (graphs) are `refs R x`, `rels R x`. The
 relations `α ♀,,` and `♀,, y` of ✱40·7·71 are ✱38·01·02 applied to the double function `♀,,`:
-`opL (opImg f) A` and `opR (opImg f) y`. ✱40·81, printed in the e-text after the demonstration
-of ✱40·8 without an entry of its own, is added as `pm40_81`. Proofs are direct.
+`opL (opImg f) A` and `opR (opImg f) y`. ✱40·81 is printed in the e-text, after the
+demonstration of ✱40·8, as a plain paragraph (not in bold). Proofs are direct.
 
 **Status.** proved (all propositions; ✱40·01·02 definition; ✱40·221, ✱40·24, ✱40·25, ✱40·52,
 ✱40·61, ✱40·71 proved (reading): e-text transcription errors; ✱40·42, ✱40·44, ✱40·45, ✱40·451,
@@ -758,8 +758,8 @@ theorem pm40_8 {R : α → α → Prop} {K : Set (Set α)} :
 
 /-- ✱40·81. \(\vdash\colon\ldotp \alpha \epsilon \kappa . \supset_{\alpha}. \breve{R}ʻʻ \alpha \subset \alpha : \supset \breve{R}ʻʻ pʻ \kappa \subset pʻ \kappa\)
 
-(In the e-text this proposition is printed after the demonstration of ✱40·8 and has no entry of
-its own; it is the analogue of ✱40·8 for products, read with the dots of ✱40·8.) -/
+The e-text prints it, after the demonstration of ✱40·8, as a plain paragraph `*40·81.` (not in
+bold). It is the analogue of ✱40·8 for products, read with the dots of ✱40·8. -/
 theorem pm40_81 {R : α → α → Prop} {K : Set (Set α)} :
     (∀ A, A ∈ K → R˘ ʻʻ A ⊆ A) → R˘ ʻʻ prodCls K ⊆ prodCls K := by
   rintro h y ⟨x, hx, hxy⟩ G hG

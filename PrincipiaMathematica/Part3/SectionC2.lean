@@ -2956,7 +2956,23 @@ theorem pm122_381 {α W : Type*} [Nonempty W] {R : α → α → Prop} {ν : Set
   rw [hanc]
   exact ⟨rfl, itvCC_seqRel_finite hf _ _, (ncard_itvCC_seqRel hf).2 ⟨0, rfl, by rw [Nat.zero_add]⟩⟩
 
-/-- ✱122·42. \(\vdash :R\in \text{Prog}.\alpha \subset R(BʻR\vdash\dashv y).y\in \alpha .\supset .y= \text{max}_{R}ʻ\alpha\)
+/-- ✱122·41. \(\vdash :R\in \text{Prog}.\alpha \subset \text{D}ʻR.y\in \alpha -R_{\text{po}}ʻʻ\alpha .\supset .\alpha \subset R(BʻR\vdash\dashv y)\)
+
+`α ⊂ R(B'R ⊢⊣ y)` is `Desc Beg R (fun b => A ⊆ itvCC R b y)`, as in ✱122·42. -/
+theorem pm122_41 {α : Type*} {R : α → α → Prop} {A : Set α} {y : α} :
+    (R ∈ Prog ∧ A ⊆ dom R) ∧ y ∈ A \ po R ʻʻ A → Desc Beg R (fun b => A ⊆ itvCC R b y) := by
+  rintro ⟨⟨h, hA⟩, hyA, hy⟩
+  obtain ⟨f, hf, rfl⟩ := prog_iff_seq.1 h
+  rw [dom_seqRel] at hA
+  obtain ⟨n, rfl⟩ := hA hyA
+  rw [desc_beg_seqRel hf, itvCC_seqRel hf]
+  intro z hz
+  obtain ⟨i, rfl⟩ := hA hz
+  refine ⟨i, ⟨Nat.zero_le i, ?_⟩, rfl⟩
+  by_contra hi
+  exact hy ⟨f i, hz, (po_seqRel' hf).2 (by omega)⟩
+
+/-- ✱122·42.\(\vdash :R\in \text{Prog}.\alpha \subset R(BʻR\vdash\dashv y).y\in \alpha .\supset .y= \text{max}_{R}ʻ\alpha\)
 
 The e-text prints `max_R'α`; with `max_R` the proposition is false (`pm122_42_printed_false`),
 and PM's demonstration (`y ∼∈ R_po''α`, ✱93·115 applied to `R_po`) proves `y = max(R_po)'α`,
@@ -3059,7 +3075,41 @@ theorem pm122_441 {α : Type*} {R P Q : α → α → Prop} {A : Set α} :
   obtain ⟨g, -, hQ, hrange, -, -⟩ := pm122_44_core hf hA hne
   rw [hQ, dom_seqRel, hrange]
 
-/-- ✱122·443. \(\vdash :\text{Hp}*122·44.\supset .\text{min}(R_{\text{po}})ʻ\alpha =BʻQ.\text{ᗡ}ʻQ=\alpha \cap \breve{R} _{\text{po}}ʻʻ\alpha \)
+/-- ✱122·442. \(\vdash :\text{Hp}*122·44.\supset .P=Q_{\text{po}}\) -/
+theorem pm122_442 {α : Type*} {R P Q : α → α → Prop} {A : Set α} :
+    (((R ∈ Prog ∧ A ⊆ po R ʻʻ A) ∧ A.Nonempty) ∧ P = po R ⥏ A) ∧ Q = P ∸ rsq P →
+      P = po Q := by
+  rintro ⟨⟨⟨⟨h, hA⟩, hne⟩, rfl⟩, rfl⟩
+  obtain ⟨f, hf, rfl⟩ := prog_iff_seq.1 h
+  obtain ⟨g, hg, hQ, hrange, hpo, -⟩ := pm122_44_core hf hA hne
+  rw [hQ]
+  have hmemA : ∀ q, g q ∈ A := fun q => by rw [← hrange]; exact ⟨q, rfl⟩
+  have key : ∀ m n, po (SeqRel f) (g m) (g n) → m < n := by
+    intro m n hmn
+    obtain ⟨a, b, hab, ha, hb⟩ := (po_seqRel hf).1 hmn
+    by_contra hge
+    rcases Nat.lt_or_ge n m with hlt | hle
+    · obtain ⟨c, d, hcd, hc, hd⟩ := (po_seqRel hf).1 (hpo n m hlt)
+      have e1 := hf (ha.symm.trans hd)
+      have e2 := hf (hb.symm.trans hc)
+      omega
+    · have e : m = n := by omega
+      subst e
+      have := hf (ha.symm.trans hb)
+      omega
+  funext x y
+  apply propext
+  rw [po_seqRel hg]
+  constructor
+  · rintro ⟨⟨hx, hxy⟩, hy⟩
+    rw [← hrange] at hx hy
+    obtain ⟨m, rfl⟩ := hx
+    obtain ⟨n, rfl⟩ := hy
+    exact ⟨m, n, key m n hxy, rfl, rfl⟩
+  · rintro ⟨m, n, hmn, rfl, rfl⟩
+    exact ⟨⟨hmemA m, hpo m n hmn⟩, hmemA n⟩
+
+/-- ✱122·443.\(\vdash :\text{Hp}*122·44.\supset .\text{min}(R_{\text{po}})ʻ\alpha =BʻQ.\text{ᗡ}ʻQ=\alpha \cap \breve{R} _{\text{po}}ʻʻ\alpha \)
 
 `min(R_po)'α = B'Q`: the description occurring first has the larger scope. -/
 theorem pm122_443 {α : Type*} {R P Q : α → α → Prop} {A : Set α} :
@@ -4973,7 +5023,18 @@ theorem pm124_53 {α : Type*} {R : Set α → Set α → Prop} : R ∈ Prog → 
   have hinf : (dom R).Infinite := fun hd => (pm122_37 h).1 (mem_ClsInduct.2 hd)
   exact sumCls_infinite_of_infinite hinf (mem_ClsInduct.1 hfin)
 
-/-- ✱124·532. \[\begin{align}&\vdash :R\in \text{Prog}.\text{D}ʻR\subset \text{Cls induct}.\supset .\exists !sʻ\text{D}ʻR-sʻ\overrightarrow{R}_{*}ʻ\gamma \\ &[*124·53·531.*120·481.\text{Transp}]\end{align}\]
+/-- ✱124·531. \(\vdash :R\in \text{Prog}.\text{D}ʻR\subset \text{Cls induct}.\supset .sʻ\overrightarrow{R}_{*}ʻ\gamma \in \text{Cls induct}\)
+
+`γ` is a real variable (`G`). -/
+theorem pm124_531 {α : Type*} {R : Set α → Set α → Prop} {G : Set α} :
+    R ∈ Prog ∧ dom R ⊆ ClsInduct → sumCls (refs (anc R) G) ∈ ClsInduct := by
+  rintro ⟨h, hsub⟩
+  refine mem_ClsInduct.2 (sumCls_finite (mem_ClsInduct.1 (pm122_38 h)) fun A hA => ?_)
+  have hA' : A ∈ fld R := fld_of_anc_left (show anc R A G from hA)
+  rw [(pm122_141 h).2] at hA'
+  exact mem_ClsInduct.1 (hsub hA')
+
+/-- ✱124·532.\[\begin{align}&\vdash :R\in \text{Prog}.\text{D}ʻR\subset \text{Cls induct}.\supset .\exists !sʻ\text{D}ʻR-sʻ\overrightarrow{R}_{*}ʻ\gamma \\ &[*124·53·531.*120·481.\text{Transp}]\end{align}\]
 
 `γ` is a real variable (`G`). -/
 theorem pm124_532 {α : Type*} {R : Set α → Set α → Prop} {G : Set α} :

@@ -14,8 +14,8 @@ as printed (MathJax TeX, from `data/principia.json`) and says how the Df is read
   *target statement* of `pmN_M` and its status.
 
 The file ends with sanity lemmas showing that the encodings behave (identity is `Eq`, `TheIs` is
-`∃!`, descriptions of `graph`s reduce, classes and relations are extensional, reducibility);
-Section agents may use them.
+`∃!`, descriptions of `graph`s reduce, classes and relations are extensional, reducibility),
+used in the Section files.
 -/
 
 namespace PrincipiaMathematica

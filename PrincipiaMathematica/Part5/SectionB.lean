@@ -2310,7 +2310,22 @@ theorem pm211_53 {α : Type u} {P : α → α → Prop} {A : Set α} :
   have h' := pm211_52 (A := A) h
   tauto
 
-/-- ✱211·541. \(\vdash \colon\ldotp P\in \text{Rl}ʻJ\cap \text{trans}:\exists !\overrightarrow{\text{max}}_{P}ʻ\alpha .\supset _{\alpha }.{\sim}\exists !\overrightarrow{\text{seq}} _{P}ʻ\alpha :\supset .P=P^{2}\) -/
+/-- ✱211·54. \(\vdash \colon\ldotp P\,\unicode{x2abd}\, J:\exists !\overrightarrow{\text{max}}_{P}ʻ\alpha .\supset _{\alpha }.{\sim}\exists !\overrightarrow{\text{seq}} _{P}ʻ\alpha :\supset .P\,\unicode{x2abd}\, P^{2}\) -/
+theorem pm211_54 {α : Type u} {P : α → α → Prop} :
+    P ⪽ J ∧ (∀ A, (refs (maxP P) A).Nonempty → ¬ (refs (seqP P) A).Nonempty) → P ⪽ rsq P := by
+  rintro ⟨hJ, h⟩ x y hxy
+  have hm : (refs (maxP P) (ι x)).Nonempty := by
+    refine ⟨x, maxP_iff.2 ⟨⟨rfl, fld_l hxy⟩, fun z hz hxz => ?_⟩⟩
+    have hz' : z = x := hz
+    rw [hz'] at hxz
+    exact hJ x x hxz rfl
+  by_contra hn
+  refine h _ hm ⟨y, seqP_iff.2 ⟨⟨fun z hz => ?_, fld_r hxy⟩, fun w hw hwy => hn ⟨w, ?_, hwy⟩⟩⟩
+  · have hz' : z = x := hz.1
+    rw [hz']; exact hxy
+  · exact hw x ⟨rfl, fld_l hxy⟩
+
+/-- ✱211·541.\(\vdash \colon\ldotp P\in \text{Rl}ʻJ\cap \text{trans}:\exists !\overrightarrow{\text{max}}_{P}ʻ\alpha .\supset _{\alpha }.{\sim}\exists !\overrightarrow{\text{seq}} _{P}ʻ\alpha :\supset .P=P^{2}\) -/
 theorem pm211_541 {α : Type u} {P : α → α → Prop} :
     P ∈ rl J ∩ transR ∧ (∀ A, (refs (maxP P) A).Nonempty → ¬ (refs (seqP P) A).Nonempty) →
       P = rsq P := by

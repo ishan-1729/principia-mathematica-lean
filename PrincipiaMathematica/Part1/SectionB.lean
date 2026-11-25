@@ -692,8 +692,8 @@ theorem pm10_57 {φ ψ χ : α → Prop} :
 primitive proposition ✱11·07 (interchange of apparent variables) and the rules ✱11·11, ✱11·13,
 ✱11·311 are recorded as derivable rules. Where a proposition is false for an empty type (✱11·43,
 ✱11·46, ✱11·47, ✱11·56), `[Nonempty α] [Nonempty β]` make PM's assumption that every type has a
-member explicit. ✱11·521 and ✱11·53 are numbered `*11.521`, `*11.53` in the e-text and are
-missing from `data/principia.json`; they are formalized here from the source.
+member explicit. ✱11·521 and ✱11·53 are numbered `*11.521`, `*11.53` in the e-text (a full
+stop for the centred dot).
 
 **Status.** proved (all propositions; ✱11·07, ✱11·11, ✱11·13, ✱11·311, ✱11·39, ✱11·43, ✱11·46,
 ✱11·47, ✱11·56 proved (reading); ✱11·01–✱11·06 definition)
@@ -980,9 +980,8 @@ theorem pm11_52 {φ ψ : α → β → Prop} :
 
 /-- ✱11·521. \[\begin{align}\vdash \colon\ldotp {\sim}(\exists x,y) . \phi(x, y) . {\sim}\psi(x, y) . &\equiv : (x, y) : \phi(x, y) . \supset . \psi(x, y)\\ &\left[\text{*11·52.Transp}.\, \frac{{\sim}\psi(x,y)}{\psi(x, y)}\right]\end{align}\]
 
-Not in `data/principia.json`: the e-text numbers it `*11.521` (a full stop for the centred dot),
-so the extraction missed it; the formula is quoted from the source (Vol. I, p. 164). `∼(∃x, y)`
-negates the whole quantified proposition (✱9·021), whose scope extends past the product dots. -/
+The e-text numbers it `*11.521` (a full stop for the centred dot). `∼(∃x, y)` negates the whole
+quantified proposition (✱9·021), whose scope extends past the product dots. -/
 theorem pm11_521 {φ ψ : α → β → Prop} :
     ¬(∃ x y, φ x y ∧ ¬ψ x y) ↔ ∀ x y, φ x y → ψ x y := by
   constructor
@@ -993,8 +992,7 @@ theorem pm11_521 {φ ψ : α → β → Prop} :
 
 /-- ✱11·53. \(\vdash \colon\ldotp (x, y) . \phi x \supset \psi y . \equiv : (\exists x) . \phi x . \supset . (y) . \psi y\)
 
-Not in `data/principia.json`: the e-text numbers it `*11.53` (a full stop for the centred dot), so
-the extraction missed it; the formula is quoted from the source (Vol. I, p. 164). -/
+The e-text numbers it `*11.53` (a full stop for the centred dot). -/
 theorem pm11_53 {φ : α → Prop} {ψ : β → Prop} :
     (∀ x y, φ x → ψ y) ↔ ((∃ x, φ x) → ∀ y, ψ y) :=
   ⟨fun h ⟨x, hx⟩ y => h x y hx, fun h x y hx => h ⟨x, hx⟩ y⟩

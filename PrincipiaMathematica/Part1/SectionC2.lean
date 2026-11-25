@@ -370,8 +370,8 @@ Products of hypotheses are left-nested conjunctions; chains (✱24·4) are conju
 after ✱24·52). The e-text misprints ✱24·21 and ✱24·311 (`V` for `Λ`), ✱24·45 (a stray `⊂`) and
 ✱24·55·58·6 (`⊃` for `⊂`); the corrections are confirmed by the summary of ✱24, the
 demonstrations and later uses. ✱24·431 is false as printed (and the errata do not correct it);
-the intended form, which ✱24·44 needs, is proved, with the failure of the printed form. ✱24·51,
-which the e-text runs into the comment after ✱24·5, is added as `pm24_51`.
+the intended form, which ✱24·44 needs, is proved, with the failure of the printed form. The
+e-text numbers ✱24·51 `*24*51` (a star for the centred dot).
 
 **Status.** proved (all propositions; ✱24·01–·03 definition; ✱24·1, ✱24·52 proved (reading):
 `[Nonempty α]`; ✱24·21, ✱24·311, ✱24·45, ✱24·55, ✱24·58, ✱24·6 proved (reading): e-text
@@ -628,8 +628,8 @@ theorem pm24_5 {A : Set α} : A.Nonempty ↔ ∃ x, x ∈ A := Iff.rfl
 
 /-- ✱24·51. \(\vdash\colon{\sim}\exists!\alpha.\equiv.\alpha=\Lambda\)
 
-(Not a separate entry of `data/principia.json`: the e-text runs ✱24·51 into the comment after
-✱24·5. It is cited in ✱24·52·53·54·57·61·62 and often later.) -/
+The e-text numbers it `*24*51` (a star for the centred dot). It is cited in ✱24·52·53·54·57·61·62
+and often later. -/
 theorem pm24_51 {A : Set α} : ¬A.Nonempty ↔ A = Λ := by
   rw [Null_eq_empty]
   exact Set.not_nonempty_iff_eq_empty

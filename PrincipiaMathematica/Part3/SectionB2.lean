@@ -2132,10 +2132,11 @@ domain of `NC` (left ambiguous) is taken where the proposition requires it (the 
 of `μ`, `ν`; `Set T` in ✱116·23). Relations defined by hypotheses (`W`, `U`, `M`, `T`) are given by
 equations, and `M'z`, `R'z` are descriptions (`Desc`). `R†` (Dft ✱116·529) is `dagger R`; `↓z` is
 `coupleR z`, `x↓` is `coupleL x`, `α↓,,` is `coupleImg A`, `|S` is `relProdR S`, `↾γ` is `opR cres
-G`. ✱116·331 is the entry of the Summary of ✱116 (the text's ✱116·311 is the same proposition).
+G`. The e-text prints ✱116·331 (`1^μ = 1`, after ✱116·33) in the body as `*116·311`; ✱116·311
+is `0^ν = 0`, after ✱116·31, and the Summary has both numbers right.
 
 **Status.** proved (all propositions;
-✱116·13·22·23·201·202·203·204·24·25·251·3·301·31·32·321·33·311·331·34·35·411·52·55·63·64·653·655·661·67·675·68·7·71·715·72·83·9·901·91·92
+✱116·13·21·22·23·201·202·203·204·24·25·251·3·301·31·32·321·33·311·331·34·35·411·52·55·63·64·653·655·661·67·675·68·7·71·714·715·72·83·9·901·91·92
 proved (reading), see their docstrings).
 -/
 
@@ -2145,20 +2146,6 @@ private theorem pmB2_one_exp {X W T : Type*} [Nonempty W] (Y : Set X) :
   rw [one_eq_n₀c_singleton w, pmB2_n₀c_exp]
   have : Unique ↥(clsExp ({w} : Set W) Y) := (pmB2_clsExpEquiv _ _).unique
   exact pmB2_nc_eq_one
-
-/-- ✱116·331. \(\vdash :\mu \in \text{NC} - \iota ʻ\Lambda .\supset .1^\mu = 1\)
-
-This entry is ✱116·331 of the Summary of ✱116 (the text has it as ✱116·311, after ✱116·33).
-The base `1` is an arithmetical constant: by convention IIT it is taken in a type `W` in which it
-exists (`[Nonempty W]`, Defs/Part3, decision 6); the equation is in a free type `T`.
-
-**Status.** proved (reading): convention IIT (Prefatory Statement, IV): the constant `1` in the
-base is taken in a type in which it exists (`[Nonempty W]`). -/
-theorem pm116_331 {X W T β : Type*} [Nonempty W] {μ : Set (Set X)} :
-    μ ∈ NC β \ ι Λ → ((one : Set (Set W)) ^ᶜ μ : Set (Set T)) = one := by
-  intro h
-  obtain ⟨Y, rfl⟩ := pmB2_NC_ne h
-  exact pmB2_one_exp Y
 
 /-- ✱116·01 (Df). \(\alpha \,\text{exp}\,\,\beta = \text{Prod}ʻ\alpha \downarrow_{,,}ʻʻ\beta \quad\text{Df}\) -/
 theorem pm116_01 {α β : Type*} {A : Set α} {B : Set β} :
@@ -2855,7 +2842,18 @@ theorem pm116_205 {X Y T : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} :
     ¬(μ ∈ N₀C ∧ ν ∈ N₀C) → (μ ^ᶜ ν : Set (Set T)) = Λ := by
   intro h; rw [Null_eq_empty]; exact pmB2_cardExp_empty h
 
-/-- ✱116·22. \[\begin{align}&\vdash :\xi \in {\text{Nc}(\eta )ʻ\gamma }^{\text{Nc}(\zeta )ʻ^\delta }. \equiv .\exists !\text{Nc}(\eta )ʻ\gamma .\exists !\text{Nc}(\zeta )ʻ\delta .\xi \text{ sm } (\gamma \,\,\text{exp}\,\, \delta )\\ &[\text{Proof as in *113·22, using *116·19 in place of *113·13}]\end{align}\]
+/-- ✱116·21. \(\vdash \colon\ldotp \mu ,\nu \in \text{NC}.\supset :\xi \in \mu ^\nu . \equiv .(\exists \alpha ,\beta ).\alpha \in \mu .\beta \in \nu .\xi \text{ sm } (\alpha \,\,\text{exp}\,\, \beta ) \quad[*116·201]\)
+
+**Status.** proved (reading): `μ, ν ∈ NC` is `μ ∈ NC X ∧ ν ∈ NC Y`, as in ✱116·201 (the
+reference). -/
+theorem pm116_21 {X Y T : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} {ξ : Set T} :
+    μ ∈ NC X ∧ ν ∈ NC Y →
+      (ξ ∈ (μ ^ᶜ ν : Set (Set T)) ↔ ∃ A B, (A ∈ μ ∧ B ∈ ν) ∧ sm ξ (clsExp A B)) := by
+  intro h
+  rw [pm116_201]
+  exact ⟨fun h' => h'.2, fun h' => ⟨h, h'⟩⟩
+
+/-- ✱116·22.\[\begin{align}&\vdash :\xi \in {\text{Nc}(\eta )ʻ\gamma }^{\text{Nc}(\zeta )ʻ^\delta }. \equiv .\exists !\text{Nc}(\eta )ʻ\gamma .\exists !\text{Nc}(\zeta )ʻ\delta .\xi \text{ sm } (\gamma \,\,\text{exp}\,\, \delta )\\ &[\text{Proof as in *113·22, using *116·19 in place of *113·13}]\end{align}\]
 
 `Nc(η)'γ` is the typically definite `nc Tη G` (`η : Set Tη`, ✱65·04); its type is indicated
 expressly, so it is an ascription (no normal adjustment, no adequacy hypothesis). The e-text prints
@@ -3081,7 +3079,24 @@ theorem pm116_31 {X W T : Type*} {B : Set X} :
     pm116_182 (Set.nonempty_iff_ne_empty.2 hB)]
   exact pmB2_nc_eq_zero Null_eq_empty
 
-private theorem pmB2_exp_one {X W T : Type*} [Nonempty W] (A : Set X) :
+/-- ✱116·311. \(\vdash :\nu \in \text{NC}-\iota ʻ\Lambda -\iota ʻ0.\supset .0^{\nu }=0\)
+
+`ι'0` is in the type of `ν`.
+
+**Status.** proved (reading): the base `0` is taken in a type `W` of its own (convention IIT; no
+hypothesis is needed for `0`). -/
+theorem pm116_311 {X W T β : Type*} {ν : Set (Set X)} :
+    ν ∈ (NC β \ ι Λ) \ ι zero → ((zero : Set (Set W)) ^ᶜ ν : Set (Set T)) = zero := by
+  rintro ⟨hν, hν0⟩
+  obtain ⟨B, rfl⟩ := pmB2_NC_ne hν
+  have hB : B.Nonempty := by
+    rw [Set.nonempty_iff_ne_empty]
+    rintro rfl
+    exact hν0 (by rw [mem_unitCls, zero_eq_n₀c_empty])
+  rw [zero_eq_n₀c_empty (α := W), pmB2_n₀c_exp, ← Null_eq_empty (α := W), pm116_182 hB]
+  exact pmB2_nc_eq_zero Null_eq_empty
+
+private theorem pmB2_exp_one{X W T : Type*} [Nonempty W] (A : Set X) :
     (n₀c A ^ᶜ (one : Set (Set W)) : Set (Set T)) = nc T A := by
   obtain ⟨w⟩ := ‹Nonempty W›
   rw [one_eq_n₀c_singleton w, pmB2_n₀c_exp]
@@ -3111,14 +3126,20 @@ taken in a type `W` in which it exists (`[Nonempty W]`, convention IIT). -/
 theorem pm116_33 {X W T : Type*} [Nonempty W] {B : Set X} :
     ((one : Set (Set W)) ^ᶜ n₀c B : Set (Set T)) = one := pmB2_one_exp B
 
-/-- ✱116·311. \(\vdash :\mu \in \text{NC}-\iota ʻ\Lambda .\supset .1^{\mu }=1\)
+/-- ✱116·331. \(\vdash :\mu \in \text{NC}-\iota ʻ\Lambda .\supset .1^{\mu }=1\)
 
-(The same proposition as ✱116·331 of the Summary.)
+The e-text numbers it `*116·311` here, after ✱116·33; the Summary of ✱116 has it as ✱116·331, and
+✱116·311 is `0^ν = 0`. The base `1` is an arithmetical constant: by convention IIT it is taken in a
+type `W` in which it exists (`[Nonempty W]`, Defs/Part3, decision 6); the equation is in a free
+type `T`.
 
-**Status.** proved (reading): the base `1` is taken in a type `W` in which it exists
-(`[Nonempty W]`, convention IIT). -/
-theorem pm116_311 {X W T β : Type*} [Nonempty W] {μ : Set (Set X)} :
-    μ ∈ NC β \ ι Λ → ((one : Set (Set W)) ^ᶜ μ : Set (Set T)) = one := pm116_331
+**Status.** proved (reading): convention IIT (Prefatory Statement, IV): the constant `1` in the
+base is taken in a type in which it exists (`[Nonempty W]`). -/
+theorem pm116_331 {X W T β : Type*} [Nonempty W] {μ : Set (Set X)} :
+    μ ∈ NC β \ ι Λ → ((one : Set (Set W)) ^ᶜ μ : Set (Set T)) = one := by
+  intro h
+  obtain ⟨Y, rfl⟩ := pmB2_NC_ne h
+  exact pmB2_one_exp Y
 
 private theorem pmB2_pair_sm {W V : Type*} {a b : W} {x y : V} (hab : a ≠ b) (hxy : x ≠ y) :
     sm ({x, y} : Set V) ({a, b} : Set W) := by
@@ -5432,10 +5453,9 @@ theorem pm116_674 {X Z : Type*} {K : Set (Set X)}
 
 /-- ✱116·675. \(\vdash \colon\ldotp \text{Hp} *116·674 . \exists ! sʻ\kappa . \supset : \exists ! (Mʻw)ʻʻ{\in}_{\Delta}ʻ\kappa \cap (Mʻ\nu )ʻʻ{\in}_{\Delta}ʻ\kappa . \supset . w = v\)
 
-(This proposition is printed in the e-text but is missing from `data/principia.json`, where it
-stands inside the text after ✱116·674.) "Hp ✱116·674" is the equation defining `M`; `w`, `v` are
-real variables; `∃!(M'w)''∈_Δ'κ ∩ (M'v)''∈_Δ'κ` has two descriptions, the first with the larger
-scope. The e-text prints `M'ν` for `M'v` (the demonstration has `M'v`).
+The e-text numbers it `*116·675 .` (a space before the full stop). "Hp ✱116·674" is the equation
+defining `M`; `w`, `v` are real variables; `∃!(M'w)''∈_Δ'κ ∩ (M'v)''∈_Δ'κ` has two descriptions,
+the first with the larger scope. The e-text prints `M'ν` for `M'v` (the demonstration has `M'v`).
 
 **Status.** proved (reading): transcription error: `M'ν` is read `M'v`. -/
 theorem pm116_675 {X Z : Type*} {K : Set (Set X)} {w v : Z}
@@ -5677,7 +5697,50 @@ theorem pm116_713 {X Z : Type*} {A : Set X}
   · rintro μ R S ⟨⟨hR, e1⟩, ⟨hS, e2⟩⟩
     exact pm116_711 ⟨⟨hR, hS⟩, e1.symm.trans e2⟩
 
-/-- ✱116·715. \(\vdash :\text{Hp}*116·712.\supset .\text{D}ʻT=\text{Cl}ʻ\alpha \)
+/-- ✱116·714. \[\begin{align}\vdash : \text{Hp} *116·712 . \mu \in \text{Cl}ʻ\alpha . &R = \hat{\gamma} \hat{x} \{\gamma = \Lambda . x \in \mu . \lor . \gamma = \text{V} . x \in \alpha - \mu\} . \supset .\\ &R \in \{(\iota ʻ\Lambda \cup \iota ʻ\text{V}) \uparrow \alpha\}_{\Delta }ʻ\alpha . \mu = TʻR\end{align}\]
+
+"Hp ✱116·712" is the equation defining `T`; `μ = T'R` is the description `Desc T R …`.
+
+**Status.** proved (reading): `[Nonempty Z]`, as ✱116·71 (in an empty type `Λ = V`, and
+`R⃖'Λ = α`). -/
+theorem pm116_714 {X Z : Type*} [Nonempty Z] {A μ : Set X} {R : Set Z → X → Prop}
+    {T : Set X → (Set Z → X → Prop) → Prop} :
+    (T = (fun μ R => R ∈ sel (cross (ι (Λ : Set Z) ∪ ι V) A) A ∧ μ = rels R Λ) ∧ μ ∈ cl A) ∧
+        R = (fun Y x => Y = Λ ∧ x ∈ μ ∨ Y = V ∧ x ∈ A \ μ) →
+      R ∈ sel (cross (ι (Λ : Set Z) ∪ ι V) A) A ∧ Desc T R (fun ν => μ = ν) := by
+  rintro ⟨⟨rfl, hμ⟩, rfl⟩
+  have hne := pmB2_LV_ne (Z := Z)
+  have hR : (fun Y x => Y = Λ ∧ x ∈ μ ∨ Y = V ∧ x ∈ A \ μ : Set Z → X → Prop) ∈
+      sel (cross (ι (Λ : Set Z) ∪ ι V) A) A := by
+    refine pmB2_mem_sel.2 ⟨?_, ?_, ?_⟩
+    · rintro Y Y' x ⟨⟨rfl, h1⟩ | ⟨rfl, h1⟩, ⟨rfl, h2⟩ | ⟨rfl, h2⟩⟩
+      · rfl
+      · exact absurd h1 h2.2
+      · exact absurd h2 h1.2
+      · rfl
+    · rintro Y x (⟨rfl, hx⟩ | ⟨rfl, hx⟩)
+      · exact ⟨Or.inl rfl, hμ hx⟩
+      · exact ⟨Or.inr rfl, hx.1⟩
+    · ext x
+      constructor
+      · rintro ⟨Y, ⟨-, hx⟩ | ⟨-, hx⟩⟩
+        · exact hμ hx
+        · exact hx.1
+      · intro hx
+        by_cases h : x ∈ μ
+        · exact ⟨Λ, Or.inl ⟨rfl, h⟩⟩
+        · exact ⟨V, Or.inr ⟨rfl, hx, h⟩⟩
+  have eμ : μ = rels (fun Y x => Y = Λ ∧ x ∈ μ ∨ Y = V ∧ x ∈ A \ μ : Set Z → X → Prop) Λ := by
+    ext x
+    constructor
+    · intro hx
+      exact Or.inl ⟨rfl, hx⟩
+    · rintro (⟨-, h⟩ | ⟨e, -⟩)
+      · exact h
+      · exact absurd e hne
+  exact ⟨hR, μ, fun ν => ⟨fun h => h.2.trans eμ.symm, fun h => ⟨hR, h.trans eμ⟩⟩, rfl⟩
+
+/-- ✱116·715.\(\vdash :\text{Hp}*116·712.\supset .\text{D}ʻT=\text{Cl}ʻ\alpha \)
 
 **Status.** proved (reading): `[Nonempty Z]`, as ✱116·71. -/
 theorem pm116_715 {X Z : Type*} [Nonempty Z] {A : Set X}
@@ -5983,7 +6046,7 @@ between pure arithmetical formal numbers is in a type adequate for both sides (`
 `AdeqAdd`, `AdeqExp`); every other formal number at a side of `>`, `≥` (`sm''μ`, `μ +_c ϖ`, `μ^ϖ`,
 …) has its own adequate type (IIT), and constants `0`, `1`, `2` at a side are in types in which they
 exist. `∃!Cl'α ∩ Nc'β` is shown equivalent to an injection of `β` into `α`, and the
-Schröder–Bernstein theorem (`Function.Embedding.antisymm`) gives ✱117·21·211·23·25. ✱117·632 is
+Schröder–Bernstein theorem (`Function.Embedding.antisymm`) gives ✱117·2·21·211·23·25. ✱117·632 is
 false as printed (PM's `T` is not one-one) and is corrected; ✱117·633·64 do not depend on it.
 
 **Status.** proved (all propositions; ✱117·632 proved (corrected);
@@ -6205,7 +6268,22 @@ private theorem pmB2_gt_iff_ge {X Y : Type*} {μ : Set (Set X)} {ν : Set (Set Y
     rw [pmB2_ge_n₀c] at h2
     exact pmB2_gt_n₀c.2 ⟨h, h2⟩
 
-/-- ✱117·21. \[\begin{align}&\vdash :\exists !\text{Cl}ʻ\alpha \cap \text{Nc}ʻ\beta .\exists !\text{Cl}ʻ\beta \cap \text{Nc}ʻ\alpha .\supset .\text{Nc}ʻ\alpha =\text{Nc}ʻ\beta \\ &[*117·2.*100·321]\end{align}\]
+/-- ✱117·2. \(\vdash :\alpha \text{ sm } \alpha ʻ.\beta \text{ sm } \beta ʻ. \beta ʻ\subset \alpha .\alpha ʻ\subset \beta .\supset .\alpha \text{ sm } \beta \quad[*73·88]\)
+
+The e-text writes the primes of `α′`, `β′` as `ʻ`. This is the Schröder–Bernstein theorem, ✱73·88
+with other letters; it is proved here from `Function.Embedding.antisymm`, as ✱73·88 is not
+imported. (The proposition printed `*117·2` between ✱117·28 and ✱117·29 is ✱117·281.) -/
+theorem pm117_2 {X Y : Type*} {A B' : Set X} {A' B : Set Y} :
+    ((sm A A' ∧ sm B B') ∧ B' ⊆ A) ∧ A' ⊆ B → sm A B := by
+  rintro ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩
+  obtain ⟨e1⟩ := sm_iff_nonempty_equiv.1 h1
+  obtain ⟨e2⟩ := sm_iff_nonempty_equiv.1 h2
+  obtain ⟨e⟩ := Function.Embedding.antisymm
+    (e1.toEmbedding.trans ⟨Set.inclusion h4, Set.inclusion_injective h4⟩)
+    (e2.toEmbedding.trans ⟨Set.inclusion h3, Set.inclusion_injective h3⟩)
+  exact pmB2_sm_of_equiv e
+
+/-- ✱117·21.\[\begin{align}&\vdash :\exists !\text{Cl}ʻ\alpha \cap \text{Nc}ʻ\beta .\exists !\text{Cl}ʻ\beta \cap \text{Nc}ʻ\alpha .\supset .\text{Nc}ʻ\alpha =\text{Nc}ʻ\beta \\ &[*117·2.*100·321]\end{align}\]
 
 The equation `Nc'α = Nc'β` is between pure arithmetical formal numbers: by convention AT it is in
 a type `γ` adequate for both sides (here the implication holds in any type).
@@ -6358,19 +6436,20 @@ theorem pm117_27 {X Y γ : Type*} {A : Set X} {B : Set Y} (hA : AdeqNc γ A) (hB
 theorem pm117_28 {X Y : Type*} {A : Set X} {B : Set Y} :
     n₀c A >ᶜ n₀c B ↔ n₀c A ≥ᶜ n₀c B ∧ ¬(n₀c B ≥ᶜ n₀c A) := pmB2_gt_iff_ge
 
-/-- ✱117·2. \(\vdash :\mu >\nu .\equiv .\mu \geq \nu .{\sim}(\nu \geq \mu ) \quad[*117·14·28·24]\) -/
-theorem pm117_2 {X Y : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} :
+/-- ✱117·281. \(\vdash :\mu >\nu .\equiv .\mu \geq \nu .{\sim}(\nu \geq \mu ) \quad[*117·14·28·24]\)
+
+The e-text numbers it `*117·2` (the anchor is `*117·281`); it stands between ✱117·28 and ✱117·29
+and is cited as ✱117·281 in ✱117·291 and later. -/
+theorem pm117_281{X Y : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} :
     μ >ᶜ ν ↔ μ ≥ᶜ ν ∧ ¬(ν ≥ᶜ μ) := pmB2_gt_iff_ge
 
 /-- ✱117·29. \(\vdash :\text{Nc}ʻ\alpha <\text{Nc}ʻ\beta .\equiv .\text{Nc}ʻ\alpha \leq \text{Nc}ʻ\beta .{\sim}(\text{Nc}ʻ\beta \leq \text{Nc}ʻ\alpha ) \quad[*117·28]\) -/
 theorem pm117_29 {X Y : Type*} {A : Set X} {B : Set Y} :
-    n₀c A <ᶜ n₀c B ↔ n₀c A ≤ᶜ n₀c B ∧ ¬(n₀c B ≤ᶜ n₀c A) := pm117_2
+    n₀c A <ᶜ n₀c B ↔ n₀c A ≤ᶜ n₀c B ∧ ¬(n₀c B ≤ᶜ n₀c A) := pm117_281
 
-/-- ✱117·291. \(\vdash :\mu <\nu .\equiv .\mu \leq \nu .{\sim}(\nu \leq \mu ) \quad[*117·281]\)
-
-(PM's reference `✱117·281` is to ✱117·28·29.) -/
+/-- ✱117·291. \(\vdash :\mu <\nu .\equiv .\mu \leq \nu .{\sim}(\nu \leq \mu ) \quad[*117·281]\) -/
 theorem pm117_291 {X Y : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} :
-    μ <ᶜ ν ↔ μ ≤ᶜ ν ∧ ¬(ν ≤ᶜ μ) := pm117_2
+    μ <ᶜ ν ↔ μ ≤ᶜ ν ∧ ¬(ν ≤ᶜ μ) := pm117_281
 
 private theorem pmB2_ge_sum {X Y : Type*} {A : Set X} {B : Set Y} (f : ↥B ↪ ↥A) :
     sm A (B +ₐ (A \ Set.range (fun b => (f b).1))) := by
@@ -6484,21 +6563,21 @@ theorem pm117_44 {X Y Z : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} {ϖ : Set
 theorem pm117_45 {X Y Z : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} {ϖ : Set (Set Z)} :
     μ ≥ᶜ ν ∧ ν >ᶜ ϖ → μ >ᶜ ϖ := by
   rintro ⟨h1, h2⟩
-  rw [pm117_2] at h2 ⊢
+  rw [pm117_281] at h2 ⊢
   exact ⟨pmB2_ge_trans h1 h2.1, fun h => h2.2 (pmB2_ge_trans h h1)⟩
 
 /-- ✱117·46. \(\vdash :\mu >\nu .\nu \geq \varpi .\supset .\mu >\varpi \quad[\text{Proof as in *117·45}]\) -/
 theorem pm117_46 {X Y Z : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} {ϖ : Set (Set Z)} :
     μ >ᶜ ν ∧ ν ≥ᶜ ϖ → μ >ᶜ ϖ := by
   rintro ⟨h1, h2⟩
-  rw [pm117_2] at h1 ⊢
+  rw [pm117_281] at h1 ⊢
   exact ⟨pmB2_ge_trans h1.1 h2, fun h => h1.2 (pmB2_ge_trans h2 h)⟩
 
 /-- ✱117·47. \(\vdash :\mu >\nu .\nu >\varpi .\supset .\mu >\varpi \quad[*117·45·104]\) -/
 theorem pm117_47 {X Y Z : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} {ϖ : Set (Set Z)} :
     μ >ᶜ ν ∧ ν >ᶜ ϖ → μ >ᶜ ϖ := by
   rintro ⟨h1, h2⟩
-  exact pm117_45 ⟨(pm117_2.1 h1).1, h2⟩
+  exact pm117_45 ⟨(pm117_281.1 h1).1, h2⟩
 
 /-- ✱117·471. \(\vdash :\mu <\nu .\nu <\varpi .\supset .\mu <\varpi \quad[*117·47·103]\) -/
 theorem pm117_471 {X Y Z : Type*} {μ : Set (Set X)} {ν : Set (Set Y)} {ϖ : Set (Set Z)} :

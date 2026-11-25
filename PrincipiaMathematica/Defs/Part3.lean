@@ -11,7 +11,7 @@ order, in the format of `Defs/Part1.lean`: each entry is headed `**✱N·M Df.**
 printed (MathJax TeX, from `data/principia.json`), says how it is read in Lean and gives the
 *target statement* of `pmN_M` (status `definition` unless said otherwise; every target below has
 been checked to elaborate and to hold by the indicated proof). Then come the *adequacy*
-predicates of the Prefatory Statement (II), the sanity lemmas the Section agents will need
+predicates of the Prefatory Statement (II), the sanity lemmas the Section files use
 (`Nc'α` and similarity, `N₀c'α`, the arithmetical class-sum, `N₀c'α +_c N₀c'β = Nc'(α + β)`,
 `0`, `1`, `μ +_c 1`, inductive cardinals and classes are the finite ones, `Infin ax` is
 `Infinite α`, …), and worked examples of the type conventions: normal adjustment ✱110·3; IIT
@@ -1363,8 +1363,8 @@ end Sanity
 
 /-! ## Worked examples of the type conventions
 
-Section agents: copy these as the declarations `pmN_M` in the Section files (`Part3/SectionA.lean`
-has ✱100·01·02·1·2·3·35·4·42·511 as finished declarations, with the AT form of ✱100·35). They are
+The Section files state these as the declarations `pmN_M` (`Part3/SectionA.lean` has
+✱100·01·02·1·2·3·35·4·42·511 as finished declarations, with the AT form of ✱100·35). They are
 `example`s here so that the names `pmN_M` stay free for the Section files. -/
 
 section WorkedExamples

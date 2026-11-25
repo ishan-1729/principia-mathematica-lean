@@ -163,7 +163,7 @@ PM's ramified theory of types is read in Lean's simple type theory:
   and `ν`) and, where a convention restricts a type to one that is adequate (`∃!` of the formal
   number in that type, or all inductive cardinals exist in it), by an explicit hypothesis saying
   so, citing the convention in the status (`proved (reading): convention AT, Prefatory Statement`).
-  Part III–V agents must read the Prefatory Statement before stating any proposition.
+  Every statement of Parts III–V follows the Prefatory Statement.
 * *Orders and predicative functions.* PM distinguishes orders of functions and writes `φ!x` for a
   predicative function. Lean's `α → Prop` is one type for all functions with arguments in `α`
   (Prop is impredicative), so **every function is predicative**: `φ!x` is read `φ x`, and the

@@ -22,7 +22,34 @@ import html, json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+# A proposition is a paragraph that opens with its number ✱N·M, normally printed
+# `<p class="nind"><b>*N·M.</b>` (PROP). A few are printed otherwise (PROP_ODD): as `<p><b>N·M.</b>`
+# (✱102·23), as `<p>*N·M.` without bold (✱40·81, ✱71·341), with a space at the stop (`*116·675 .`,
+# `*110·21. </b>`), or with a full stop or a star for the centred dot (`*11.521.`, `*64.01.`, `*24*51`,
+# `*160*34.`). A citation list never matches PROP_ODD: it starts with a link `<a href=…>`, not with
+# a bare number or an anchor `<a id=…>`, and a run of numbers `*N·M·K` has no full stop after the
+# first. An odd print supplies only numbers that have no regular print in the same starred number:
+# where a proposition is printed both ways, in the summary and in the body (✱41·02, ✱52·46, ✱72·32,
+# ✱120·26, ✱155·26·27, ✱165·362), the regular print is the one recorded, as before.
 PROP = re.compile(r'<p\s+class="nind">\s*<b>(?:<a id="[^"]*">)?\*?(\d+)·(\d+)(?:</a>)?\.?</b>\.?\s*(.*?)</p>', re.S)
+PROP_ODD = re.compile(r'<p(?:\s[^>]*)?>\s*(?:<b>\s*)?(?:<a id="[^"]*">)?\*?(\d+)[·.*](\d+)(?:</a>)?'
+                      r'(?: ?\.\s*(?:</b>)?|</b>\s*\.?)\s*(.*?)</p>', re.S)
+# Propositions whose number the e-text misprints (as that of another starred number, or as another
+# proposition's number), so that no rule can recognise them: (volume, starred number, number as
+# printed) -> the proposition's own number (shown by the anchor `id`, by later citations, or by the
+# sequence of the neighbouring propositions). A pair (number, fragment) applies only to the prints
+# whose formula contains the fragment, where the misprinted number is also printed correctly.
+MISNUMBERED = {
+    (1, 93, '92·12'): '93·12',     # `<a id="*93·12">*92·12</a>.`, after ✱93·118
+    (1, 93, '92·2'): '93·2',       # `<a id="*93·2">*92·2</a>.`, after the demonstration of ✱93·132
+    (1, 96, '95·31'): '96·31',     # `*95·31.`, between ✱96·303 and ✱96·311
+    (2, 116, '116·311'): ('116·331', r'1^{\mu }=1'),  # `*116·311.` `1^μ = 1`, between ✱116·33
+                                   # and ✱116·34 (the true ✱116·311, `0^ν = 0`, follows ✱116·31)
+    (2, 117, '117·2'): ('117·281', r'\mu >\nu .\equiv'),  # `<a id="*117·281">*117·2</a>.`,
+                                   # between ✱117·28 and ✱117·29 (✱117·2 itself follows ✱117·16)
+    (2, 201, '201·26'): '201·62',  # `<a id="*201·62">*201·26</a>.`, between ✱201·61 and ✱201·63
+    (2, 214, '21·411'): '214·11',  # `*21·411.`, between ✱214·101 and ✱214·12
+}
 PP = re.compile(r'\\text\{\s*Pp\s*\}|\bPp\b\.?\s*(?:\\\))?\s*\.?\s*$')
 DF = re.compile(r'\\text\{\s*Df\s*\}|\bDf\b\.?\s*(?:\\\))?\s*\.?\s*$')
 
@@ -89,28 +116,37 @@ def volume(path: Path, vol: int) -> dict:
             continue
         num = int(re.match(r'\*?(\d+)', hid).group(1))
         title = re.sub(r'^\*?\d+\.\s*', '', re.sub(r'\s+', ' ', title)).strip(' .')
-        props = list(PROP.finditer(chunk))
-        props = [p for p in props if int(p.group(1)) == num]
+        def own(p):
+            """The proposition number M of a match if it is a proposition of ✱num, else None."""
+            printed = f'{p.group(1)}·{p.group(2)}'
+            n = MISNUMBERED.get((vol, num, printed), printed)
+            if isinstance(n, tuple):
+                n = n[0] if n[1] in p.group(3) else printed
+            return n.split('·')[1] if n.split('·')[0] == str(num) else None
+        # props: (start, end, M, formula html), in text order
+        props = [(p.start(), p.end(), own(p), p.group(3)) for p in PROP.finditer(chunk) if own(p)]
+        regular = {p[2] for p in props}
+        starts = {p[0] for p in props}
+        props += [(p.start(), p.end(), own(p), p.group(3)) for p in PROP_ODD.finditer(chunk)
+                  if own(p) and own(p) not in regular and p.start() not in starts]
+        props.sort()
         # keep the last occurrence of each proposition number (the body, not the summary)
         last = {}
         for i, p in enumerate(props):
-            last[p.group(2)] = i
-        first_body = min(last.values()) if last else None
-        summary_end = props[first_body].start() if props else len(chunk)
-        # the summary ends at the first body proposition that is not also listed later
+            last[p[2]] = i
         recs = []
         for i, p in enumerate(props):
-            if last[p.group(2)] != i:
+            if last[p[2]] != i:
                 continue
-            nxt = props[i + 1].start() if i + 1 < len(props) else len(chunk)
-            formula = re.sub(r'\s+', ' ', inline_notes(text_of(p.group(3)), notes)).strip()
+            nxt = props[i + 1][0] if i + 1 < len(props) else len(chunk)
+            formula = re.sub(r'\s+', ' ', inline_notes(text_of(p[3]), notes)).strip()
             kind_src = re.sub(r'\s*\[Note:.*?\]', '', formula)
             kind = 'Pp' if PP.search(kind_src) else ('Df' if DF.search(kind_src) else 'prop')
-            recs.append({'n': f'{num}·{p.group(2)}', 'kind': kind, 'formula': formula,
-                         'page': page_at(src_body, h.end() + p.start()),
-                         'after': inline_notes(text_of(chunk[p.end():nxt]), notes)})
+            recs.append({'n': f'{num}·{p[2]}', 'kind': kind, 'formula': formula,
+                         'page': page_at(src_body, h.end() + p[0]),
+                         'after': inline_notes(text_of(chunk[p[1]:nxt]), notes)})
         # summary = the text before the first proposition kept from the body region
-        body_start = min((props[i].start() for i in last.values()), default=len(chunk))
+        body_start = min((props[i][0] for i in last.values()), default=len(chunk))
         out['numbers'].append({'number': num, 'title': title, 'part': part, 'section': section,
                                'page': page_at(src_body, h.end()),
                                'summary': inline_notes(text_of(chunk[:body_start]), notes),

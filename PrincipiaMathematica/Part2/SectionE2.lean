@@ -2967,7 +2967,7 @@ and `max_R'J_R'x` stay descriptions (`Desc R˘ y ψ`, `Desc R x ψ`, `Desc (maxP
 `R̆'max_R'J_R'x` is `Desc2 R˘ (maxP R) (JR R x) ψ` (✱30·02), and `E!R̆'max_R'J_R'x` is
 `EBang (fun u => Desc (maxP R) (JR R x) (fun m => R˘ u m))`. In ✱96·48 `∼(w = R̆'…)` keeps the
 description inside the negation (PM's remark after ✱96·48), and `S⃗'w ∈ 1`, `S⃗'w ∈ 2` use `one`,
-`two`.
+`two`. The e-text numbers ✱96·31 "✱95·31" (it stands between ✱96·303 and ✱96·311).
 
 **Status.** proved (all propositions; ✱96·01, ✱96·02 definition (Dft); ✱96·462, ✱96·47
 proved (reading), see their docstrings).
@@ -3548,7 +3548,15 @@ theorem pm96_303 {R : α → α → Prop} {x y z : α} :
     · exact absurd e.symm hne
     · exact Or.inr h2
 
-/-- ✱96·311. \(\vdash:R\in 1\rightarrow \text{Cls}.xR_{\unicode{x2217}}y.\supset.\overrightarrow{R}_{\unicode{x2217}}ʻy\subset \overrightarrow{R}_{\unicode{x2217}}ʻx\cup \overleftarrow{R}_{\unicode{x2217}}ʻx \quad[\text{*92·31}]\) -/
+/-- ✱96·31. \(\vdash:R\in \text{Cls}\rightarrow 1.xR_{\unicode{x2217}}y.\supset.\overleftarrow{R}_{\unicode{x2217}}ʻx\subset \overrightarrow{R}_{\unicode{x2217}}ʻy\cup \overleftarrow{R}_{\unicode{x2217}}ʻy \quad[\text{*96·302}]\) -/
+theorem pm96_31 {R : α → α → Prop} {x y : α} :
+    R ∈ arrow Cls one ∧ anc R x y → rels (anc R) x ⊆ refs (anc R) y ∪ rels (anc R) y := by
+  rintro ⟨hR, hxy⟩ z hz
+  rcases anc_manyOne_cmp (mem_arrow_Cls_one.1 hR) hxy hz with h | h
+  · exact Or.inr h
+  · exact Or.inl h
+
+/-- ✱96·311.\(\vdash:R\in 1\rightarrow \text{Cls}.xR_{\unicode{x2217}}y.\supset.\overrightarrow{R}_{\unicode{x2217}}ʻy\subset \overrightarrow{R}_{\unicode{x2217}}ʻx\cup \overleftarrow{R}_{\unicode{x2217}}ʻx \quad[\text{*92·31}]\) -/
 theorem pm96_311 {R : α → α → Prop} {x y : α} :
     R ∈ arrow one Cls ∧ anc R x y → refs (anc R) y ⊆ refs (anc R) x ∪ rels (anc R) x := by
   rintro ⟨hR, hxy⟩ z hz

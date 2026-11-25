@@ -4980,7 +4980,7 @@ real variables `ν`, `μ` have their own types, and the hypotheses `[Nonempty �
 otherwise fail (✱121·35·351·5·51·601·602·632·633·634·638·65·66).
 
 **Status.** proved (all propositions; ✱121·27·271·272·273·3·301·302·303·304·308·31·331·332·333·
-35·351·36·5·501·502·51·52·601·602·61·62·632·633·634·638·641·65·66 proved (reading), see their
+35·351·36·5·501·502·51·52·601·602·61·62·632·633·634·638·64·641·65·66 proved (reading), see their
 docstrings; ✱121·01·011·012·013·02·03·031·04 definition)
 -/
 
@@ -5127,7 +5127,19 @@ theorem pm121_13 {α β : Type*} {P : α → α → Prop} {ν : Set (Set β)} {f
     Desc (nuP ν) P f ↔ Desc2 (Pnu P (ν -ᶜ (one : Set (Set β)) : Set (Set β)))˘ Beg P f :=
   desc_nuP ν P f
 
-/-- ✱121·14. \(\vdash . P (x \unicode{x2013} y) = \breve{P} (y \unicode{x2013} x) \quad[*121·1 . *91·53]\) -/
+/-- ✱121·131. \(\vdash : \text{E}! \breve{P} _{\nu -_{c} 1} ʻBʻP . \supset . \nu _{P} = \breve{P} _{\nu -_{c} 1}ʻBʻP \quad[*121·13.*14·28]\)
+
+`E!P̆_{ν−_c1}'B'P` is `EBang` of the double description's defining property (as in ✱30·02); in
+`ν_P = P̆_{ν−_c1}'B'P` the first description has the larger scope (✱14·03). -/
+theorem pm121_131 {α β : Type*} {P : α → α → Prop} {ν : Set (Set β)} :
+    EBang (fun u => Desc Beg P (fun b => (Pnu P (ν -ᶜ (one : Set (Set β)) : Set (Set β)))˘ u b)) →
+      Desc (nuP ν) P (fun v =>
+        Desc2 (Pnu P (ν -ᶜ (one : Set (Set β)) : Set (Set β)))˘ Beg P (fun w => v = w)) := by
+  rintro ⟨b, hb⟩
+  rw [pm121_13]
+  exact ⟨b, hb, b, hb, rfl⟩
+
+/-- ✱121·14.\(\vdash . P (x \unicode{x2013} y) = \breve{P} (y \unicode{x2013} x) \quad[*121·1 . *91·53]\) -/
 theorem pm121_14 {α : Type*} {P : α → α → Prop} {x y : α} : itvOO P x y = itvOO P˘ y x := by
   ext z; simp only [pm121_1, po_cnv]; exact And.comm
 
@@ -5158,7 +5170,15 @@ theorem pm121_202 {α : Type*} {P : α → α → Prop} {x y : α} :
     po P ⪽ J → x ∉ itvOO P x y ∧ y ∉ itvOO P x y :=
   fun h => ⟨pm121_2 fun hx => h x x hx rfl, pm121_201 fun hy => h y y hy rfl⟩
 
-/-- ✱121·22. \(\vdash :xP_{\text{po}}y.\equiv .x\in P(x\unicode{x27dd} y).\equiv .\exists !P(x\unicode{x27dd} y)\) -/
+/-- ✱121·21. \(\vdash :xP_{\text{po}}y.\equiv .y\in P(x\dashv y).\equiv .\exists !P(x\dashv y)\) -/
+theorem pm121_21 {α : Type*} {P : α → α → Prop} {x y : α} :
+    (po P x y ↔ y ∈ itvOC P x y) ∧ (y ∈ itvOC P x y ↔ (itvOC P x y).Nonempty) := by
+  refine ⟨⟨fun h => ⟨h, anc_refl (fld_of_po_right h)⟩, fun h => h.1⟩,
+    ⟨fun h => ⟨y, h⟩, fun ⟨z, hz⟩ => ?_⟩⟩
+  have h := po_of_po_anc hz.1 hz.2
+  exact ⟨h, anc_refl (fld_of_po_right h)⟩
+
+/-- ✱121·22.\(\vdash :xP_{\text{po}}y.\equiv .x\in P(x\unicode{x27dd} y).\equiv .\exists !P(x\unicode{x27dd} y)\) -/
 theorem pm121_22 {α : Type*} {P : α → α → Prop} {x y : α} :
     (po P x y ↔ x ∈ itvCO P x y) ∧ (x ∈ itvCO P x y ↔ (itvCO P x y).Nonempty) := by
   refine ⟨⟨fun h => ⟨anc_refl (fld_of_po_left h), h⟩, fun h => h.2⟩,
@@ -5318,6 +5338,11 @@ private theorem po_of_two {α : Type*} {P : α → α → Prop} {x y a b : α}
     rw [itvCC_self hp hx] at ha hb
     exact hab (ha.trans hb.symm)
   · exact h
+
+/-- ✱121·25. \(\vdash .P_{\text{po}}(x\unicode{x2013}y)=P(x\unicode{x2013}y) \quad[*91·601.*121·1]\) -/
+theorem pm121_25 {α : Type*} {P : α → α → Prop} {x y : α} : itvOO (po P) x y = itvOO P x y := by
+  ext z
+  simp only [pm121_1, po_po]
 
 /-- ✱121·251. \(\vdash .P_{\text{po}}(x\dashv y)=P(x\dashv y)\) -/
 theorem pm121_251 {α : Type*} {P : α → α → Prop} {x y : α} : itvOC (po P) x y = itvOC P x y := by
@@ -7901,7 +7926,19 @@ theorem pm121_641 {α β : Type*} {P : α → α → Prop} {ν : Set (Set β)} :
     refine (desc_unique hb).2 (cardGe_n₀c.2 ⟨e.symm.toEmbedding.trans ?_⟩)
     exact ⟨fun w => ⟨w.1, w.2.1⟩, fun w1 w2 h => Subtype.ext (congrArg Subtype.val h :)⟩
 
-/-- ✱121·65. \(\vdash :P\in \text{Cls}\rightarrow 1.P_{\text{po}}\,\unicode{x2abd}\, J.\mu \neq 0.\text{E}!(\mu +_{c}\nu )_{P}.\supset .\mu _{P}P_{\nu }(\mu +_{c}\nu )_{P}\)
+/-- ✱121·64. \(\vdash :P\in \text{Cls}\rightarrow 1.P_{\text{po}}\,\unicode{x2abd}\, J.\nu \in \text{NC induct}-\iota ʻ0.\text{Nc}ʻ\overleftarrow{P}_{*}ʻBʻP\geq \nu .\supset .\text{E}!\nu _{P}\)
+
+Stated after ✱121·641, whose implication from left to right it is. The side `Nc'P⃖_*'B'P` of `≥`
+is `N₀c'P⃖_*'B'P`, as in ✱121·641.
+
+**Status.** proved (reading): the side `Nc'P⃖_*'B'P` of `≥` is `N₀c'P⃖_*'B'P` (normal adjustment,
+as in ✱121·641). -/
+theorem pm121_64 {α β : Type*} {P : α → α → Prop} {ν : Set (Set β)} :
+    ((P ∈ arrow Cls one ∧ po P ⪽ J) ∧ ν ∈ NCinduct \ ι zero) ∧
+        Desc Beg P (fun b => n₀c (rels (anc P) b) ≥ᶜ ν) → EDesc (nuP ν) P :=
+  fun ⟨h, hge⟩ => (pm121_641 h).1 hge
+
+/-- ✱121·65.\(\vdash :P\in \text{Cls}\rightarrow 1.P_{\text{po}}\,\unicode{x2abd}\, J.\mu \neq 0.\text{E}!(\mu +_{c}\nu )_{P}.\supset .\mu _{P}P_{\nu }(\mu +_{c}\nu )_{P}\)
 
 The real variables `μ`, `ν` have independent types `β₁`, `β₂` (the latter with a member, for the
 `1` of `P_ν`); the subscript `μ +_c ν` (an argument of `−_c`, ✱121·04) is in an adequate type `W`

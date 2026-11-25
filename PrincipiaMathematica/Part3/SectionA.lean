@@ -351,7 +351,7 @@ the equational occurrences share the logical type (✱100·35); an attributive o
 `β ∈ Nc'α` is in the type of `β` (`B ∈ nc β' A` for `B : Set β'`); see ✱100·35, PM's own
 example. Convention AT is not applied in ✱100 (the Prefatory Statement, VI, shows its effect on
 ✱100·35: `pm100_35_aux_AT`). ✱100·01·02·1·2·3·35·4·42·511 are finished; they are the worked
-examples of these conventions for the Part III Section agents. Where an `NC` must have the
+examples of these conventions for the later numbers of Part III. Where an `NC` must have the
 converse-domain type of a particular class for the proposition to hold (✱100·41·52·53), PM's proof
 fixes it and the status says so. The equivalent forms ✱100·11–·16 are stated with the apparent
 relation `R` between the type of `α` and the actual type `γ`; `R'x = R'y` is a pair of
@@ -1293,10 +1293,10 @@ are those of `A`, `B`, so the restrictions to `t'α`, `t'β` are typings (`relTT
 `γ ∈ t'α` (always true when significant) forces `γ` into the type of `α`. Since these relations
 are not syntactically `graph`s, their descriptive functions are kept as descriptions
 (`Desc (relT2T Nc A B) E ψ`) throughout, with the smallest scopes. `t'α` is `typ A`, `Cl'α` is
-`cl A`, `Rl'P` is `rl P`. ✱102·23, which the e-text prints inside the entry of ✱102·22, is
-formalized as well.
+`cl A`, `Rl'P` is `rl P`. The e-text numbers ✱102·23 `102·23.`, without the star, in a plain
+paragraph.
 
-**Status.** proved (all propositions, including ✱102·23; ✱102·01 definition; ✱102·5 proved
+**Status.** proved (all propositions; ✱102·01 definition; ✱102·5 proved
 (reading): transcription error; ✱102·541 proved (corrected): `t'Λ` printed for `ι'Λ`, the printed
 form is refuted by `pm102_541_printed_false`)
 -/
@@ -1351,7 +1351,7 @@ theorem pm102_22 {α β : Type*} {x : α} {y : β} {G : Set α} {E : Set β} :
 
 /-- ✱102·23. \[\begin{aligned}\vdash :\gamma \text{ sm }(x,y)&\delta . \equiv .(\exists R).R \in 1\rightarrow 1.\text{D}ʻR\subset tʻx.\\ &\text{ᗡ}ʻR\subset tʻy.\text{D}ʻR = \gamma .\text{ᗡ}ʻR = \delta \quad[*102·22.*73·1]\end{aligned}\]
 
-(The e-text prints this proposition inside the entry of ✱102·22.) -/
+The e-text numbers it `102·23.`, without the star, in a plain paragraph. -/
 theorem pm102_23 {α β : Type*} {x : α} {y : β} {G : Set α} {E : Set β} :
     relT2T2 sm x y G E ↔ ∃ R : α → β → Prop,
       (((R ∈ arrow one one ∧ dom R ⊆ typ x) ∧ codom R ⊆ typ y) ∧ dom R = G) ∧ codom R = E := by
@@ -1859,10 +1859,9 @@ converse-domain type `β` arbitrary, `NC^β(α)` is `NCT A B`; `Nc(α)`, `Nc(α_
 Equations between `Nc`s are in free types; in ✱103·16 PM states that convention AT applies, and
 the equation `Nc'α = Nc'β` is taken in a type adequate for both sides (the worked example of
 `Defs/Part3`). Where `μ ∈ NC` must have the converse-domain type of `α` (✱103·21·27), the status
-says so. ✱103·5 (`0 ∈ N₀C`), which the e-text prints inside the entry of ✱103·44, is formalized
-as well.
+says so. The e-text numbers ✱103·5 (`0 ∈ N₀C`) `*103.5.` (a full stop for the centred dot).
 
-**Status.** proved (all propositions, including ✱103·5; ✱103·01·02 definition; ✱103·16 proved
+**Status.** proved (all propositions; ✱103·01·02 definition; ✱103·16 proved
 (reading): convention AT; ✱103·21, ✱103·27 proved (reading): converse-domain type of `NC`;
 ✱103·51 proved (reading): `[Nonempty α]`)
 -/
@@ -2114,7 +2113,7 @@ theorem pm103_44 {α β : Type*} {μ : Set (Set α)} {ν : Set (Set β)} :
 
 /-- ✱103·5. \(\vdash .0\in \text{N}_{0}\text{C}\)
 
-(The e-text prints this proposition inside the entry of ✱103·44.) -/
+The e-text numbers it `*103.5.` (a full stop for the centred dot). -/
 theorem pm103_5 {α : Type*} : (zero : Set (Set α)) ∈ N₀C := ⟨∅, zero_eq_n₀c_empty⟩
 
 /-- ✱103·51. \(\vdash .1\in \text{N}_{0}\text{C}\)

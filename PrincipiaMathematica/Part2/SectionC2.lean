@@ -1065,7 +1065,7 @@ theorem pm73_88 {A H : Set α} {B G : Set β} :
 >
 > …
 
-**Lean reading.** Hypotheses such as `R ↾ λ ∈ 1 → Cls`, `κ ↿ R ∈ Cls → 1` are memberships of restricted relations in `arrow`. The relations `R↾` and `↿R` (✱38 with `♀ = ↾, ↿`) are `opL cres R` and `opR dres R`, so `R↾''κ` is `opL cres R ʻʻ K` and `↿R''κ` is `opR dres R ʻʻ K`; `|Q`, `Q|` are `relProdR Q`, `relProdL Q`; `Q ‖ R` is `Q ∥ R`; `s'κ`, `ṡ'λ` are `sumCls K`, `sumRel L`; `∈ | D ↾ λ` is `memRel ⨾ D ↾ L` (✱35·25); `S̆'S'y` is `Desc2 S˘ S y`. Chains such as `α ↿ Q = Q ↾ β = α ↿ Q ↾ β` and `E!(P↾β)'y . ≡ . y ∈ β . E!P'y . ≡ . …` are conjunctions of their links. ✱74·15, which the e-text prints inside the entry of ✱74·141 (so that it is not a separate proposition of the data), is stated and proved as `pm74_15`.
+**Lean reading.** Hypotheses such as `R ↾ λ ∈ 1 → Cls`, `κ ↿ R ∈ Cls → 1` are memberships of restricted relations in `arrow`. The relations `R↾` and `↿R` (✱38 with `♀ = ↾, ↿`) are `opL cres R` and `opR dres R`, so `R↾''κ` is `opL cres R ʻʻ K` and `↿R''κ` is `opR dres R ʻʻ K`; `|Q`, `Q|` are `relProdR Q`, `relProdL Q`; `Q ‖ R` is `Q ∥ R`; `s'κ`, `ṡ'λ` are `sumCls K`, `sumRel L`; `∈ | D ↾ λ` is `memRel ⨾ D ↾ L` (✱35·25); `S̆'S'y` is `Desc2 S˘ S y`. Chains such as `α ↿ Q = Q ↾ β = α ↿ Q ↾ β` and `E!(P↾β)'y . ≡ . y ∈ β . E!P'y . ≡ . …` are conjunctions of their links. The e-text numbers ✱74·15 `*74.15.` (a full stop for the centred dot).
 
 **Status.** proved (all propositions; ✱74·511 proved (corrected), with `pm74_511_printed_false`; ✱74·761 proved (reading); see their docstrings).
 -/
@@ -1160,8 +1160,8 @@ theorem pm74_141 {A : Set α} {B : Set β} {R : α → β → Prop} :
 
 /-- ✱74·15. \(\vdash:Q\upharpoonright \lambda\in 1\rightarrow \text{Cls}.\lambda=\breve{Q}ʻʻ\kappa.\supset.\kappa\cap \text{D}ʻQ=Qʻʻ\lambda \quad[\text{*72·57}]\)
 
-(The e-text prints this proposition, headed `*74.15.`, inside the entry of ✱74·141, so it is not a
-separate proposition of `data/principia.json`; it is cited in ✱74·16 and ✱74·3.) -/
+The e-text numbers it `*74.15.` (a full stop for the centred dot). It is cited in ✱74·16 and
+✱74·3. -/
 theorem pm74_15 {K : Set α} {L : Set β} {Q : α → β → Prop} :
     Q ↾ L ∈ arrow one Cls ∧ L = Q˘ ʻʻ K → K ∩ dom Q = Q ʻʻ L := by
   rintro ⟨h, rfl⟩

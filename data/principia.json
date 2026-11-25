@@ -2708,7 +2708,21 @@
        "kind": "prop",
        "formula": "\\(\\vdash \\colon\\ldotp (\\exists x, y) . \\phi(x, y) . \\psi(x, y) . \\equiv . {\\sim}{(x, y) : \\phi(x, y) . \\supset . {\\sim}\\psi(x, y)}\\)",
        "page": "164",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .\\text{*4·51·62}. \\supset\\\\\n\\vdash \\colon\\ldotp {\\sim}\\{\\phi(x,y) . \\psi(x,y)\\} . & \\equiv : \\phi(x, y) . \\supset . {\\sim}\\psi(x, y) &\\qquad \\text{(1)}\\\\\n\\vdash .\\text{(1).*11·11·33}. \\supset\\\\\n\\vdash \\colon\\ldotp (x,y) . {\\sim}\\{\\phi(x,y) . \\psi(x,y)\\} : &\\equiv : (x, y) : \\phi(x, y) . \\supset . {\\sim}\\psi(x, y) &\\qquad \\text{(2)}\\\\\n\\vdash : \\text{(2).Transp.*11·22}. \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]\n\n*11.521. \\[\\begin{align}\\vdash \\colon\\ldotp {\\sim}(\\exists x,y) . \\phi(x, y) . {\\sim}\\psi(x, y) . &\\equiv : (x, y) : \\phi(x, y) . \\supset . \\psi(x, y)\\\\\n&\\left[\\text{*11·52.Transp}.\\, \\frac{{\\sim}\\psi(x,y)}{\\psi(x, y)}\\right]\\end{align}\\]\n\n*11.53. \\(\\vdash \\colon\\ldotp (x, y) . \\phi x \\supset \\psi y . \\equiv : (\\exists x) . \\phi x . \\supset . (y) . \\psi y\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .\\text{*10·21.271}. \\supset \\vdash \\colon\\ldotp (x, y) . \\phi x \\supset \\psi y . &\\equiv : (x) : \\phi x . \\supset . (y) . \\psi y :\\\\\n[\\text{*10·23}] &\\equiv : (\\exists x) . \\phi x . \\supset . (y) . \\psi y \\colon\\ldotp \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .\\text{*4·51·62}. \\supset\\\\\n\\vdash \\colon\\ldotp {\\sim}\\{\\phi(x,y) . \\psi(x,y)\\} . & \\equiv : \\phi(x, y) . \\supset . {\\sim}\\psi(x, y) &\\qquad \\text{(1)}\\\\\n\\vdash .\\text{(1).*11·11·33}. \\supset\\\\\n\\vdash \\colon\\ldotp (x,y) . {\\sim}\\{\\phi(x,y) . \\psi(x,y)\\} : &\\equiv : (x, y) : \\phi(x, y) . \\supset . {\\sim}\\psi(x, y) &\\qquad \\text{(2)}\\\\\n\\vdash : \\text{(2).Transp.*11·22}. \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "11·521",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}\\vdash \\colon\\ldotp {\\sim}(\\exists x,y) . \\phi(x, y) . {\\sim}\\psi(x, y) . &\\equiv : (x, y) : \\phi(x, y) . \\supset . \\psi(x, y)\\\\ &\\left[\\text{*11·52.Transp}.\\, \\frac{{\\sim}\\psi(x,y)}{\\psi(x, y)}\\right]\\end{align}\\]",
+       "page": "164",
+       "after": ""
+      },
+      {
+       "n": "11·53",
+       "kind": "prop",
+       "formula": "\\(\\vdash \\colon\\ldotp (x, y) . \\phi x \\supset \\psi y . \\equiv : (\\exists x) . \\phi x . \\supset . (y) . \\psi y\\)",
+       "page": "164",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .\\text{*10·21.271}. \\supset \\vdash \\colon\\ldotp (x, y) . \\phi x \\supset \\psi y . &\\equiv : (x) : \\phi x . \\supset . (y) . \\psi y :\\\\\n[\\text{*10·23}] &\\equiv : (\\exists x) . \\phi x . \\supset . (y) . \\psi y \\colon\\ldotp \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "11·54",
@@ -5826,7 +5840,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash\\colon\\exists!\\alpha.\\equiv.(\\exists x).x \\in \\alpha \\quad[\\text{*4·2.(*24·03)}]\\)",
        "page": "239",
-       "after": "*24*51. \\(\\vdash\\colon{\\sim}\\exists!\\alpha.\\equiv.\\alpha=\\Lambda\\)\n\n*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*24·5}.\\supset\\vdash\\colon{\\sim}\\exists!\\alpha.&\\equiv.{\\sim}\\{(\\exists x).x \\in \\alpha\\}.\\\\\n[\\text{*10·252}] &\\equiv.(x).x{\\sim}\\in \\alpha.\\\\\n[\\text{*24·15}] &\\equiv.\\alpha=\\Lambda\\colon\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]"
+       "after": ""
+      },
+      {
+       "n": "24·51",
+       "kind": "prop",
+       "formula": "\\(\\vdash\\colon{\\sim}\\exists!\\alpha.\\equiv.\\alpha=\\Lambda\\)",
+       "page": "239",
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*24·5}.\\supset\\vdash\\colon{\\sim}\\exists!\\alpha.&\\equiv.{\\sim}\\{(\\exists x).x \\in \\alpha\\}.\\\\\n[\\text{*10·252}] &\\equiv.(x).x{\\sim}\\in \\alpha.\\\\\n[\\text{*24·15}] &\\equiv.\\alpha=\\Lambda\\colon\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "24·52",
@@ -7346,7 +7367,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash.\\overrightarrow{R}ʻy\\subset\\text{D}ʻR\\)",
        "page": "263",
-       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*32·18}.\\supset\\vdash:x\\in \\overrightarrow{R}ʻy.&\\supset_{x}.xRy.\\\\\n[\\text{*10·24}] & \\supset_{x}.(\\exists y).xRy.\\\\\n[\\text{*33·13}] &\\supset_{x}.x\\in \\text{D}ʻR:\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]\n\n*33.151. \\(\\vdash.\\overleftarrow{R}ʻx\\subset\\text{ᗡ}ʻR\\)"
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*32·18}.\\supset\\vdash:x\\in \\overrightarrow{R}ʻy.&\\supset_{x}.xRy.\\\\\n[\\text{*10·24}] & \\supset_{x}.(\\exists y).xRy.\\\\\n[\\text{*33·13}] &\\supset_{x}.x\\in \\text{D}ʻR:\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "33·151",
+       "kind": "prop",
+       "formula": "\\(\\vdash.\\overleftarrow{R}ʻx\\subset\\text{ᗡ}ʻR\\)",
+       "page": "263",
+       "after": ""
       },
       {
        "n": "33·152",
@@ -10584,7 +10612,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash\\colon\\ldotp \\alpha \\epsilon \\kappa . \\supset_{\\alpha}. \\breve{R}ʻʻ\\alpha \\subset \\alpha : \\supset . \\breve{R}ʻʻ sʻ\\kappa \\subset sʻ\\kappa\\)",
        "page": "330",
-       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n&\\vdash .\\text{*37·171}. &\\supset \\vdash\\colon\\colon \\text{Hp} . \\supset\\colon\\ldotp \\alpha \\in \\kappa . \\supset_{\\alpha} : x \\in \\alpha . x R y . \\supset_{x,y}\n. y \\in \\alpha\\colon\\ldotp \\\\\n&[\\text{*11·62}] &\\supset\\colon\\ldotp \\alpha \\in \\kappa . x \\in \\alpha . x R y . \\supset_{\\alpha,x,y} . y \\in \\alpha\\colon\\ldotp \\\\\n&[\\text{*40·13}] &\\supset_{\\alpha,x,y} . y \\in s' \\kappa\\colon\\ldotp \\\\\n&[\\text{*40·11.*10·23}] &\\supset\\colon\\ldotp x \\in sʻ \\kappa . x R y . \\supset_{x,y} . y \\in sʻ \\kappa \\colon\\ldotp \\\\\n&[\\text{*37·171}] &\\supset\\colon\\ldotp \\breve{R}ʻʻ sʻ \\kappa \\subset sʻ \\kappa \\colon\\colon \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]\n\n*40·81. \\(\\vdash\\colon\\ldotp \\alpha \\epsilon \\kappa . \\supset_{\\alpha}. \\breve{R}ʻʻ \\alpha \\subset \\alpha : \\supset \\breve{R}ʻʻ pʻ \\kappa \\subset pʻ \\kappa\\)\n\n*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*37·171}.\\supset \\vdash\\colon\\colon\\ldotp\\text{Hp}.&\\supset\\colon\\colon\\alpha\\in\\kappa.\\supset:x\\in\\alpha.xRy.\\supset.y\\in\\alpha\\colon\\colon\\\\\n[\\text{Exp.Comm}] &\\supset\\colon\\colon xRy.\\supset\\colon\\ldotp\\alpha\\in\\kappa.\\supset:x\\in\\alpha.\\supset.y\\in\\alpha\\colon\\ldotp\\\\\n[\\text{*2·77}] &\\supset\\colon\\ldotp\\alpha\\in\\kappa.\\supset.x\\in\\alpha:\\supset:\\alpha\\in\\kappa.\\supset.y\\in\\alpha &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{(1).*10·11·21·27}.\\supset\\\\\n&\\qquad\\vdash\\colon\\colon\\ldotp\\text{Hp}.\\supset\\colon\\colon xRy.\\supset\\colon\\ldotp\\alpha\\in\\kappa.\\supset_{\\alpha}.x\\in\\alpha:\\supset:\\alpha\\in\\kappa.\\supset_{\\alpha}.y\\in\\alpha\\colon\\ldotp\\\\\n&\\qquad\\qquad\\supset\\colon\\ldotp x\\in pʻ\\kappa.\\supset.y\\in pʻ\\kappa\\colon\\colon\\\\\n[\\text{Imp}] &\\qquad\\qquad\\supset\\colon\\colon x\\in pʻ\\kappa.xRy.\\supset.y\\in pʻ\\kappa &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(2).*37·171}.\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n&\\vdash .\\text{*37·171}. &\\supset \\vdash\\colon\\colon \\text{Hp} . \\supset\\colon\\ldotp \\alpha \\in \\kappa . \\supset_{\\alpha} : x \\in \\alpha . x R y . \\supset_{x,y}\n. y \\in \\alpha\\colon\\ldotp \\\\\n&[\\text{*11·62}] &\\supset\\colon\\ldotp \\alpha \\in \\kappa . x \\in \\alpha . x R y . \\supset_{\\alpha,x,y} . y \\in \\alpha\\colon\\ldotp \\\\\n&[\\text{*40·13}] &\\supset_{\\alpha,x,y} . y \\in s' \\kappa\\colon\\ldotp \\\\\n&[\\text{*40·11.*10·23}] &\\supset\\colon\\ldotp x \\in sʻ \\kappa . x R y . \\supset_{x,y} . y \\in sʻ \\kappa \\colon\\ldotp \\\\\n&[\\text{*37·171}] &\\supset\\colon\\ldotp \\breve{R}ʻʻ sʻ \\kappa \\subset sʻ \\kappa \\colon\\colon \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "40·81",
+       "kind": "prop",
+       "formula": "\\(\\vdash\\colon\\ldotp \\alpha \\epsilon \\kappa . \\supset_{\\alpha}. \\breve{R}ʻʻ \\alpha \\subset \\alpha : \\supset \\breve{R}ʻʻ pʻ \\kappa \\subset pʻ \\kappa\\)",
+       "page": "330",
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*37·171}.\\supset \\vdash\\colon\\colon\\ldotp\\text{Hp}.&\\supset\\colon\\colon\\alpha\\in\\kappa.\\supset:x\\in\\alpha.xRy.\\supset.y\\in\\alpha\\colon\\colon\\\\\n[\\text{Exp.Comm}] &\\supset\\colon\\colon xRy.\\supset\\colon\\ldotp\\alpha\\in\\kappa.\\supset:x\\in\\alpha.\\supset.y\\in\\alpha\\colon\\ldotp\\\\\n[\\text{*2·77}] &\\supset\\colon\\ldotp\\alpha\\in\\kappa.\\supset.x\\in\\alpha:\\supset:\\alpha\\in\\kappa.\\supset.y\\in\\alpha &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{(1).*10·11·21·27}.\\supset\\\\\n&\\qquad\\vdash\\colon\\colon\\ldotp\\text{Hp}.\\supset\\colon\\colon xRy.\\supset\\colon\\ldotp\\alpha\\in\\kappa.\\supset_{\\alpha}.x\\in\\alpha:\\supset:\\alpha\\in\\kappa.\\supset_{\\alpha}.y\\in\\alpha\\colon\\ldotp\\\\\n&\\qquad\\qquad\\supset\\colon\\ldotp x\\in pʻ\\kappa.\\supset.y\\in pʻ\\kappa\\colon\\colon\\\\\n[\\text{Imp}] &\\qquad\\qquad\\supset\\colon\\colon x\\in pʻ\\kappa.xRy.\\supset.y\\in pʻ\\kappa &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(2).*37·171}.\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]"
       }
      ]
     },
@@ -11719,7 +11754,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash.x\\in\\iotaʻ x \\quad[\\text{*51·15.*13·15}]\\)",
        "page": "357",
-       "after": "*51.161. \\(\\vdash.\\exists!\\iotaʻ x \\quad[\\text{*51·16.*10·24}]\\)"
+       "after": ""
+      },
+      {
+       "n": "51·161",
+       "kind": "prop",
+       "formula": "\\(\\vdash.\\exists!\\iotaʻ x \\quad[\\text{*51·16.*10·24}]\\)",
+       "page": "357",
+       "after": ""
       },
       {
        "n": "51·17",
@@ -12750,7 +12792,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\equiv:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y.\\lor.\\beta=\\iotaʻ x\\cup \\iotaʻ y\\)",
        "page": "378",
-       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*51·2}. \\supset\\vdash:x,y\\in\\beta.\\supset.\\iotaʻ x\\cup \\iotaʻ y\\subset \\beta:\\\\\n[\\text{Fact}] \\supset\\vdash:\\beta\\subset \\iotaʻ x\\cup \\iotaʻy.x,y\\in\\beta.\\supset.\\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\iotaʻ x\\cup \\iotaʻ y\\subset \\beta.\\\\\n[\\text{*22·41}]\\supset.\\beta=\\iotaʻ x\\cup \\iotaʻ y &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{*51·25}. \\supset\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.y{\\sim}\\in\\beta.\\supset:\\beta\\subset \\iotaʻ x:\\\\\n[\\text{*51·401}] \\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x &\\qquad \\text{(2)}\\\\\n\\text{Similarly}\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.x{\\sim} \\in\\beta.\\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ y &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(2).(3).*3·48}.\\supset \\\\\n\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.{\\sim}(x,y\\in\\beta).\\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y &\\qquad \\text{(4)}\\\\\n\\vdash.\\text{(1).(4).*34·8}.\\supset\\\\\n\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y.\\lor.\\beta=\\iotaʻ x\\cup \\iotaʻ y &\\qquad \\text{(5)}\\\\\n\\vdash.\\text{*24·12.*22·58·42}.\\supset \\\\\n\\vdash\\colon\\ldotp \\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y.\\lor.\\beta=\\iotaʻ x\\cup \\iotaʻ y:\\supset .\\beta\\subset \\iotaʻ x\\cup \\iotaʻ y &\\qquad \\text{(6)} \\\\\n\\vdash.\\text{(5).(6)}.\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]\n\nThis proposition shows that a class contained in a couple is either the\nnull-class or a unit class or the couple itself, whence it will follow\nthat 0 and 1 are the only numbers which are less than 2.\n\n*54.41. \\(\\vdash\\colon\\colon \\alpha\\in 2.\\supset\\colon\\ldotp \\beta\\subset \\alpha.\\supset:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2\\)\n\n*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*52·1}. \\supset\\vdash\\colon\\ldotp \\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y:\\supset.\\beta\\in 1 &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{*54·26}.\\supset\\vdash\\colon\\ldotp x\\neq y.\\supset:\\beta=\\iotaʻ x\\cup \\iotaʻ y.\\supset.\\beta\\in 2 &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(1).(2).*54·4}.\\supset\\\\\n\\vdash\\colon\\colon x\\neq y.\\supset\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\supset:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2\\colon\\colon\\\\\n[\\text{*13·12}]\\supset\\vdash\\colon\\colon \\alpha=\\iotaʻ x\\cup \\iotaʻ y.x\\neq y.\\supset\\colon\\ldotp \\beta\\subset \\alpha.\\supset:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2\\colon\\colon\\\\\n[\\text{*11·11·35}]\\supset\\\\\n\\vdash\\colon\\ldotp(\\exists x,y).\\alpha=\\iotaʻ x\\cup \\iotaʻ y.x\\neq y.\\supset\\colon\\ldotp \\beta\\subset \\alpha:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2 &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(3).*54·101}.\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*51·2}. \\supset\\vdash:x,y\\in\\beta.\\supset.\\iotaʻ x\\cup \\iotaʻ y\\subset \\beta:\\\\\n[\\text{Fact}] \\supset\\vdash:\\beta\\subset \\iotaʻ x\\cup \\iotaʻy.x,y\\in\\beta.\\supset.\\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\iotaʻ x\\cup \\iotaʻ y\\subset \\beta.\\\\\n[\\text{*22·41}]\\supset.\\beta=\\iotaʻ x\\cup \\iotaʻ y &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{*51·25}. \\supset\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.y{\\sim}\\in\\beta.\\supset:\\beta\\subset \\iotaʻ x:\\\\\n[\\text{*51·401}] \\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x &\\qquad \\text{(2)}\\\\\n\\text{Similarly}\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.x{\\sim} \\in\\beta.\\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ y &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(2).(3).*3·48}.\\supset \\\\\n\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.{\\sim}(x,y\\in\\beta).\\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y &\\qquad \\text{(4)}\\\\\n\\vdash.\\text{(1).(4).*34·8}.\\supset\\\\\n\\vdash\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\supset:\\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y.\\lor.\\beta=\\iotaʻ x\\cup \\iotaʻ y &\\qquad \\text{(5)}\\\\\n\\vdash.\\text{*24·12.*22·58·42}.\\supset \\\\\n\\vdash\\colon\\ldotp \\beta=\\Lambda.\\lor.\\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y.\\lor.\\beta=\\iotaʻ x\\cup \\iotaʻ y:\\supset .\\beta\\subset \\iotaʻ x\\cup \\iotaʻ y &\\qquad \\text{(6)} \\\\\n\\vdash.\\text{(5).(6)}.\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]\n\nThis proposition shows that a class contained in a couple is either the\nnull-class or a unit class or the couple itself, whence it will follow\nthat 0 and 1 are the only numbers which are less than 2."
+      },
+      {
+       "n": "54·41",
+       "kind": "prop",
+       "formula": "\\(\\vdash\\colon\\colon \\alpha\\in 2.\\supset\\colon\\ldotp \\beta\\subset \\alpha.\\supset:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2\\)",
+       "page": "378",
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*52·1}. \\supset\\vdash\\colon\\ldotp \\beta=\\iotaʻ x.\\lor.\\beta=\\iotaʻ y:\\supset.\\beta\\in 1 &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{*54·26}.\\supset\\vdash\\colon\\ldotp x\\neq y.\\supset:\\beta=\\iotaʻ x\\cup \\iotaʻ y.\\supset.\\beta\\in 2 &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(1).(2).*54·4}.\\supset\\\\\n\\vdash\\colon\\colon x\\neq y.\\supset\\colon\\ldotp \\beta\\subset \\iotaʻ x\\cup \\iotaʻ y.\\supset:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2\\colon\\colon\\\\\n[\\text{*13·12}]\\supset\\vdash\\colon\\colon \\alpha=\\iotaʻ x\\cup \\iotaʻ y.x\\neq y.\\supset\\colon\\ldotp \\beta\\subset \\alpha.\\supset:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2\\colon\\colon\\\\\n[\\text{*11·11·35}]\\supset\\\\\n\\vdash\\colon\\ldotp(\\exists x,y).\\alpha=\\iotaʻ x\\cup \\iotaʻ y.x\\neq y.\\supset\\colon\\ldotp \\beta\\subset \\alpha:\\beta=\\Lambda.\\lor.\\beta\\in 1.\\lor.\\beta\\in 2 &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(3).*54·101}.\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]"
       },
       {
        "n": "54·411",
@@ -15319,8 +15368,113 @@
      "part": "PART II.",
      "section": "SECTION B.\n\nSUB-CLASSES, SUB-RELATIONS, AND RELATIVE TYPES. *Summary of Section B.*",
      "page": "429",
-     "summary": "*Summary of* *64.\n\nIn the present number, we introduce notations defining the type of a\nrelation relatively to the types of its domain and converse domain,\nwhen these types are given relatively to some fixed class \\(\\alpha\\).\nIf \\(R\\) is any relation, it is of the same type as \\(t_{0}ʻ\\text{D}ʻR\n\\uparrow t_{0}ʻ\\text{ᗡ}ʻR\\). If \\(\\text{D}ʻR\\) and \\(\\text{ᗡ}ʻR\\) are both of the\nsame type as \\(\\alpha\\), \\(R\\) is of the same type as \\(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha\\),\nwhich is of the same type as \\(\\alpha\\uparrow \\alpha\\).\nThe type of \\(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\alpha\\)\nwe call \\(t_{00}ʻ\\alpha\\), and the type of \\(t^{m}ʻ\\alpha \\uparrow t^{n}ʻ\\alpha\\)\nwe call \\(t^{mn}ʻ\\alpha\\), and the type of \\(t_{m}ʻ\\alpha \\uparrow t_{n}ʻ\\alpha\\)\nwe call \\(t_{mn}ʻ\\alpha\\), and the type of\n\\(t_{m}ʻ\\alpha \\uparrow t^{n}ʻ\\alpha\\) we call \\(t_{m}^{n}ʻ\\alpha\\),\nand the type of \\(t^{m}ʻ\\alpha \\uparrow t_{n}ʻ\\alpha\\) we call\n\\({}^{m}t_{n}ʻ\\alpha\\). We thus have a means of expressing the type of\nany relation \\(R\\) in terms of the type of \\(\\alpha\\), provided the\ntypes of the domain and converse domain of \\(R\\) are given relatively\nto \\(\\alpha\\).\n\nThe most useful propositions of the present number are the following:\n\n*64·16. \\(\\vdash : R \\unicode{x2abd} t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta .\\equiv. R \\in tʻ(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta)\\)\n\n*64·201. \\(\\vdash : R \\unicode{x2abd} S .\\supset. R \\in tʻS . tʻR = tʻS\\)\n\n*64·231. \\(\\vdash:R \\in tʻQ .\\supset. \\text{D}ʻR \\in tʻ\\text{D}ʻQ . \\text{ᗡ}ʻR \\in tʻ\\text{ᗡ}ʻQ .CʻR \\in tʻCʻQ\\)\n\nHere \"\\(CʻR \\in tʻCʻQ\\)\" will only be significant if \\(R\\) and \\(Q\\)\nare homogeneous relations, which is not required by the rest of the\nproposition. When \\(R\\) and \\(Q\\) are homogeneous relations we have\n\n*64·24. \\(\\vdash : R \\in tʻQ .\\equiv. CʻR \\in tʻCʻQ .\\equiv. t_{0}ʻCʻR=t_{0}ʻCʻQ\\)\n\nThis proposition is useful in connecting ordinal and cardinal existence-theorems.\n\n*64·312. \\(\\vdash. t^{22}ʻx = t^{11}ʻtʻx = t_{00}ʻt^{2}ʻx\\)\n\n*64·5. \\(\\vdash. \\text{Rl}ʻ(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta) = tʻ(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta) = tʻ(\\alpha \\uparrow \\beta)\\)\n\nThis proposition is frequently used. It states that the class of\nrelations whose referents are of the type of members of \\(\\alpha\\)\nwhile its relata are of the type of members of \\(\\beta\\) (*i.e.*\nthe class of all relations contained in \\(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta\\))\nis the type of \\(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta\\) and\nis also the type of \\(\\alpha \\uparrow \\beta\\).\n\n*64·55. \\(\\vdash: CʻP \\subset t_{0}ʻ\\alpha .\\equiv. P \\in t_{00}ʻ\\alpha\\)\n\n*64·57. \\(\\vdash : CʻP \\subset tʻx .\\equiv. P \\in t^{11}ʻx\\)\n\nThe propositions of the present number are mostly obvious, though\nformal proofs are sometimes not very easily found. The use of the\npropositions of this number occurs chiefly in the first section on\nrelation-arithmetic and in the proofs of existence-theorems in ordinal\narithmetic and the theory of ratio.\n\n*64.01. \\(t_{00}ʻ\\alpha=tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha) \\quad\\text{Df}\\)\n\n*64.011. \\(t^{11}ʻx=tʻ(tʻx\\uparrow tʻx) \\quad\\text{Df}\\)\n\n*64.012. \\(t^{12}ʻx=tʻ(tʻx\\uparrow t^{2}ʻx) \\quad\\text{Df}\\)\n\n*64.013. \\(t^{21}ʻx=tʻ(t^{2}ʻx\\uparrow tʻx) \\quad\\text{Df}\\)\n\n*64.014. \\(t^{22}ʻx=tʻ(t^{2}ʻx\\uparrow t^{2}ʻx) \\quad\\text{Df}\\)\n\n\\[\\text{etc.}\\]\n\n*64.02. \\(t_{01}ʻ\\alpha=tʻ(t_{0}ʻ\\alpha\\uparrow t_{1}ʻ\\alpha) \\quad\\text{Df}\\)\n\n*64.021. \\(t_{10}ʻ\\alpha=tʻ(t_{1}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha) \\quad\\text{Df}\\)\n\n*64.022. \\(t_{11}ʻ\\alpha=tʻ(t_{1}ʻ\\alpha\\uparrow t_{1}ʻ\\alpha) \\quad\\text{Df}\\)\n\n\\[\\text{etc.}\\]\n\n*64.03. \\(t_{0}^{1}ʻ\\alpha=tʻ(t_{0}ʻ\\alpha\\uparrow tʻ\\alpha) \\quad\\text{Df}\\)\n\n*64.031. \\(t_{1}^{1}ʻ\\alpha=tʻ(t_{1}ʻ\\alpha\\uparrow tʻ\\alpha) \\quad\\text{Df}\\)\n\n\\[\\text{etc.}\\]\n\n*64.04. \\(^{1}t_{0}ʻ\\alpha=tʻ(tʻ\\alpha\\uparrow t_{0}ʻ\\alpha) \\quad\\text{Df}\\)\n\n*64.041. \\(^{1}t_{1}ʻ\\alpha=tʻ(tʻ\\alpha\\uparrow t_{1}ʻ\\alpha) \\quad\\text{Df}\\)\n\n\\[\\text{etc.}\\]\n\n*64.1. \\(\\vdash.\\alpha\\uparrow \\alpha\\in t_{00}ʻ\\alpha\\)\n\n*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*21·2}. &\\supset\\vdash:\\alpha=t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{*35·9}. &\\supset\\vdash:\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha.\\supset.\\alpha=t_{0}ʻ\\alpha:\\\\\n[\\text{Transp}] &\\supset\\vdash:\\alpha\\neq t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow\\alpha\\neq t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(1).(2)}.&\\supset\\vdash\\colon\\ldotp \\alpha=t_{0}ʻ\\alpha.\\lor.\\alpha\\neq t_{0}ʻ\\alpha:\\supset:\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha.\\lor.\\alpha\\uparrow\\alpha\\neq\nt_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(3).*51·15.*63·101·191}.&\\supset\\vdash:\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha.\\lor.\\alpha\\uparrow\\alpha \\neq t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha\n&\\qquad \\text{(4)}\\\\\n\\vdash.\\text{(4).*51·15.*63·101.(*64·01)}.&\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]\n\n*64.11. \\(\\vdash.t_{00}ʻ\\alpha=tʻ(\\alpha\\uparrow\\alpha) \\quad[\\text{*64.1.*63.16}]\\)\n\n*64.12. \\(\\vdash.\\alpha\\uparrow\\beta\\in tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta\\))\n\n*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*35·85·86.*63·18}.&\\supset\\vdash:&\\alpha\\uparrow \\beta=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta.\\equiv.\\alpha=t_{0}ʻ\\alpha.\\beta=t_{0}ʻ\\beta\n&\\qquad \\text{(1)}\\\\\n\\vdash.\\text{(1).Transp}. &\\supset\\vdash:&\\alpha=t_{0}ʻ\\alpha.\\beta=t_{0}ʻ\\beta.\\supset.\\alpha\\uparrow \\beta=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta:\\\\\n& &\\alpha=t_{0}ʻ\\alpha.\\beta\\neq t_{0}ʻ\\beta.\\supset.\\alpha\\uparrow \\beta\\neq t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta:\\\\\n[\\text{*63·101.*51·15}] &\\supset\\vdash:&\\alpha=t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow \\beta\\in tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta) &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(1).Transp}. &\\supset\\vdash:&\\alpha\\neq t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow \\beta\\neq(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta).\\\\\n[\\text{*63·101.*51·15.Transp}] & &\\supset.\\alpha\\uparrow \\beta\\in tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta) &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(2).(3)}.\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]",
+     "summary": "*Summary of* *64.\n\nIn the present number, we introduce notations defining the type of a\nrelation relatively to the types of its domain and converse domain,\nwhen these types are given relatively to some fixed class \\(\\alpha\\).\nIf \\(R\\) is any relation, it is of the same type as \\(t_{0}ʻ\\text{D}ʻR\n\\uparrow t_{0}ʻ\\text{ᗡ}ʻR\\). If \\(\\text{D}ʻR\\) and \\(\\text{ᗡ}ʻR\\) are both of the\nsame type as \\(\\alpha\\), \\(R\\) is of the same type as \\(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha\\),\nwhich is of the same type as \\(\\alpha\\uparrow \\alpha\\).\nThe type of \\(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\alpha\\)\nwe call \\(t_{00}ʻ\\alpha\\), and the type of \\(t^{m}ʻ\\alpha \\uparrow t^{n}ʻ\\alpha\\)\nwe call \\(t^{mn}ʻ\\alpha\\), and the type of \\(t_{m}ʻ\\alpha \\uparrow t_{n}ʻ\\alpha\\)\nwe call \\(t_{mn}ʻ\\alpha\\), and the type of\n\\(t_{m}ʻ\\alpha \\uparrow t^{n}ʻ\\alpha\\) we call \\(t_{m}^{n}ʻ\\alpha\\),\nand the type of \\(t^{m}ʻ\\alpha \\uparrow t_{n}ʻ\\alpha\\) we call\n\\({}^{m}t_{n}ʻ\\alpha\\). We thus have a means of expressing the type of\nany relation \\(R\\) in terms of the type of \\(\\alpha\\), provided the\ntypes of the domain and converse domain of \\(R\\) are given relatively\nto \\(\\alpha\\).\n\nThe most useful propositions of the present number are the following:\n\n*64·16. \\(\\vdash : R \\unicode{x2abd} t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta .\\equiv. R \\in tʻ(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta)\\)\n\n*64·201. \\(\\vdash : R \\unicode{x2abd} S .\\supset. R \\in tʻS . tʻR = tʻS\\)\n\n*64·231. \\(\\vdash:R \\in tʻQ .\\supset. \\text{D}ʻR \\in tʻ\\text{D}ʻQ . \\text{ᗡ}ʻR \\in tʻ\\text{ᗡ}ʻQ .CʻR \\in tʻCʻQ\\)\n\nHere \"\\(CʻR \\in tʻCʻQ\\)\" will only be significant if \\(R\\) and \\(Q\\)\nare homogeneous relations, which is not required by the rest of the\nproposition. When \\(R\\) and \\(Q\\) are homogeneous relations we have\n\n*64·24. \\(\\vdash : R \\in tʻQ .\\equiv. CʻR \\in tʻCʻQ .\\equiv. t_{0}ʻCʻR=t_{0}ʻCʻQ\\)\n\nThis proposition is useful in connecting ordinal and cardinal existence-theorems.\n\n*64·312. \\(\\vdash. t^{22}ʻx = t^{11}ʻtʻx = t_{00}ʻt^{2}ʻx\\)\n\n*64·5. \\(\\vdash. \\text{Rl}ʻ(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta) = tʻ(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta) = tʻ(\\alpha \\uparrow \\beta)\\)\n\nThis proposition is frequently used. It states that the class of\nrelations whose referents are of the type of members of \\(\\alpha\\)\nwhile its relata are of the type of members of \\(\\beta\\) (*i.e.*\nthe class of all relations contained in \\(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta\\))\nis the type of \\(t_{0}ʻ\\alpha \\uparrow t_{0}ʻ\\beta\\) and\nis also the type of \\(\\alpha \\uparrow \\beta\\).\n\n*64·55. \\(\\vdash: CʻP \\subset t_{0}ʻ\\alpha .\\equiv. P \\in t_{00}ʻ\\alpha\\)\n\n*64·57. \\(\\vdash : CʻP \\subset tʻx .\\equiv. P \\in t^{11}ʻx\\)\n\nThe propositions of the present number are mostly obvious, though\nformal proofs are sometimes not very easily found. The use of the\npropositions of this number occurs chiefly in the first section on\nrelation-arithmetic and in the proofs of existence-theorems in ordinal\narithmetic and the theory of ratio.",
      "propositions": [
+      {
+       "n": "64·01",
+       "kind": "Df",
+       "formula": "\\(t_{00}ʻ\\alpha=tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·011",
+       "kind": "Df",
+       "formula": "\\(t^{11}ʻx=tʻ(tʻx\\uparrow tʻx) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·012",
+       "kind": "Df",
+       "formula": "\\(t^{12}ʻx=tʻ(tʻx\\uparrow t^{2}ʻx) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·013",
+       "kind": "Df",
+       "formula": "\\(t^{21}ʻx=tʻ(t^{2}ʻx\\uparrow tʻx) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·014",
+       "kind": "Df",
+       "formula": "\\(t^{22}ʻx=tʻ(t^{2}ʻx\\uparrow t^{2}ʻx) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": "\\[\\text{etc.}\\]"
+      },
+      {
+       "n": "64·02",
+       "kind": "Df",
+       "formula": "\\(t_{01}ʻ\\alpha=tʻ(t_{0}ʻ\\alpha\\uparrow t_{1}ʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·021",
+       "kind": "Df",
+       "formula": "\\(t_{10}ʻ\\alpha=tʻ(t_{1}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·022",
+       "kind": "Df",
+       "formula": "\\(t_{11}ʻ\\alpha=tʻ(t_{1}ʻ\\alpha\\uparrow t_{1}ʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": "\\[\\text{etc.}\\]"
+      },
+      {
+       "n": "64·03",
+       "kind": "Df",
+       "formula": "\\(t_{0}^{1}ʻ\\alpha=tʻ(t_{0}ʻ\\alpha\\uparrow tʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·031",
+       "kind": "Df",
+       "formula": "\\(t_{1}^{1}ʻ\\alpha=tʻ(t_{1}ʻ\\alpha\\uparrow tʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": "\\[\\text{etc.}\\]"
+      },
+      {
+       "n": "64·04",
+       "kind": "Df",
+       "formula": "\\(^{1}t_{0}ʻ\\alpha=tʻ(tʻ\\alpha\\uparrow t_{0}ʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·041",
+       "kind": "Df",
+       "formula": "\\(^{1}t_{1}ʻ\\alpha=tʻ(tʻ\\alpha\\uparrow t_{1}ʻ\\alpha) \\quad\\text{Df}\\)",
+       "page": "430",
+       "after": "\\[\\text{etc.}\\]"
+      },
+      {
+       "n": "64·1",
+       "kind": "prop",
+       "formula": "\\(\\vdash.\\alpha\\uparrow \\alpha\\in t_{00}ʻ\\alpha\\)",
+       "page": "430",
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*21·2}. &\\supset\\vdash:\\alpha=t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha &\\qquad \\text{(1)}\\\\\n\\vdash.\\text{*35·9}. &\\supset\\vdash:\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha.\\supset.\\alpha=t_{0}ʻ\\alpha:\\\\\n[\\text{Transp}] &\\supset\\vdash:\\alpha\\neq t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow\\alpha\\neq t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(1).(2)}.&\\supset\\vdash\\colon\\ldotp \\alpha=t_{0}ʻ\\alpha.\\lor.\\alpha\\neq t_{0}ʻ\\alpha:\\supset:\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha.\\lor.\\alpha\\uparrow\\alpha\\neq\nt_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(3).*51·15.*63·101·191}.&\\supset\\vdash:\\alpha\\uparrow\\alpha=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha.\\lor.\\alpha\\uparrow\\alpha \\neq t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\alpha\n&\\qquad \\text{(4)}\\\\\n\\vdash.\\text{(4).*51·15.*63·101.(*64·01)}.&\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]"
+      },
+      {
+       "n": "64·11",
+       "kind": "prop",
+       "formula": "\\(\\vdash.t_{00}ʻ\\alpha=tʻ(\\alpha\\uparrow\\alpha) \\quad[\\text{*64.1.*63.16}]\\)",
+       "page": "430",
+       "after": ""
+      },
+      {
+       "n": "64·12",
+       "kind": "prop",
+       "formula": "\\(\\vdash.\\alpha\\uparrow\\beta\\in tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta\\))",
+       "page": "430",
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*35·85·86.*63·18}.&\\supset\\vdash:&\\alpha\\uparrow \\beta=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta.\\equiv.\\alpha=t_{0}ʻ\\alpha.\\beta=t_{0}ʻ\\beta\n&\\qquad \\text{(1)}\\\\\n\\vdash.\\text{(1).Transp}. &\\supset\\vdash:&\\alpha=t_{0}ʻ\\alpha.\\beta=t_{0}ʻ\\beta.\\supset.\\alpha\\uparrow \\beta=t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta:\\\\\n& &\\alpha=t_{0}ʻ\\alpha.\\beta\\neq t_{0}ʻ\\beta.\\supset.\\alpha\\uparrow \\beta\\neq t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta:\\\\\n[\\text{*63·101.*51·15}] &\\supset\\vdash:&\\alpha=t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow \\beta\\in tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta) &\\qquad \\text{(2)}\\\\\n\\vdash.\\text{(1).Transp}. &\\supset\\vdash:&\\alpha\\neq t_{0}ʻ\\alpha.\\supset.\\alpha\\uparrow \\beta\\neq(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta).\\\\\n[\\text{*63·101.*51·15.Transp}] & &\\supset.\\alpha\\uparrow \\beta\\in tʻ(t_{0}ʻ\\alpha\\uparrow t_{0}ʻ\\beta) &\\qquad \\text{(3)}\\\\\n\\vdash.\\text{(2).(3)}.\\supset\\vdash.\\text{Prop}\\\\\n\\end{array}\n\\]"
+      },
       {
        "n": "64·13",
        "kind": "prop",
@@ -16490,7 +16644,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash:R\\in \\text{Cls}\\rightarrow 1.\\supset.R\\upharpoonright \\gamma\\in \\text{Cls}\\rightarrow 1\\)",
        "page": "454",
-       "after": "*71.28. \\(\\vdash:R\\in 1\\rightarrow \\text{Cls}.\\supset.\\beta\\upharpoonleft R\\upharpoonright \\gamma\\in 1\\rightarrow \\text{Cls} \\quad[\\text{*35·442.*71·22}]\\)"
+       "after": ""
+      },
+      {
+       "n": "71·28",
+       "kind": "prop",
+       "formula": "\\(\\vdash:R\\in 1\\rightarrow \\text{Cls}.\\supset.\\beta\\upharpoonleft R\\upharpoonright \\gamma\\in 1\\rightarrow \\text{Cls} \\quad[\\text{*35·442.*71·22}]\\)",
+       "page": "454",
+       "after": ""
       },
       {
        "n": "71·281",
@@ -16574,7 +16735,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash:R\\in 1\\rightarrow \\text{Cls}.R=S.y\\in \\text{ᗡ}ʻR.\\supset.Rʻy=Sʻy \\quad[\\text{*30·36.*71·163}]\\)",
        "page": "455",
-       "after": "*71·341. \\(\\vdash:R\\in \\text{Cls}\\rightarrow 1.R=S.x\\in \\text{D}ʻR.\\supset.\\breve{R}ʻx=\\breve{S}ʻx\\)"
+       "after": ""
+      },
+      {
+       "n": "71·341",
+       "kind": "prop",
+       "formula": "\\(\\vdash:R\\in \\text{Cls}\\rightarrow 1.R=S.x\\in \\text{D}ʻR.\\supset.\\breve{R}ʻx=\\breve{S}ʻx\\)",
+       "page": "455",
+       "after": ""
       },
       {
        "n": "71·35",
@@ -18368,7 +18536,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash:R\\in \\text{Cls}\\rightarrow 1.\\alpha=Rʻʻ\\beta.\\supset.\\alpha\\upharpoonleft R=R\\upharpoonright \\beta=\\alpha\\upharpoonleft R\\upharpoonright \\beta \\quad[\\text{*72·551}]\\)",
        "page": "491",
-       "after": "*74.15. \\(\\vdash:Q\\upharpoonright \\lambda\\in 1\\rightarrow \\text{Cls}.\\lambda=\\breve{Q}ʻʻ\\kappa.\\supset.\\kappa\\cap \\text{D}ʻQ=Qʻʻ\\lambda \\quad[\\text{*72·57}]\\)"
+       "after": ""
+      },
+      {
+       "n": "74·15",
+       "kind": "prop",
+       "formula": "\\(\\vdash:Q\\upharpoonright \\lambda\\in 1\\rightarrow \\text{Cls}.\\lambda=\\breve{Q}ʻʻ\\kappa.\\supset.\\kappa\\cap \\text{D}ʻQ=Qʻʻ\\lambda \\quad[\\text{*72·57}]\\)",
+       "page": "491",
+       "after": ""
       },
       {
        "n": "74·151",
@@ -22860,7 +23035,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash.\\overrightarrow{\\text{max}}_{P}ʻ\\alpha\\subset \\alpha\\cap CʻP \\quad[\\text{*93·116}]\\)",
        "page": "610",
-       "after": "*92·12. \\(\\vdash.\\overrightarrow{B}ʻ\\breve{P}=\\text{ᗡ}ʻP-\\text{D}ʻP=CʻP-\\text{D}ʻP \\quad[\\text{*93·101·103.*33·2·21·22}]\\)"
+       "after": ""
+      },
+      {
+       "n": "93·12",
+       "kind": "prop",
+       "formula": "\\(\\vdash.\\overrightarrow{B}ʻ\\breve{P}=\\text{ᗡ}ʻP-\\text{D}ʻP=CʻP-\\text{D}ʻP \\quad[\\text{*93·101·103.*33·2·21·22}]\\)",
+       "page": "610",
+       "after": ""
       },
       {
        "n": "93·13",
@@ -22881,7 +23063,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash.\\overrightarrow{\\text{min}}_{P}ʻ\\text{ᗡ}ʻT=\\text{ᗡ}ʻT-\\text{ᗡ}ʻ(T\\mid P)\\)",
        "page": "611",
-       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*93·111}.\\supset\\vdash.\\overrightarrow{\\text{min}}_{P}ʻ\\text{ᗡ}ʻT&=\\text{ᗡ}ʻT-\\breve{P}ʻʻ\\text{ᗡ}ʻT\\\\\n[\\text{*37·32}] &=\\text{ᗡ}ʻT-\\text{ᗡ}ʻ(T\\mid P).\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]\n\n*92·2. \\[\\begin{align}&\\vdash:\\alpha\\in \\text{gen}ʻP.\\equiv.(\\exists T).T\\in \\text{Potid}ʻP.\\alpha=\\overrightarrow{\\text{min}}_{P}ʻ\\text{ᗡ}ʻT\\\\\n&[\\text{*37·67.(*93·03)}]\\end{align}\\]"
+       "after": "*Dem.*\n\n\\[\n\\begin{array}{l}\n\\vdash.\\text{*93·111}.\\supset\\vdash.\\overrightarrow{\\text{min}}_{P}ʻ\\text{ᗡ}ʻT&=\\text{ᗡ}ʻT-\\breve{P}ʻʻ\\text{ᗡ}ʻT\\\\\n[\\text{*37·32}] &=\\text{ᗡ}ʻT-\\text{ᗡ}ʻ(T\\mid P).\\supset\\vdash.\\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "93·2",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}&\\vdash:\\alpha\\in \\text{gen}ʻP.\\equiv.(\\exists T).T\\in \\text{Potid}ʻP.\\alpha=\\overrightarrow{\\text{min}}_{P}ʻ\\text{ᗡ}ʻT\\\\ &[\\text{*37·67.(*93·03)}]\\end{align}\\]",
+       "page": "611",
+       "after": ""
       },
       {
        "n": "93·21",
@@ -24059,7 +24248,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash\\colon\\ldotp R\\in \\text{Cls}\\rightarrow 1.xR_{\\unicode{x2217}}y.xR_{\\unicode{x2217}}z.y \\neq z.\\supset:yR_{\\text{po}}z.\\lor.zR_{\\text{po}}y\\\\ &[\\text{*96·302.*91·542}]\\end{align}\\]",
        "page": "644",
-       "after": "*95·31. \\(\\vdash:R\\in \\text{Cls}\\rightarrow 1.xR_{\\unicode{x2217}}y.\\supset.\\overleftarrow{R}_{\\unicode{x2217}}ʻx\\subset \\overrightarrow{R}_{\\unicode{x2217}}ʻy\\cup\n\\overleftarrow{R}_{\\unicode{x2217}}ʻy \\quad[\\text{*96·302}]\\)"
+       "after": ""
+      },
+      {
+       "n": "96·31",
+       "kind": "prop",
+       "formula": "\\(\\vdash:R\\in \\text{Cls}\\rightarrow 1.xR_{\\unicode{x2217}}y.\\supset.\\overleftarrow{R}_{\\unicode{x2217}}ʻx\\subset \\overrightarrow{R}_{\\unicode{x2217}}ʻy\\cup \\overleftarrow{R}_{\\unicode{x2217}}ʻy \\quad[\\text{*96·302}]\\)",
+       "page": "644",
+       "after": ""
       },
       {
        "n": "96·311",
@@ -25422,7 +25618,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash :\\gamma \\text{ sm }(x,y)\\delta . \\equiv .\\gamma \\text{ sm } \\delta .\\gamma \\subset tʻx.\\delta \\subset tʻy \\quad[*63·5.(*65·12)]\\)",
        "page": "28",
-       "after": "102·23. \\[\\begin{aligned}\\vdash :\\gamma \\text{ sm }(x,y)&\\delta . \\equiv .(\\exists R).R \\in 1\\rightarrow 1.\\text{D}ʻR\\subset tʻx.\\\\\n&\\text{ᗡ}ʻR\\subset tʻy.\\text{D}ʻR = \\gamma .\\text{ᗡ}ʻR = \\delta \\quad[*102·22.*73·1]\\end{aligned}\\]"
+       "after": ""
+      },
+      {
+       "n": "102·23",
+       "kind": "prop",
+       "formula": "\\[\\begin{aligned}\\vdash :\\gamma \\text{ sm }(x,y)&\\delta . \\equiv .(\\exists R).R \\in 1\\rightarrow 1.\\text{D}ʻR\\subset tʻx.\\\\ &\\text{ᗡ}ʻR\\subset tʻy.\\text{D}ʻR = \\gamma .\\text{ᗡ}ʻR = \\delta \\quad[*102·22.*73·1]\\end{aligned}\\]",
+       "page": "28",
+       "after": ""
       },
       {
        "n": "102·24",
@@ -25985,7 +26188,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash \\colon\\ldotp \\mu ,\\nu \\in \\text{N}_{0}\\text{C}.\\supset :\\mu = \\text{ sm }ʻʻ\\nu .\\equiv .\\nu = \\text{ sm }ʻʻ\\mu\\)",
        "page": "41",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*100·53. &\\supset \\vdash \\colon\\ldotp \\exists !\\mu .\\exists !\\nu .\\mu ,\\nu \\in \\text{NC}.\\supset :\\mu = \\text{ sm }ʻʻ\\nu .\\equiv .\\nu = \\text{ sm }ʻʻ\\mu &\\qquad \\text{(1)}\\\\\n\\vdash .*103·27·2.&\\supset \\vdash :\\text{Hp}.\\supset .\\exists !\\mu .\\exists !\\nu .\\mu ,\\nu \\in \\text{NC} &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).&\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]\n\n*103.5. \\(\\vdash .0\\in \\text{N}_{0}\\text{C}\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*101·11·12.&\\supset \\vdash .0\\in \\text{NC}.\\exists !0.\\\\\n[*103·34]&\\supset \\vdash .0\\in \\text{N}_{0}\\text{C}.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*100·53. &\\supset \\vdash \\colon\\ldotp \\exists !\\mu .\\exists !\\nu .\\mu ,\\nu \\in \\text{NC}.\\supset :\\mu = \\text{ sm }ʻʻ\\nu .\\equiv .\\nu = \\text{ sm }ʻʻ\\mu &\\qquad \\text{(1)}\\\\\n\\vdash .*103·27·2.&\\supset \\vdash :\\text{Hp}.\\supset .\\exists !\\mu .\\exists !\\nu .\\mu ,\\nu \\in \\text{NC} &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).&\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "103·5",
+       "kind": "prop",
+       "formula": "\\(\\vdash .0\\in \\text{N}_{0}\\text{C}\\)",
+       "page": "41",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*101·11·12.&\\supset \\vdash .0\\in \\text{NC}.\\exists !0.\\\\\n[*103·34]&\\supset \\vdash .0\\in \\text{N}_{0}\\text{C}.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "103·51",
@@ -27565,7 +27775,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{aligned}\\vdash \\colon\\ldotp \\xi \\in &\\mu +_{\\text{c}}\\nu . \\equiv :\\\\ &\\exists !\\mu .\\exists !\\nu :(\\exists \\gamma ,\\delta ).\\mu = \\text{Nc}ʻ\\gamma .\\nu = \\text{Nc}ʻ\\delta .\\gamma \\cap \\delta = \\Lambda .\\xi = \\gamma \\cup \\delta\\end{aligned}\\]",
        "page": "78",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*110·2·152 .&\\supset \\vdash \\colon\\ldotp \\xi \\in \\mu +_{\\text{c}}\\nu . \\equiv :\\\\\n(\\exists \\alpha ,\\beta ,\\gamma ,\\delta ).&\\mu = \\text{N}_{0}\\text{c}ʻ\\alpha .\\nu = \\text{N}_{0}\\text{c}ʻ\\beta\n.\\gamma \\text{ sm } \\alpha .\\delta \\text{ sm } \\beta .\\gamma \\cap \\delta = \\Lambda .\\xi = \\gamma \\cup \\delta :\\\\\n[*103·28] &\\equiv :(\\exists \\gamma ,\\delta ).\\exists !\\mu .\\exists !\\nu .\\mu = \\text{Nc}ʻ\\gamma .\\nu = \\text{Nc}ʻ\\delta .\\gamma \\cap \\delta = \\Lambda .\\xi = \\gamma \\cup \\delta \\colon\\ldotp \\\\\n&\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]\n\n*110·21. \\[\\begin{aligned}&\\vdash \\colon\\ldotp \\mu ,\\nu \\in \\text{NC}.\\supset :\\xi \\in \\mu +_{\\text{c}}\\nu\n.\\equiv .(\\exists \\alpha ,\\beta ).\\alpha \\in \\mu .\\beta \\in \\nu .\\xi \\text{ sm }(\\alpha +\\beta )\\\\\n&[*110·201]\\end{aligned}\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*110·2·152 .&\\supset \\vdash \\colon\\ldotp \\xi \\in \\mu +_{\\text{c}}\\nu . \\equiv :\\\\\n(\\exists \\alpha ,\\beta ,\\gamma ,\\delta ).&\\mu = \\text{N}_{0}\\text{c}ʻ\\alpha .\\nu = \\text{N}_{0}\\text{c}ʻ\\beta\n.\\gamma \\text{ sm } \\alpha .\\delta \\text{ sm } \\beta .\\gamma \\cap \\delta = \\Lambda .\\xi = \\gamma \\cup \\delta :\\\\\n[*103·28] &\\equiv :(\\exists \\gamma ,\\delta ).\\exists !\\mu .\\exists !\\nu .\\mu = \\text{Nc}ʻ\\gamma .\\nu = \\text{Nc}ʻ\\delta .\\gamma \\cap \\delta = \\Lambda .\\xi = \\gamma \\cup \\delta \\colon\\ldotp \\\\\n&\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "110·21",
+       "kind": "prop",
+       "formula": "\\[\\begin{aligned}&\\vdash \\colon\\ldotp \\mu ,\\nu \\in \\text{NC}.\\supset :\\xi \\in \\mu +_{\\text{c}}\\nu .\\equiv .(\\exists \\alpha ,\\beta ).\\alpha \\in \\mu .\\beta \\in \\nu .\\xi \\text{ sm }(\\alpha +\\beta )\\\\ &[*110·201]\\end{aligned}\\]",
+       "page": "79",
+       "after": ""
       },
       {
        "n": "110·211",
@@ -30180,15 +30397,8 @@
      "part": "PART III.",
      "section": "SECTION B.\n\nADDITION, MULTIPLICATION AND EXPONENTIATION. *Summary of Section B.*",
      "page": "143",
-     "summary": "*Summary of* *116.\n\nIn this number, we define \"\\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\),\" meaning\n\"\\(\\alpha\\) to the exponent \\(\\beta\\),\" where \\(\\alpha\\) and \\(\\beta\\)\nare classes, as\n\\[\n\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta .\n\\]\nNow \\(\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta\\) consists of\nall ways of selecting one each from the members of\n\\(\\alpha\\downarrow_{,,}ʻʻ\\beta\\), *i.e.* from the classes\n\\(\\downarrow yʻʻ\\alpha\\), where \\(y\\in \\beta\\). Thus to get a member of\n\\(\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta\\), take a set of couples\n\\(x\\downarrow y\\), where \\(x\\) is always an \\(\\alpha\\), and there\nis only one \\(x\\) for a given \\(y\\), and \\(y\\) is each member of\n\\(\\beta\\) in succession. Thus for each member of \\(\\beta\\), we have\n\\(\\text{Nc}ʻ\\alpha\\) possible referents; hence it is plain that the\nnumber of possible sets of couples consists of \\(\\text{Nc}ʻ\\beta\\)\nfactors each equal to \\(\\text{Nc}ʻ\\alpha\\), and is therefore fit to be\ntaken as defining \\((\\text{Nc}ʻ\\alpha )^{\\text{Nc}ʻ\\beta}\\).\n\nThe definitions of \\(\\mu ^\\nu\\) and \\((\\text{Nc}ʻ\\alpha)^{\\text{Nc}ʻ\\beta}\\)\nare derived from the definition of \\(\\alpha \\,\\,\\text{exp}\\,\\, \\beta\\)\nexactly as the definitions of \\(\\mu +_{c} \\nu\\)\nand \\(\\text{Nc}ʻ\\alpha +_{c} \\text{Nc}ʻ\\beta\\), or of \\(\\mu \\times_{c} \\nu\\)\nand \\(\\text{Nc}ʻ\\alpha \\times _{c} \\text{Nc}ʻ\\beta\\), were\nderived respectively from \\(\\alpha + \\beta\\) and \\(\\alpha \\times\\beta\\).\n\nThe chief difficulty in this number lies in the proof of the three\nformal laws of exponentiation, namely\n\\[\n\\begin{aligned}\n\\mu ^\\nu \\times _{c} \\mu ^{\\varpi } &= \\mu ^{\\nu +_{c} \\varpi },\\\\\n\\mu ^{\\varpi } \\times _{c} \\nu ^{\\varpi } &= (\\mu \\times _{c} \\nu )^{\\varpi },\\\\\n\\text{and}\\qquad (\\mu ^\\nu )^{\\varpi } &= \\mu ^{\\nu \\times _{c} \\varpi }.\n\\end{aligned}\n\\]\nThe proofs of the second and third of these, in particular, require\nvarious lemmas; but there is no difficulty involved except the\ncomplexity of the classes and relations concerned.\n\nThe definition of \\(\\mu ^\\nu\\) is so framed as to minimize the\nnecessity for the multiplicative axiom (see the note on **113·31 in the\nintroduction to *113). We have\n\n*116·36. \\(\\vdash \\colon\\ldotp \\text{Mult ax}.\\supset :\\mu ,\\nu \\in \\text{NC} - \\iota ʻ\\Lambda .\\kappa \\in \\nu \\cap \\text{Cl}ʻ\\mu .\\supset .\\Pi \\text{Nc}ʻ\\kappa = \\mu ^\\nu\\)\n\nthat is, assuming the multiplicative axiom, the product of \\(\\nu\\)\nfactors each equal to \\(\\mu\\) is \\(\\mu ^\\nu\\) (assuming \\(\\mu\\) and\n\\(\\nu\\) to be cardinals which are not null).\n\nIf we had *defined* \\(\\mu ^\\nu\\) as the product of \\(\\nu\\) factors\neach equal to \\(\\mu\\), we should have required the multiplicative\naxiom for almost all propositions on \\(\\mu ^\\nu\\) but by taking the\nparticular class \\(\\alpha \\downarrow_{,,}ʻʻ\\beta\\), we avoid the\nmultiplicative axiom except in a few propositions. Among these few is\nthe above proposition connecting exponentiation with multiplication.\n\nCantor has defined \\(\\mu ^\\nu\\) by means of the class of \"Belegungen,\"\n*i.e.* the class\n\\[\n\\hat{R} (R\\in 1\\rightarrow \\text{Cls}.\\text{D}ʻR\\subset \\alpha .\\text{ᗡ}ʻR = \\beta )\n\\]\nwhich (*116·12) = \\((\\alpha \\uparrow \\beta )_{\\Delta }ʻ\\beta\\).\nBy *85·53 and *113·103, this class is equal to \\(\\dot{s}ʻʻ(\\alpha\\,\\text{exp}\\,\\,\\beta)\\)\n(as is proved in *116·13), whence, since\n\\(\\dot{s} \\upharpoonright \\alpha \\,\\text{exp}\\,\\, \\beta \\in 1\\rightarrow1\\),\nit follows (*116·15) that the class of \"Belegungen\" is similar to\n\\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\). Hence our definition gives the same\nvalue of \\(\\mu^\\nu\\) as Cantor's.\n\nThe propositions of the present number begin with various simple\nproperties of \\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\). Its existence follows\nfrom\n\n*116·152. \\(\\vdash :x\\in \\alpha .\\supset .x\\downarrow ʻʻ\\beta \\in \\alpha\\, \\,\\text{exp}\\,\\, \\beta\\)\n\nwhence (*116·16) \\(\\vdash .\\text{Cnv}ʻʻʻ\\beta \\downarrow_{,,}ʻʻ\\alpha \\subset \\alpha\\, \\,\\text{exp}\\,\\, \\beta\\), and\n\n*116·18. \\(\\vdash \\colon\\ldotp \\exists !\\alpha .\\lor.\\beta = \\Lambda : \\equiv .\\exists !\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\)\n\nWe have\n\n*116·19. \\(\\vdash :\\alpha \\text{ sm }\\gamma .\\beta \\text{ sm }\\delta .\\supset .(\\alpha\\, \\,\\text{exp}\\,\\, \\beta)\\text{ sm } \\text{ sm }(\\gamma \\, \\,\\text{exp}\\,\\, \\delta \\)\n\nin virtue of *113·13 and *115·51. *116·192 shows that, if\n\\(R\\upharpoonright \\gamma\\) correlates \\(\\alpha\\) with \\(\\gamma\\), and\n\\(S\\upharpoonright \\delta\\) correlates \\(\\beta\\) with \\(\\delta\\), then\n\\((R\\parallel \\breve{S})\\upharpoonright (\\delta \\times \\gamma)\\) is a\ndouble correlator of \\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\) with \\((\\gamma\\,\\,\\text{exp}\\,\\, \\delta)\\).\n\nWe then proceed to a set of propositions on \\(\\mu ^\\nu\\) which are\nanalogous to *113·2 ff. on \\(\\mu \\times _{c }\\nu\\). We have\n\n*116·203. \\(\\vdash :\\exists !\\mu ^\\nu .\\supset .\\mu ,\\nu \\in \\text{NC} - \\iota ʻ\\Lambda .\\mu ,\\nu \\in \\text{N}_{0}\\text{C}\\)\n\n*116·25. \\(\\vdash .(\\text{Nc}ʻ\\gamma )^{\\text{Nc}ʻ\\delta } = \\text{Nc}ʻ(\\gamma \\, \\,\\text{exp}\\,\\, \\delta)\\)\n\nand various other less useful propositions.\n\nWe then have various propositions on 0 and 1 and 2. We prove\n\n*116·301. \\(\\vdash :\\mu \\in \\text{NC} - \\iota ʻ\\Lambda .\\supset .\\mu ^{0} = 1\\)\n\n*116·311. \\(\\vdash :\\nu \\in \\text{NC} - \\iota ʻ\\Lambda - \\iota ʻ0.\\supset .0^\\nu = 0\\)\n\n*116·321. \\(\\vdash :\\mu \\in \\text{NC} - \\iota ʻ\\Lambda .\\supset .\\mu ^{1} = \\text{ sm }ʻʻ\\mu\\)\n\n(Observe that \\(\\text{ sm }ʻʻ\\mu\\) is the same cardinal as \\(\\mu\\), but\nrendered typically ambiguous.)",
+     "summary": "*Summary of* *116.\n\nIn this number, we define \"\\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\),\" meaning\n\"\\(\\alpha\\) to the exponent \\(\\beta\\),\" where \\(\\alpha\\) and \\(\\beta\\)\nare classes, as\n\\[\n\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta .\n\\]\nNow \\(\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta\\) consists of\nall ways of selecting one each from the members of\n\\(\\alpha\\downarrow_{,,}ʻʻ\\beta\\), *i.e.* from the classes\n\\(\\downarrow yʻʻ\\alpha\\), where \\(y\\in \\beta\\). Thus to get a member of\n\\(\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta\\), take a set of couples\n\\(x\\downarrow y\\), where \\(x\\) is always an \\(\\alpha\\), and there\nis only one \\(x\\) for a given \\(y\\), and \\(y\\) is each member of\n\\(\\beta\\) in succession. Thus for each member of \\(\\beta\\), we have\n\\(\\text{Nc}ʻ\\alpha\\) possible referents; hence it is plain that the\nnumber of possible sets of couples consists of \\(\\text{Nc}ʻ\\beta\\)\nfactors each equal to \\(\\text{Nc}ʻ\\alpha\\), and is therefore fit to be\ntaken as defining \\((\\text{Nc}ʻ\\alpha )^{\\text{Nc}ʻ\\beta}\\).\n\nThe definitions of \\(\\mu ^\\nu\\) and \\((\\text{Nc}ʻ\\alpha)^{\\text{Nc}ʻ\\beta}\\)\nare derived from the definition of \\(\\alpha \\,\\,\\text{exp}\\,\\, \\beta\\)\nexactly as the definitions of \\(\\mu +_{c} \\nu\\)\nand \\(\\text{Nc}ʻ\\alpha +_{c} \\text{Nc}ʻ\\beta\\), or of \\(\\mu \\times_{c} \\nu\\)\nand \\(\\text{Nc}ʻ\\alpha \\times _{c} \\text{Nc}ʻ\\beta\\), were\nderived respectively from \\(\\alpha + \\beta\\) and \\(\\alpha \\times\\beta\\).\n\nThe chief difficulty in this number lies in the proof of the three\nformal laws of exponentiation, namely\n\\[\n\\begin{aligned}\n\\mu ^\\nu \\times _{c} \\mu ^{\\varpi } &= \\mu ^{\\nu +_{c} \\varpi },\\\\\n\\mu ^{\\varpi } \\times _{c} \\nu ^{\\varpi } &= (\\mu \\times _{c} \\nu )^{\\varpi },\\\\\n\\text{and}\\qquad (\\mu ^\\nu )^{\\varpi } &= \\mu ^{\\nu \\times _{c} \\varpi }.\n\\end{aligned}\n\\]\nThe proofs of the second and third of these, in particular, require\nvarious lemmas; but there is no difficulty involved except the\ncomplexity of the classes and relations concerned.\n\nThe definition of \\(\\mu ^\\nu\\) is so framed as to minimize the\nnecessity for the multiplicative axiom (see the note on **113·31 in the\nintroduction to *113). We have\n\n*116·36. \\(\\vdash \\colon\\ldotp \\text{Mult ax}.\\supset :\\mu ,\\nu \\in \\text{NC} - \\iota ʻ\\Lambda .\\kappa \\in \\nu \\cap \\text{Cl}ʻ\\mu .\\supset .\\Pi \\text{Nc}ʻ\\kappa = \\mu ^\\nu\\)\n\nthat is, assuming the multiplicative axiom, the product of \\(\\nu\\)\nfactors each equal to \\(\\mu\\) is \\(\\mu ^\\nu\\) (assuming \\(\\mu\\) and\n\\(\\nu\\) to be cardinals which are not null).\n\nIf we had *defined* \\(\\mu ^\\nu\\) as the product of \\(\\nu\\) factors\neach equal to \\(\\mu\\), we should have required the multiplicative\naxiom for almost all propositions on \\(\\mu ^\\nu\\) but by taking the\nparticular class \\(\\alpha \\downarrow_{,,}ʻʻ\\beta\\), we avoid the\nmultiplicative axiom except in a few propositions. Among these few is\nthe above proposition connecting exponentiation with multiplication.\n\nCantor has defined \\(\\mu ^\\nu\\) by means of the class of \"Belegungen,\"\n*i.e.* the class\n\\[\n\\hat{R} (R\\in 1\\rightarrow \\text{Cls}.\\text{D}ʻR\\subset \\alpha .\\text{ᗡ}ʻR = \\beta )\n\\]\nwhich (*116·12) = \\((\\alpha \\uparrow \\beta )_{\\Delta }ʻ\\beta\\).\nBy *85·53 and *113·103, this class is equal to \\(\\dot{s}ʻʻ(\\alpha\\,\\text{exp}\\,\\,\\beta)\\)\n(as is proved in *116·13), whence, since\n\\(\\dot{s} \\upharpoonright \\alpha \\,\\text{exp}\\,\\, \\beta \\in 1\\rightarrow1\\),\nit follows (*116·15) that the class of \"Belegungen\" is similar to\n\\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\). Hence our definition gives the same\nvalue of \\(\\mu^\\nu\\) as Cantor's.\n\nThe propositions of the present number begin with various simple\nproperties of \\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\). Its existence follows\nfrom\n\n*116·152. \\(\\vdash :x\\in \\alpha .\\supset .x\\downarrow ʻʻ\\beta \\in \\alpha\\, \\,\\text{exp}\\,\\, \\beta\\)\n\nwhence (*116·16) \\(\\vdash .\\text{Cnv}ʻʻʻ\\beta \\downarrow_{,,}ʻʻ\\alpha \\subset \\alpha\\, \\,\\text{exp}\\,\\, \\beta\\), and\n\n*116·18. \\(\\vdash \\colon\\ldotp \\exists !\\alpha .\\lor.\\beta = \\Lambda : \\equiv .\\exists !\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\)\n\nWe have\n\n*116·19. \\(\\vdash :\\alpha \\text{ sm }\\gamma .\\beta \\text{ sm }\\delta .\\supset .(\\alpha\\, \\,\\text{exp}\\,\\, \\beta)\\text{ sm } \\text{ sm }(\\gamma \\, \\,\\text{exp}\\,\\, \\delta \\)\n\nin virtue of *113·13 and *115·51. *116·192 shows that, if\n\\(R\\upharpoonright \\gamma\\) correlates \\(\\alpha\\) with \\(\\gamma\\), and\n\\(S\\upharpoonright \\delta\\) correlates \\(\\beta\\) with \\(\\delta\\), then\n\\((R\\parallel \\breve{S})\\upharpoonright (\\delta \\times \\gamma)\\) is a\ndouble correlator of \\(\\alpha\\, \\,\\text{exp}\\,\\, \\beta\\) with \\((\\gamma\\,\\,\\text{exp}\\,\\, \\delta)\\).\n\nWe then proceed to a set of propositions on \\(\\mu ^\\nu\\) which are\nanalogous to *113·2 ff. on \\(\\mu \\times _{c }\\nu\\). We have\n\n*116·203. \\(\\vdash :\\exists !\\mu ^\\nu .\\supset .\\mu ,\\nu \\in \\text{NC} - \\iota ʻ\\Lambda .\\mu ,\\nu \\in \\text{N}_{0}\\text{C}\\)\n\n*116·25. \\(\\vdash .(\\text{Nc}ʻ\\gamma )^{\\text{Nc}ʻ\\delta } = \\text{Nc}ʻ(\\gamma \\, \\,\\text{exp}\\,\\, \\delta)\\)\n\nand various other less useful propositions.\n\nWe then have various propositions on 0 and 1 and 2. We prove\n\n*116·301. \\(\\vdash :\\mu \\in \\text{NC} - \\iota ʻ\\Lambda .\\supset .\\mu ^{0} = 1\\)\n\n*116·311. \\(\\vdash :\\nu \\in \\text{NC} - \\iota ʻ\\Lambda - \\iota ʻ0.\\supset .0^\\nu = 0\\)\n\n*116·321. \\(\\vdash :\\mu \\in \\text{NC} - \\iota ʻ\\Lambda .\\supset .\\mu ^{1} = \\text{ sm }ʻʻ\\mu\\)\n\n(Observe that \\(\\text{ sm }ʻʻ\\mu\\) is the same cardinal as \\(\\mu\\), but\nrendered typically ambiguous.)\n\n*116·331. \\(\\vdash :\\mu \\in \\text{NC} - \\iota ʻ\\Lambda .\\supset .1^\\mu = 1\\)\n\n*116·34. \\(\\vdash .\\mu ^{2} = \\mu \\times _{c} \\mu\\)\n\n(This proposition does not require that \\(\\mu\\) should be a cardinal.)\n\nAfter the proposition (*116·36) already quoted, on the connection of\nexponentiation and multiplication, we proceed to a set of propositions\non the case where a number of classes are all given as similar (by\nassignable correlations) to a given class. In *116·411, we prove that\nif \\(\\kappa\\) is a class of mutually exclusive classes, each of which\nis similar to a given class \\(\\gamma\\), and if, when \\(\\alpha \\in\\kappa\\),\n\\(Mʻ\\alpha\\) is a correlator of \\(\\alpha\\) and \\(\\gamma\\),\nand \\(T\\) is the sum of \\(Mʻʻ\\kappa\\), then\n\\[\n\\text{Nc}ʻ{\\in}_{\\Delta}ʻ\\overrightarrow{T}ʻʻ\\gamma = \\text{Nc}ʻT_{\\Delta }ʻ\\gamma = \\text{Nc}ʻ(\\kappa \\,\\text{exp}\\,\\, \\gamma ) = (\\text{Nc}ʻ\\kappa )^{\\text{Nc}ʻ\\gamma }.\n\\]\nThis is a further connection of multiplication and exponentiation. (On\nthe purport of this and following propositions, see the explanation\npreceding *116·4.) In *116·43, the hypothesis is somewhat modified.\nWe still have a set \\(\\kappa\\) of classes which are all similar to\n\\(\\gamma\\), but the correlator for a given class \\(\\alpha\\) is not\ngiven as \\(Mʻ\\alpha\\), but is given as \\(Mʻw\\), where \\(w\\) is a member\nof a class \\(\\delta\\) which is similar to \\(\\kappa\\). Then\n\\(\\kappa =\\text{D}ʻʻMʻʻ\\delta\\). We assume that \\(M\\upharpoonright \\delta\\) is a\none-one, and that if \\(Mʻw\\) and \\(Mʻv\\) have domains which overlap,\nthen \\(w = v\\). Thus \\(\\kappa\\) is a class of mutually exclusive\nclasses, each of which has \\(\\text{Nc}ʻ\\gamma\\) terms, while \\(\\kappa\\)\nhas \\(\\text{Nc}ʻ\\delta\\) terms. Then it is proved in *116·43 that\n\\[\n\\text{Prod}ʻ\\text{D}ʻʻMʻʻ\\delta \\text{ sm } \\text{ sm } (\\gamma \\,\\text{exp}\\,\\, \\delta ).\\Pi \\text{Nc}ʻ\\text{D}ʻʻMʻʻ\\delta = (\\text{Nc}ʻ\\gamma )^{\\text{Nc}ʻ\\delta }.\n\\]\nThis proposition and another (*116·45) which follows from it are useful\nin proving the formal laws of exponentiation. The proof of these\noccupies the following propositions from *116·5 to *116·68. We have\n\n*116·52. \\(\\vdash .\\mu ^\\nu \\times _{c} \\mu ^{\\varpi } = \\mu ^{\\nu +_{c} \\varpi }\\)\n\n*116·55. \\(\\vdash .\\mu ^{\\varpi } x_{c} \\nu ^{\\varpi } = (\\mu \\times _{c} \\nu )^{\\varpi }\\)\n\n*116·63. \\(\\vdash .\\mu ^{\\nu \\times _{c} \\varpi } = (\\mu ^\\nu )^{\\varpi }\\)\n\nAn extension of the first of these is\n\n*116·661. \\(\\vdash .\\Pi \\text{Nc}ʻ(\\alpha \\,\\text{exp}\\,)ʻʻ\\kappa = (\\text{Nc}ʻ\\alpha )^{\\Sigma \\text{Nc}ʻ\\kappa }\\)\n\nHere the number of members of \\(\\kappa\\) need not be finite. The\npurport of the proposition is as follows: Let \\(\\beta\\), \\(\\gamma\\),\n\\(\\delta\\), ... be the members of \\(\\kappa\\); form \\(\\alpha\\,\\,\\text{exp}\\,\\,\\beta\\),\n\\(\\alpha \\, \\,\\text{exp}\\,\\, \\gamma\\), \\(\\alpha \\,\\,\\text{exp}\\,\\, \\delta\\), ...,\nand take the product of the numbers of all these; then the resulting\nnumber is the same as if we first took the sum of the numbers of all\nthe members of \\(\\kappa\\), thus obtaining (say) a number \\(\\mu\\), and\nraised \\(\\text{Nc}ʻ\\alpha\\) to the \\(\\mu\\)th power.\n\nAn extension of *116·55 is given by *116·68, where we prove\n\\[\n\\vdash :\\kappa \\in \\text{Cls}^{2} \\text{excl}.\\supset .\\Pi \\text{Nc}ʻ\\,\\text{exp}\\,\\gamma ʻʻ\\kappa = (\\Pi \\text{Nc}ʻ\\kappa )^{\\text{Nc}ʻ\\gamma }.\n\\]\n\nThere is no analogous extension of *116·63.\n\nWe prove next Cantor's proposition (which is very useful)\n\n*116·72. \\(\\vdash .\\text{Nc}ʻ\\text{Cl}ʻ\\alpha = 2^{\\text{Nc}ʻ\\alpha }\\)\n\n*I.e.* the number of combinations of \\(\\mu\\) things any number\nat a time is \\(2^\\mu\\). (Observe that \\(\\mu\\) need not be finite.)\nThe remainder of the number is concerned with consequences of this\nproposition.",
      "propositions": [
-      {
-       "n": "116·331",
-       "kind": "prop",
-       "formula": "\\(\\vdash :\\mu \\in \\text{NC} - \\iota ʻ\\Lambda .\\supset .1^\\mu = 1\\)",
-       "page": "144",
-       "after": ""
-      },
       {
        "n": "116·01",
        "kind": "Df",
@@ -30404,7 +30614,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash :{\\sim}(\\mu ,\\nu \\in \\text{N}_0\\text{C}).\\supset .\\mu ^\\nu = \\Lambda \\quad [*116·203]\\)",
        "page": "149",
-       "after": "*116*21. \\(\\vdash \\colon\\ldotp \\mu ,\\nu \\in \\text{NC}.\\supset :\\xi \\in \\mu ^\\nu\n. \\equiv .(\\exists \\alpha ,\\beta ).\\alpha \\in \\mu .\\beta \\in \\nu .\\xi \\text{ sm } (\\alpha \\,\\,\\text{exp}\\,\\, \\beta ) \\quad[*116·201]\\)"
+       "after": ""
+      },
+      {
+       "n": "116·21",
+       "kind": "prop",
+       "formula": "\\(\\vdash \\colon\\ldotp \\mu ,\\nu \\in \\text{NC}.\\supset :\\xi \\in \\mu ^\\nu . \\equiv .(\\exists \\alpha ,\\beta ).\\alpha \\in \\mu .\\beta \\in \\nu .\\xi \\text{ sm } (\\alpha \\,\\,\\text{exp}\\,\\, \\beta ) \\quad[*116·201]\\)",
+       "page": "149",
+       "after": ""
       },
       {
        "n": "116·22",
@@ -30505,6 +30722,13 @@
        "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*101·1.*116·25.&\\supset \\vdash .0^{\\text{Nc}ʻ\\beta } = \\text{Nc}ʻ(\\Lambda \\,\\,\\text{exp}\\,\\, \\beta )\\\\\n[*116·182] \\supset \\vdash :\\text{Hp}.\\supset .0^{\\text{Nc}ʻ\\beta } &= \\text{Nc}ʻ\\Lambda\\\\\n[*101·1] &= 0:\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
+       "n": "116·311",
+       "kind": "prop",
+       "formula": "\\(\\vdash :\\nu \\in \\text{NC}-\\iota ʻ\\Lambda -\\iota ʻ0.\\supset .0^{\\nu }=0\\)",
+       "page": "150",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*103·34.*101·1.\\supset \\vdash :\\text{Hp}.&\\supset .(\\exists \\beta ).\\beta \\neq \\Lambda .\\nu =\\text{N}_{0}\\text{c}ʻ\\beta .\\\\\n[*13·12·15] \\supset .(\\exists \\beta ).\\beta \\neq \\Lambda .0^{\\nu }&=0^{\\text{N}_{0}\\text{c}ʻ\\beta }\\\\\n[*116·31.(*116·04)] &=0:\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
        "n": "116·32",
        "kind": "prop",
        "formula": "\\(\\vdash .(\\text{Nc}ʻ\\alpha )^{1}=\\text{Nc}ʻ\\alpha\\)",
@@ -30526,7 +30750,7 @@
        "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*113·11. \\supset \\vdash :\\alpha \\in 1.&\\supset .\\alpha \\downarrow_{,,}ʻʻ\\beta \\subset 1.\\\\\n[*115·144.*101·2] &\\supset .\\text{Nc}ʻ\\text{Prod}ʻ\\alpha \\downarrow_{,,}ʻʻ\\beta =1 &\\qquad \\text{(1)}\\\\\n\\vdash .(1).*101·2. &\\supset \\vdash .\\text{Nc}ʻ{(\\iota ʻx) \\,\\,\\text{exp}\\,\\, \\beta }=1 &\\qquad \\text{(2)}\\\\\n\\vdash .*101·2.*116·25.&\\supset \\vdash .1^{\\text{Nc}ʻ\\beta }=\\text{Nc}ʻ\\{(\\iota ʻx) \\,\\,\\text{exp}\\,\\, \\beta\\} &\\qquad \\text{(3)}\\\\\n\\vdash .(2).(3).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
-       "n": "116·311",
+       "n": "116·331",
        "kind": "prop",
        "formula": "\\(\\vdash :\\mu \\in \\text{NC}-\\iota ʻ\\Lambda .\\supset .1^{\\mu }=1\\)",
        "page": "150",
@@ -30950,7 +31174,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}\\vdash \\colon\\ldotp &M = \\hat{R} \\hat{z} \\{R = (\\downarrow z) \\parallel \\text{Cnv}ʻ(\\downarrow z)_{\\in }\\} . \\supset :\\\\ &(z) . Mʻz \\in 1 \\rightarrow 1 . \\text{D}ʻ(Mʻz) \\upharpoonright {\\in}_{\\Delta}ʻ\\kappa = {\\in}_{\\Delta}ʻ \\downarrow zʻʻʻ\\kappa\\end{align}\\]",
        "page": "166",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *30·3 . &\\supset \\vdash : \\text{Hp} . \\supset . Mʻz = (\\downarrow z) \\parallel \\text{Cnv}ʻ(\\downarrow z)_{\\in } &\\qquad \\text{(1)}\\\\\n\\vdash . *72·184 . *111·14 . &\\supset \\vdash . \\downarrow z \\upharpoonright \\kappa \\in (\\downarrow zʻʻʻ\\kappa ) \\,\\overline{\\text{ sm }}\\, \\,\\overline{\\text{ sm }}\\, \\kappa .\\\\\n[*114·51] &\\supset \\vdash . {\\downarrow z \\parallel \\text{Cnv}ʻ(\\downarrow z)_{\\in }} \\upharpoonright {\\in}_{\\Delta}ʻ\\kappa \\in ({\\in}_{\\Delta}ʻ\n\\downarrow zʻʻʻ\\kappa ) \\,\\overline{\\text{ sm }}\\, ({\\in}_{\\Delta}ʻ\\kappa ) &\\qquad \\text{(2)}\\\\\n\\vdash . (1) . (2) . *73·03 . &\\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]\n\n*116·675 . \\(\\vdash \\colon\\ldotp \\text{Hp} *116·674 . \\exists ! sʻ\\kappa . \\supset : \\exists ! (Mʻw)ʻʻ{\\in}_{\\Delta}ʻ\\kappa \\cap (Mʻ\\nu )ʻʻ{\\in}_{\\Delta}ʻ\\kappa\n. \\supset . w = v\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *116·674 . \\supset \\vdash \\colon\\ldotp \\text{Hp} . &\\supset : \\exists ! (Mʻw)ʻʻ{\\in}_{\\Delta}ʻ\\kappa \\cap (Mʻv)ʻʻ{\\in}_{\\Delta}ʻ\\kappa . \\supset .\\\\\n&\\exists ! {\\in}_{\\Delta}ʻ \\downarrow wʻʻʻ\\kappa \\cap {\\in}_{\\Delta}ʻ \\downarrow vʻʻʻ\\kappa .\\\\\n[*80·32] &\\supset . \\downarrow wʻʻʻ\\kappa = \\downarrow vʻʻʻ\\kappa .\\\\\n[*40·38] &\\supset . \\downarrow wʻʻsʻ\\kappa = \\downarrow vʻʻsʻ\\kappa .\\\\\n[*113·105 . *38·2] &\\supset . w = v \\colon\\ldotp \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *30·3 . &\\supset \\vdash : \\text{Hp} . \\supset . Mʻz = (\\downarrow z) \\parallel \\text{Cnv}ʻ(\\downarrow z)_{\\in } &\\qquad \\text{(1)}\\\\\n\\vdash . *72·184 . *111·14 . &\\supset \\vdash . \\downarrow z \\upharpoonright \\kappa \\in (\\downarrow zʻʻʻ\\kappa ) \\,\\overline{\\text{ sm }}\\, \\,\\overline{\\text{ sm }}\\, \\kappa .\\\\\n[*114·51] &\\supset \\vdash . {\\downarrow z \\parallel \\text{Cnv}ʻ(\\downarrow z)_{\\in }} \\upharpoonright {\\in}_{\\Delta}ʻ\\kappa \\in ({\\in}_{\\Delta}ʻ\n\\downarrow zʻʻʻ\\kappa ) \\,\\overline{\\text{ sm }}\\, ({\\in}_{\\Delta}ʻ\\kappa ) &\\qquad \\text{(2)}\\\\\n\\vdash . (1) . (2) . *73·03 . &\\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "116·675",
+       "kind": "prop",
+       "formula": "\\(\\vdash \\colon\\ldotp \\text{Hp} *116·674 . \\exists ! sʻ\\kappa . \\supset : \\exists ! (Mʻw)ʻʻ{\\in}_{\\Delta}ʻ\\kappa \\cap (Mʻ\\nu )ʻʻ{\\in}_{\\Delta}ʻ\\kappa . \\supset . w = v\\)",
+       "page": "166",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *116·674 . \\supset \\vdash \\colon\\ldotp \\text{Hp} . &\\supset : \\exists ! (Mʻw)ʻʻ{\\in}_{\\Delta}ʻ\\kappa \\cap (Mʻv)ʻʻ{\\in}_{\\Delta}ʻ\\kappa . \\supset .\\\\\n&\\exists ! {\\in}_{\\Delta}ʻ \\downarrow wʻʻʻ\\kappa \\cap {\\in}_{\\Delta}ʻ \\downarrow vʻʻʻ\\kappa .\\\\\n[*80·32] &\\supset . \\downarrow wʻʻʻ\\kappa = \\downarrow vʻʻʻ\\kappa .\\\\\n[*40·38] &\\supset . \\downarrow wʻʻsʻ\\kappa = \\downarrow vʻʻsʻ\\kappa .\\\\\n[*113·105 . *38·2] &\\supset . w = v \\colon\\ldotp \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "116·676",
@@ -30999,7 +31230,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash : \\text{Hp} *116·712 . \\supset . T \\in 1 \\rightarrow 1\\)",
        "page": "168",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *116·712 . *14·21 . \\supset \\vdash \\colon\\ldotp \\text{Hp} . &\\supset : R \\in \\text{ᗡ}ʻT . \\supset . \\text{E}! TʻR :\\\\\n[*71·16] &\\supset : R \\in 1 \\rightarrow \\text{Cls} &\\qquad \\text{(1)}\\\\\n\\vdash . *116·712.711 . &\\supset \\vdash \\colon\\ldotp \\text{Hp} . \\supset : R, S \\in \\text{ᗡ}ʻT . TʻR = TʻS . \\supset . R = S &\\qquad \\text{(2)}\\\\\n\\vdash . (1) . (2) . *71·55 . \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]\n\n*116.714.\n\\[\\begin{align}\\vdash : \\text{Hp} *116·712 . \\mu \\in \\text{Cl}ʻ\\alpha . &R = \\hat{\\gamma} \\hat{x} \\{\\gamma = \\Lambda . x \\in \\mu . \\lor . \\gamma = \\text{V} . x \\in \\alpha - \\mu\\} . \\supset .\\\\\n&R \\in \\{(\\iota ʻ\\Lambda \\cup \\iota ʻ\\text{V}) \\uparrow \\alpha\\}_{\\Delta }ʻ\\alpha . \\mu = TʻR\\end{align}\\]\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *21·33 . *33·13 . &\\supset \\vdash \\colon\\ldotp \\text{Hp} . \\supset : \\gamma \\in \\text{D}ʻR . \\supset . \\gamma \\in \\iota ʻ\\Lambda \\cup \\iota ʻ\\text{V} &\\qquad \\text{(1)}\\\\\n\\vdash . *21·33 . *33·131 . &\\supset \\vdash \\colon\\colon \\text{Hp} . \\supset \\colon\\ldotp x \\in \\text{ᗡ}ʻR . \\equiv :\\\\\n&(\\exists \\gamma ) : \\gamma = \\Lambda . x \\in \\mu . \\lor . \\gamma = \\text{V} . x \\in \\alpha - \\mu :\\\\\n[*10·42 . *13·19] &\\equiv : x \\in \\mu . \\lor . x \\in \\alpha - \\mu : &\\qquad \\text{(2)}\\\\\n[*24·411 . \\text{Hp}] &\\equiv : x \\in \\alpha &\\qquad \\text{(3)}\\\\\n\\vdash .*21·33.*30·3.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :x\\in \\mu .\\supset _{x}.Rʻx=\\Lambda :x\\in \\alpha -\\mu .\\supset _{x}.Rʻx =\\text{V}:\\\\\n[(2).*14·21] &\\supset :x\\in \\text{ᗡ}ʻR.\\supset _{x}.\\text{E}!Rʻx:\\\\\n[*71·16] &\\supset :R\\in 1\\rightarrow \\text{Cls} &\\qquad \\text{(4)}\\\\\n\\vdash .*21·33. &\\supset \\vdash \\colon\\colon \\text{Hp}.\\supset \\colon\\ldotp \\gamma =\\Lambda .\\supset :\\gamma Rx.\\equiv _{x}.x\\in \\mu :\\\\\n[*32·181] &\\supset :\\overleftarrow{R}ʻ\\gamma =\\mu &\\qquad \\text{(5)}\\\\\n\\vdash .(1).(3).(4).*116·12.&\\supset \\vdash :\\text{Hp}.\\supset .R\\in \\{(\\iota ʻ\\Lambda \\cup \\iota ʻ\\text{V})\\uparrow \\alpha\\}_{\\Delta }ʻ\\alpha &\\qquad \\text{(6)}\\\\\n\\vdash .(5).(6).*116·712. & \\supset \\vdash :\\text{Hp}.\\supset .\\mu =TʻR &\\qquad \\text{(7)}\\\\\n\\vdash .(6).(7).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *116·712 . *14·21 . \\supset \\vdash \\colon\\ldotp \\text{Hp} . &\\supset : R \\in \\text{ᗡ}ʻT . \\supset . \\text{E}! TʻR :\\\\\n[*71·16] &\\supset : R \\in 1 \\rightarrow \\text{Cls} &\\qquad \\text{(1)}\\\\\n\\vdash . *116·712.711 . &\\supset \\vdash \\colon\\ldotp \\text{Hp} . \\supset : R, S \\in \\text{ᗡ}ʻT . TʻR = TʻS . \\supset . R = S &\\qquad \\text{(2)}\\\\\n\\vdash . (1) . (2) . *71·55 . \\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "116·714",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}\\vdash : \\text{Hp} *116·712 . \\mu \\in \\text{Cl}ʻ\\alpha . &R = \\hat{\\gamma} \\hat{x} \\{\\gamma = \\Lambda . x \\in \\mu . \\lor . \\gamma = \\text{V} . x \\in \\alpha - \\mu\\} . \\supset .\\\\ &R \\in \\{(\\iota ʻ\\Lambda \\cup \\iota ʻ\\text{V}) \\uparrow \\alpha\\}_{\\Delta }ʻ\\alpha . \\mu = TʻR\\end{align}\\]",
+       "page": "168",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *21·33 . *33·13 . &\\supset \\vdash \\colon\\ldotp \\text{Hp} . \\supset : \\gamma \\in \\text{D}ʻR . \\supset . \\gamma \\in \\iota ʻ\\Lambda \\cup \\iota ʻ\\text{V} &\\qquad \\text{(1)}\\\\\n\\vdash . *21·33 . *33·131 . &\\supset \\vdash \\colon\\colon \\text{Hp} . \\supset \\colon\\ldotp x \\in \\text{ᗡ}ʻR . \\equiv :\\\\\n&(\\exists \\gamma ) : \\gamma = \\Lambda . x \\in \\mu . \\lor . \\gamma = \\text{V} . x \\in \\alpha - \\mu :\\\\\n[*10·42 . *13·19] &\\equiv : x \\in \\mu . \\lor . x \\in \\alpha - \\mu : &\\qquad \\text{(2)}\\\\\n[*24·411 . \\text{Hp}] &\\equiv : x \\in \\alpha &\\qquad \\text{(3)}\\\\\n\\vdash .*21·33.*30·3.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :x\\in \\mu .\\supset _{x}.Rʻx=\\Lambda :x\\in \\alpha -\\mu .\\supset _{x}.Rʻx =\\text{V}:\\\\\n[(2).*14·21] &\\supset :x\\in \\text{ᗡ}ʻR.\\supset _{x}.\\text{E}!Rʻx:\\\\\n[*71·16] &\\supset :R\\in 1\\rightarrow \\text{Cls} &\\qquad \\text{(4)}\\\\\n\\vdash .*21·33. &\\supset \\vdash \\colon\\colon \\text{Hp}.\\supset \\colon\\ldotp \\gamma =\\Lambda .\\supset :\\gamma Rx.\\equiv _{x}.x\\in \\mu :\\\\\n[*32·181] &\\supset :\\overleftarrow{R}ʻ\\gamma =\\mu &\\qquad \\text{(5)}\\\\\n\\vdash .(1).(3).(4).*116·12.&\\supset \\vdash :\\text{Hp}.\\supset .R\\in \\{(\\iota ʻ\\Lambda \\cup \\iota ʻ\\text{V})\\uparrow \\alpha\\}_{\\Delta }ʻ\\alpha &\\qquad \\text{(6)}\\\\\n\\vdash .(5).(6).*116·712. & \\supset \\vdash :\\text{Hp}.\\supset .\\mu =TʻR &\\qquad \\text{(7)}\\\\\n\\vdash .(6).(7).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "116·715",
@@ -31236,6 +31474,13 @@
        "after": ""
       },
       {
+       "n": "117·2",
+       "kind": "prop",
+       "formula": "\\(\\vdash :\\alpha \\text{ sm } \\alpha ʻ.\\beta \\text{ sm } \\beta ʻ. \\beta ʻ\\subset \\alpha .\\alpha ʻ\\subset \\beta .\\supset .\\alpha \\text{ sm } \\beta \\quad[*73·88]\\)",
+       "page": "175",
+       "after": "This proposition (which is the Schröder-Bernstein theorem) is\nfundamental in the theory of greater and less."
+      },
+      {
        "n": "117·21",
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash :\\exists !\\text{Cl}ʻ\\alpha \\cap \\text{Nc}ʻ\\beta .\\exists !\\text{Cl}ʻ\\beta \\cap \\text{Nc}ʻ\\alpha .\\supset .\\text{Nc}ʻ\\alpha =\\text{Nc}ʻ\\beta \\\\ &[*117·2.*100·321]\\end{align}\\]",
@@ -31341,7 +31586,7 @@
        "after": ""
       },
       {
-       "n": "117·2",
+       "n": "117·281",
        "kind": "prop",
        "formula": "\\(\\vdash :\\mu >\\nu .\\equiv .\\mu \\geq \\nu .{\\sim}(\\nu \\geq \\mu ) \\quad[*117·14·28·24]\\)",
        "page": "177",
@@ -33401,7 +33646,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash : f (\\nu _{P}) . \\equiv . f(\\breve{P} _{\\nu -_{c} 1} ʻBʻP) \\quad[(*121·04)]\\)",
        "page": "236",
-       "after": "*121*131. \\(\\vdash : \\text{E}! \\breve{P} _{\\nu -_{c} 1} ʻBʻP . \\supset . \\nu _{P} = \\breve{P} _{\\nu -_{c} 1}ʻBʻP \\quad[*121·13.*14·28]\\)"
+       "after": ""
+      },
+      {
+       "n": "121·131",
+       "kind": "prop",
+       "formula": "\\(\\vdash : \\text{E}! \\breve{P} _{\\nu -_{c} 1} ʻBʻP . \\supset . \\nu _{P} = \\breve{P} _{\\nu -_{c} 1}ʻBʻP \\quad[*121·13.*14·28]\\)",
+       "page": "236",
+       "after": ""
       },
       {
        "n": "121·14",
@@ -33450,7 +33702,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash :P_{\\text{po}}\\,\\unicode{x2abd}\\, J.\\supset .x,y{\\sim}\\in P(x\\unicode{x2013}y) \\quad[*121·2·201]\\)",
        "page": "237",
-       "after": "*121*21. \\(\\vdash :xP_{\\text{po}}y.\\equiv .y\\in P(x\\dashv y).\\equiv .\\exists !P(x\\dashv y)\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*90·12.*91·54.\\supset \\vdash :xP_{\\text{po}}y.&\\equiv .xP_{\\text{po}}y.yP_{*}y.\\\\\n[*121·101] &\\equiv .y\\in P(x\\dashv y) &\\qquad \\text{(1)}\\\\\n\\vdash .*121·101.\\supset \\vdash :\\exists !P(x\\dashv y).&\\equiv .xP_{\\text{po}}\\mid P_{*}y.\\\\\n[*91·574] &\\equiv .xP_{\\text{po}}y &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": ""
+      },
+      {
+       "n": "121·21",
+       "kind": "prop",
+       "formula": "\\(\\vdash :xP_{\\text{po}}y.\\equiv .y\\in P(x\\dashv y).\\equiv .\\exists !P(x\\dashv y)\\)",
+       "page": "237",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*90·12.*91·54.\\supset \\vdash :xP_{\\text{po}}y.&\\equiv .xP_{\\text{po}}y.yP_{*}y.\\\\\n[*121·101] &\\equiv .y\\in P(x\\dashv y) &\\qquad \\text{(1)}\\\\\n\\vdash .*121·101.\\supset \\vdash :\\exists !P(x\\dashv y).&\\equiv .xP_{\\text{po}}\\mid P_{*}y.\\\\\n[*91·574] &\\equiv .xP_{\\text{po}}y &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "121·22",
@@ -33492,7 +33751,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}\\vdash :xP_{*}y.\\supset .P(x\\vdash\\dashv y)&=P(x\\dashv y)\\cup \\iota ʻx=P(x \\unicode{x27dd} y)\\cup \\iota ʻy\\\\ &=P(x-y)\\cup \\iota ʻx\\cup \\iota ʻy\\end{align}\\]",
        "page": "237",
-       "after": "*121*25. \\(\\vdash .P_{\\text{po}}(x\\unicode{x2013}y)=P(x\\unicode{x2013}y) \\quad[*91·601.*121·1]\\)"
+       "after": ""
+      },
+      {
+       "n": "121·25",
+       "kind": "prop",
+       "formula": "\\(\\vdash .P_{\\text{po}}(x\\unicode{x2013}y)=P(x\\unicode{x2013}y) \\quad[*91·601.*121·1]\\)",
+       "page": "237",
+       "after": ""
       },
       {
        "n": "121·251",
@@ -34080,7 +34346,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash \\colon\\ldotp \\text{E}!(\\nu +_{c}1)_{P}.\\supset :(BʻP)P_{\\nu }x.\\equiv .x=(\\nu +_{c}1)_{P}:(\\nu +_{c}1)-_{c}1=\\nu \\)",
        "page": "251",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*121·13.\\supset \\vdash :\\text{E}!(\\nu +_{c}1)_{P}.&\\equiv .\\text{E}!\\breve{P}_\\{(\\nu +_{c}1)\\}-_{c}1ʻBʻP. &\\qquad \\text{(1)}\\\\\n[*121·272] &\\supset .(\\nu +_{c}1)-_{c}1\\geq 0.\\\\\n[*14·21] &\\supset .\\text{E}!(\\nu +_{c}1)-_{c} 1.\\\\\n[*14·22.(*120·411)] &\\supset .(\\nu +_{c}1)-_{c}1=\\nu &\\qquad \\text{(2)}\\\\\n\\vdash .(2).\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :(BʻP)P_{\\nu }x.&\\equiv .(BʻP)P_{(\\nu +_{c}1)-_{c}1}x.\\\\\n[(1).*30·4] &\\equiv .x=\\breve{P} _{(\\nu +_{c}1)-_{c}1}ʻBʻP.\\\\\n[*121·13] &\\equiv .x=(\\nu +_{c}1)_{P} &\\qquad \\text{(3)}\\\\\n\\vdash .(3).(2).\\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]\n\n*121*64. \\(\\vdash :P\\in \\text{Cls}\\rightarrow 1.P_{\\text{po}}\\,\\unicode{x2abd}\\, J.\\nu \\in \\text{NC induct}-\\iota ʻ0.\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq\n\\nu .\\supset .\\text{E}!\\nu _{P}\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*121·636.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\text{E}!\\nu _{P}.\\supset :{\\sim}\\text{E}!(\\nu +_{c} 1)_{P}.\\supset\n.\\text{N}_{0}\\text{c}ʻ\\overleftarrow{P}_{*}ʻBʻP=\\nu &\\qquad \\text{(1)}\\\\\n\\vdash .*120·428.\\supset \\vdash :\\nu \\in \\text{NC induct}.\\exists !\\nu +_{c}1.&\\supset .\\nu +_{c}1>\\nu .\\\\\n[*117·281] &\\supset .{\\sim}(\\nu \\geq \\nu +_{c}1) &\\qquad \\text{(2)}\\\\\n\\vdash .*117·15. &\\supset \\vdash ·{\\sim} \\exists !\\nu +_{c}1.\\supset .{\\sim}(\\nu \\geq \\nu +_{c}1) &\\qquad \\text{(3)}\\\\\n\\vdash .(2).(3). &\\supset \\vdash :\\nu \\in \\text{NC induct}.\\supset .{\\sim}(\\nu \\geq \\nu +_{c}1)&\\qquad \\text{(4)}\\\\\n\\vdash .(1).(4). &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\text{E}!\\nu _{P}.\\supset :\\\\\n&{\\sim}\\text{E}!(\\nu +_{c}1)_{P}.\\supset .{\\sim}(\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu +_{c}1):\\\\\n[\\text{Transp}] &\\supset :\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu +_{c}1.\\supset .\\text{E}!(\\nu +_{c}1)_{P} &\\qquad \\text{(5)}\\\\\n\\vdash .(5).\\text{Syll}.*117·6.\\supset \\vdash \\colon\\ldotp \\text{Hp}:&\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu .\\supset .\\text{E}!\\nu _{p}:\\supset :\\\\\n&\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu +_{c}1.\\supset .\\text{E}!(\\nu +_{c}1)_{P} &\\qquad \\text{(6)}\\\\\n\\vdash .*14·21.*121·601.&\\supset \\vdash :\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq 1.\\supset .\\text{E}!1_{P} &\\qquad \\text{(7)}\\\\\n\\vdash .(6).(7).*120·473.\\supset \\\\\n\\vdash \\colon\\ldotp \\text{Hp}.\\supset :\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu .\\supset .\\text{E}!\\nu _{P}\\colon\\ldotp \\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*121·13.\\supset \\vdash :\\text{E}!(\\nu +_{c}1)_{P}.&\\equiv .\\text{E}!\\breve{P}_\\{(\\nu +_{c}1)\\}-_{c}1ʻBʻP. &\\qquad \\text{(1)}\\\\\n[*121·272] &\\supset .(\\nu +_{c}1)-_{c}1\\geq 0.\\\\\n[*14·21] &\\supset .\\text{E}!(\\nu +_{c}1)-_{c} 1.\\\\\n[*14·22.(*120·411)] &\\supset .(\\nu +_{c}1)-_{c}1=\\nu &\\qquad \\text{(2)}\\\\\n\\vdash .(2).\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :(BʻP)P_{\\nu }x.&\\equiv .(BʻP)P_{(\\nu +_{c}1)-_{c}1}x.\\\\\n[(1).*30·4] &\\equiv .x=\\breve{P} _{(\\nu +_{c}1)-_{c}1}ʻBʻP.\\\\\n[*121·13] &\\equiv .x=(\\nu +_{c}1)_{P} &\\qquad \\text{(3)}\\\\\n\\vdash .(3).(2).\\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "121·64",
+       "kind": "prop",
+       "formula": "\\(\\vdash :P\\in \\text{Cls}\\rightarrow 1.P_{\\text{po}}\\,\\unicode{x2abd}\\, J.\\nu \\in \\text{NC induct}-\\iota ʻ0.\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu .\\supset .\\text{E}!\\nu _{P}\\)",
+       "page": "251",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*121·636.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\text{E}!\\nu _{P}.\\supset :{\\sim}\\text{E}!(\\nu +_{c} 1)_{P}.\\supset\n.\\text{N}_{0}\\text{c}ʻ\\overleftarrow{P}_{*}ʻBʻP=\\nu &\\qquad \\text{(1)}\\\\\n\\vdash .*120·428.\\supset \\vdash :\\nu \\in \\text{NC induct}.\\exists !\\nu +_{c}1.&\\supset .\\nu +_{c}1>\\nu .\\\\\n[*117·281] &\\supset .{\\sim}(\\nu \\geq \\nu +_{c}1) &\\qquad \\text{(2)}\\\\\n\\vdash .*117·15. &\\supset \\vdash ·{\\sim} \\exists !\\nu +_{c}1.\\supset .{\\sim}(\\nu \\geq \\nu +_{c}1) &\\qquad \\text{(3)}\\\\\n\\vdash .(2).(3). &\\supset \\vdash :\\nu \\in \\text{NC induct}.\\supset .{\\sim}(\\nu \\geq \\nu +_{c}1)&\\qquad \\text{(4)}\\\\\n\\vdash .(1).(4). &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\text{E}!\\nu _{P}.\\supset :\\\\\n&{\\sim}\\text{E}!(\\nu +_{c}1)_{P}.\\supset .{\\sim}(\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu +_{c}1):\\\\\n[\\text{Transp}] &\\supset :\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu +_{c}1.\\supset .\\text{E}!(\\nu +_{c}1)_{P} &\\qquad \\text{(5)}\\\\\n\\vdash .(5).\\text{Syll}.*117·6.\\supset \\vdash \\colon\\ldotp \\text{Hp}:&\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu .\\supset .\\text{E}!\\nu _{p}:\\supset :\\\\\n&\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu +_{c}1.\\supset .\\text{E}!(\\nu +_{c}1)_{P} &\\qquad \\text{(6)}\\\\\n\\vdash .*14·21.*121·601.&\\supset \\vdash :\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq 1.\\supset .\\text{E}!1_{P} &\\qquad \\text{(7)}\\\\\n\\vdash .(6).(7).*120·473.\\supset \\\\\n\\vdash \\colon\\ldotp \\text{Hp}.\\supset :\\text{Nc}ʻ\\overleftarrow{P}_{*}ʻBʻP\\geq \\nu .\\supset .\\text{E}!\\nu _{P}\\colon\\ldotp \\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "121·641",
@@ -34370,7 +34643,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash :R\\in \\text{Prog}.\\nu \\in \\text{NC induct}-\\iota ʻ0.\\supset .\\overrightarrow{R}_{*}ʻ\\nu _{R}=R(1_{R}\\vdash\\dashv \\nu _{R}).\\overrightarrow{R}_{*}ʻ\\nu _{R}\\in \\nu \\\\ &[*121·7.*122·35]\\end{align}\\]",
        "page": "262",
-       "after": "The following series of propositions are concerned in proving that\nany class contained in a progression is inductive if it has a last\nterm, and is a progression if it has no last term. In the latter case,\nit is supposed arranged in the same order as it had in the original\nprogression. A certain complication is necessary in order to define\nits one-one generating relation. If \\(R\\) is the generating relation\nof the original progression, we proceed first to \\(R_{\\text{po}}\\),\nthen to \\(R_{\\text{po}}\\unicode{x0294f}\\alpha\\), where \\(\\alpha\\) is\nthe class in question; this gives us a transitive generating relation\nfor \\(\\alpha\\). Calling this relation \\(P\\), we then proceed to\n\\(P\\dot{-} P^{2}\\), *i.e.* the relation of consecutive members of\nthe series generated by \\(P\\). This relation turns out to be one-one,\nand to arrange \\(\\alpha\\) in a progression; hence our proposition is\nproved. The reason for the necessity of this detour is that consecutive\nmembers of \\(\\alpha\\) may not be consecutive members of the original\nprogression.\n\n*122*41. \\(\\vdash :R\\in \\text{Prog}.\\alpha \\subset \\text{D}ʻR.y\\in \\alpha -R_{\\text{po}}ʻʻ\\alpha .\\supset .\\alpha \\subset R(BʻR\\vdash\\dashv y)\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*37·1.*10·51.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :z\\in \\alpha .\\supset _{z}.{\\sim}(yR_{\\text{po}}z).\\\\\n[*122·21] &\\supset _{z}.zR_{*}y &\\qquad \\text{(1)}\\\\\n\\vdash .*122·1. &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :z\\in \\alpha .\\supset _{z}.(BʻR)R_{*}z &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).*121·103.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": "The following series of propositions are concerned in proving that\nany class contained in a progression is inductive if it has a last\nterm, and is a progression if it has no last term. In the latter case,\nit is supposed arranged in the same order as it had in the original\nprogression. A certain complication is necessary in order to define\nits one-one generating relation. If \\(R\\) is the generating relation\nof the original progression, we proceed first to \\(R_{\\text{po}}\\),\nthen to \\(R_{\\text{po}}\\unicode{x0294f}\\alpha\\), where \\(\\alpha\\) is\nthe class in question; this gives us a transitive generating relation\nfor \\(\\alpha\\). Calling this relation \\(P\\), we then proceed to\n\\(P\\dot{-} P^{2}\\), *i.e.* the relation of consecutive members of\nthe series generated by \\(P\\). This relation turns out to be one-one,\nand to arrange \\(\\alpha\\) in a progression; hence our proposition is\nproved. The reason for the necessity of this detour is that consecutive\nmembers of \\(\\alpha\\) may not be consecutive members of the original\nprogression."
+      },
+      {
+       "n": "122·41",
+       "kind": "prop",
+       "formula": "\\(\\vdash :R\\in \\text{Prog}.\\alpha \\subset \\text{D}ʻR.y\\in \\alpha -R_{\\text{po}}ʻʻ\\alpha .\\supset .\\alpha \\subset R(BʻR\\vdash\\dashv y)\\)",
+       "page": "263",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*37·1.*10·51.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :z\\in \\alpha .\\supset _{z}.{\\sim}(yR_{\\text{po}}z).\\\\\n[*122·21] &\\supset _{z}.zR_{*}y &\\qquad \\text{(1)}\\\\\n\\vdash .*122·1. &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :z\\in \\alpha .\\supset _{z}.(BʻR)R_{*}z &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).*121·103.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "122·42",
@@ -34398,7 +34678,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash :\\text{Hp}*122·44.\\supset .\\text{D}ʻQ=\\alpha\\)",
        "page": "263",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*37·41.\\supset \\vdash :\\text{Hp}.&\\supset .\\text{D}ʻQ\\subset \\alpha &\\qquad \\text{(1)}\\\\\n\\vdash .*37·1. &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :x\\in \\alpha .\\supset .(\\exists y).y\\in \\alpha .xR_{\\text{po}}y.\\\\\n[*36·13] &\\supset .\\exists !\\overleftarrow{P}ʻx.\\\\\n[*122·23.*93·11] &\\supset .\\exists !\\overleftarrow{P}ʻx-\\breve{R} _{\\text{po}}ʻʻ\\overleftarrow{P}ʻx.\\\\\n[*35.442] &\\supset .\\exists !\\overleftarrow{P}ʻx-\\breve{P} ʻʻ\\overleftarrow{P}ʻx.\\\\\n[*37·311.*32·31·35] &\\supset .\\exists !\\overleftarrow{Q}ʻx &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).*33·4.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]\n\n*122*442. \\(\\vdash :\\text{Hp}*122·44.\\supset .P=Q_{\\text{po}}\\)\n\nIn proving \\(P\\,\\unicode{x2abd}\\, Q_{\\text{po}}\\) below, we assume \\(xPz\\)\nand consider the maximum of \\(\\overrightarrow{R}_{\\text{po}}ʻz\\cap\\overleftarrow{Q}_{*}ʻx\\),\nwhich is shown to exist and be \\(Qʻz\\), whence \\(xQ_{\\text{po}}z\\).\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *23·43.&\\supset \\vdash :\\text{Hp}.\\supset .Q\\,\\unicode{x2abd}\\, P &\\qquad \\text{(1)}\\\\\n\\vdash . *91·56.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :P^{2}\\,\\unicode{x2abd}\\, P:\\\\\n[(1)] &\\supset :S\\,\\unicode{x2abd}\\, P.\\supset .S\\mid Q\\,\\unicode{x2abd}\\, P &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).*91·171.*41·151.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset .Q_{\\text{po}}\\,\\unicode{x2abd}\\, P &\\qquad \\text{(3)}\\\\\n\\vdash .*36·13.*121·1.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :xP^{2}z.\\equiv .x,z\\in \\alpha .\\exists !\\alpha \\cap R(x-z):\\\\\n[\\text{Transp}.\\text{Fact}] &\\supset :xQz.\\equiv .x,z\\in \\alpha .xR_{\\text{po}}z.\\alpha \\cap R(x-z)=\\Lambda &\\qquad \\text{(4)}\\\\\n\\vdash .*122·441.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.xPz.\\supset :x\\in (\\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx):\\\\\n[*122·27] &\\supset :\\exists !\\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx-R_{\\text{po}}ʻʻ(\\overrightarrow{R}_{\\text{po}}ʻz\\cap\n\\overleftarrow{Q}_{*}ʻx):\\\\\n[*37·461] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz\\cap\n\\overleftarrow{Q}_{*}ʻx=\\Lambda :\\\\\n[*90·151] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz\\cap\n\\overleftarrow{Q}ʻy=\\Lambda :\\\\\n[(4)] &\\supset :(\\exists y):y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx:\\\\\n&{\\sim}(\\exists w).w\\in \\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz.\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻw=\\Lambda :\\\\\n[*22·43.*91·56] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx:\\\\\n&{\\sim}(\\exists w).w\\in \\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz.\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overrightarrow{R}_{\\text{po}}ʻw=\\Lambda :\\\\\n[*37·461] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\\\\n&{\\sim}\\exists !\\alpha \\cap :\\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz-\\breve{R} _{\\text{po}}ʻʻ(\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻz):\\\\\n[*122*28.\\text{Transp}] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻz=\\Lambda :\\\\\n[(4)] &\\supset :(\\exists y).y\\in \\overleftarrow{Q}_{*}ʻx.yQz:\\\\\n[*91·52] &\\supset :xQ_{\\text{po}}z &\\qquad \\text{(5)}\\\\\n\\vdash .(3).(5).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*37·41.\\supset \\vdash :\\text{Hp}.&\\supset .\\text{D}ʻQ\\subset \\alpha &\\qquad \\text{(1)}\\\\\n\\vdash .*37·1. &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :x\\in \\alpha .\\supset .(\\exists y).y\\in \\alpha .xR_{\\text{po}}y.\\\\\n[*36·13] &\\supset .\\exists !\\overleftarrow{P}ʻx.\\\\\n[*122·23.*93·11] &\\supset .\\exists !\\overleftarrow{P}ʻx-\\breve{R} _{\\text{po}}ʻʻ\\overleftarrow{P}ʻx.\\\\\n[*35.442] &\\supset .\\exists !\\overleftarrow{P}ʻx-\\breve{P} ʻʻ\\overleftarrow{P}ʻx.\\\\\n[*37·311.*32·31·35] &\\supset .\\exists !\\overleftarrow{Q}ʻx &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).*33·4.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+      },
+      {
+       "n": "122·442",
+       "kind": "prop",
+       "formula": "\\(\\vdash :\\text{Hp}*122·44.\\supset .P=Q_{\\text{po}}\\)",
+       "page": "264",
+       "after": "In proving \\(P\\,\\unicode{x2abd}\\, Q_{\\text{po}}\\) below, we assume \\(xPz\\)\nand consider the maximum of \\(\\overrightarrow{R}_{\\text{po}}ʻz\\cap\\overleftarrow{Q}_{*}ʻx\\),\nwhich is shown to exist and be \\(Qʻz\\), whence \\(xQ_{\\text{po}}z\\).\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *23·43.&\\supset \\vdash :\\text{Hp}.\\supset .Q\\,\\unicode{x2abd}\\, P &\\qquad \\text{(1)}\\\\\n\\vdash . *91·56.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :P^{2}\\,\\unicode{x2abd}\\, P:\\\\\n[(1)] &\\supset :S\\,\\unicode{x2abd}\\, P.\\supset .S\\mid Q\\,\\unicode{x2abd}\\, P &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).*91·171.*41·151.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset .Q_{\\text{po}}\\,\\unicode{x2abd}\\, P &\\qquad \\text{(3)}\\\\\n\\vdash .*36·13.*121·1.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :xP^{2}z.\\equiv .x,z\\in \\alpha .\\exists !\\alpha \\cap R(x-z):\\\\\n[\\text{Transp}.\\text{Fact}] &\\supset :xQz.\\equiv .x,z\\in \\alpha .xR_{\\text{po}}z.\\alpha \\cap R(x-z)=\\Lambda &\\qquad \\text{(4)}\\\\\n\\vdash .*122·441.&\\supset \\vdash \\colon\\ldotp \\text{Hp}.xPz.\\supset :x\\in (\\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx):\\\\\n[*122·27] &\\supset :\\exists !\\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx-R_{\\text{po}}ʻʻ(\\overrightarrow{R}_{\\text{po}}ʻz\\cap\n\\overleftarrow{Q}_{*}ʻx):\\\\\n[*37·461] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz\\cap\n\\overleftarrow{Q}_{*}ʻx=\\Lambda :\\\\\n[*90·151] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz\\cap\n\\overleftarrow{Q}ʻy=\\Lambda :\\\\\n[(4)] &\\supset :(\\exists y):y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx:\\\\\n&{\\sim}(\\exists w).w\\in \\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz.\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻw=\\Lambda :\\\\\n[*22·43.*91·56] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx:\\\\\n&{\\sim}(\\exists w).w\\in \\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz.\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overrightarrow{R}_{\\text{po}}ʻw=\\Lambda :\\\\\n[*37·461] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\\\\n&{\\sim}\\exists !\\alpha \\cap :\\overleftarrow{R}_{\\text{po}}ʻy\\cap \\overrightarrow{R}_{\\text{po}}ʻz-\\breve{R} _{\\text{po}}ʻʻ(\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻz):\\\\\n[*122*28.\\text{Transp}] &\\supset :(\\exists y).y\\in \\overrightarrow{R}_{\\text{po}}ʻz\\cap \\overleftarrow{Q}_{*}ʻx.\\alpha \\cap \\overleftarrow{R}_{\\text{po}}ʻy\\cap\n\\overrightarrow{R}_{\\text{po}}ʻz=\\Lambda :\\\\\n[(4)] &\\supset :(\\exists y).y\\in \\overleftarrow{Q}_{*}ʻx.yQz:\\\\\n[*91·52] &\\supset :xQ_{\\text{po}}z &\\qquad \\text{(5)}\\\\\n\\vdash .(3).(5).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "122·443",
@@ -35244,7 +35531,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash :R\\in \\text{Prog}.\\supset .sʻ\\text{D}ʻR{\\sim}\\in \\text{Cls induct} \\quad[*120·75.*122·37]\\)",
        "page": "286",
-       "after": "*124*531. \\(\\vdash :R\\in \\text{Prog}.\\text{D}ʻR\\subset \\text{Cls induct}.\\supset .sʻ\\overrightarrow{R}_{*}ʻ\\gamma \\in \\text{Cls induct}\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*122·38.\\supset \\vdash :\\text{Hp}.\\supset .\\overrightarrow{R}_{*}ʻ\\gamma \\in \\text{Cls induct} &\\qquad \\text{(1)}\\\\\n\\vdash .(1).*120·75.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": ""
+      },
+      {
+       "n": "124·531",
+       "kind": "prop",
+       "formula": "\\(\\vdash :R\\in \\text{Prog}.\\text{D}ʻR\\subset \\text{Cls induct}.\\supset .sʻ\\overrightarrow{R}_{*}ʻ\\gamma \\in \\text{Cls induct}\\)",
+       "page": "286",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*122·38.\\supset \\vdash :\\text{Hp}.\\supset .\\overrightarrow{R}_{*}ʻ\\gamma \\in \\text{Cls induct} &\\qquad \\text{(1)}\\\\\n\\vdash .(1).*120·75.\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "124·532",
@@ -37987,7 +38281,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash :P\\,\\unicode{x2abd}\\, Q.\\supset .P\\unicode{x2909}R\\,\\unicode{x2abd}\\, Q\\unicode{x2909}R \\quad[*33·265.*160·1]\\)",
        "page": "353",
-       "after": "*160*34. \\(\\vdash :R\\,\\unicode{x2abd}\\, S.\\supset .Q\\unicode{x2909}R\\,\\unicode{x2abd}\\, Q\\unicode{x2909}S \\quad [*33·265.*160·1]\\)"
+       "after": ""
+      },
+      {
+       "n": "160·34",
+       "kind": "prop",
+       "formula": "\\(\\vdash :R\\,\\unicode{x2abd}\\, S.\\supset .Q\\unicode{x2909}R\\,\\unicode{x2abd}\\, Q\\unicode{x2909}S \\quad [*33·265.*160·1]\\)",
+       "page": "353",
+       "after": ""
       },
       {
        "n": "160·35",
@@ -38651,7 +38952,14 @@
        "kind": "prop",
        "formula": "\\(\\vdash : \\dot{\\exists} !P .\\supset . \\Sigma ʻ(R\\unicode{x21f7}P) = R\\unicode{x2909}\\Sigma ʻP \\quad[\\text{Proof as in *162·43}]\\)",
        "page": "367",
-       "after": "Observe that in *162·43·431, \\(P\\) and \\(R\\) must be of different\ntypes, in fact \\(R\\) must be of the type to which members of \\(CʻP\\)\nbelong. *162·43·431 are often useful.\n\n*162.44. \\(\\vdash . \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) = \\Sigma ʻ(\\dot{\\Lambda} \\unicode{x21f7}P) = \\Sigma ʻP\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *162·43 . \\supset \\vdash : \\dot{\\exists} !P .\\supset . \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) &= \\Sigma ʻP\\unicode{x2909}\\dot{\\Lambda}\n[*160·21] = \\Sigma ʻP &\\qquad \\text{(1)}\\\\\n\\vdash . *33·241.*35·88 .\\supset \\vdash : P = \\dot{\\Lambda} .&\\supset . CʻP\\uparrow \\iota ʻ\\dot{\\Lambda} = \\dot{\\Lambda} .\\\\\n[*162·4] &\\supset . \\Sigma ʻ(CʻP\\uparrow \\iota ʻ\\Lambda ) = \\dot{\\Lambda}\\\\ .\n[*25·24] \\supset . \\Sigma ʻP &= \\Sigma ʻP\\unicode{x228d} \\Sigma ʻ(CʻP\\uparrow \\iota ʻ\\dot{\\Lambda} )\\\\\n[*162·26] &= \\Sigma ʻ(P\\unicode{x228d} CʻP\\uparrow \\iota ʻ\\dot{\\Lambda} )\\\\\n[*161·1] & = \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) &\\qquad \\text{(2)}\\\\\n\\vdash . (1).(2). .&\\supset \\vdash . \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) = \\Sigma ʻP &\\qquad \\text{(3)}\\\\\n\\text{Similarly}\\quad &\\vdash . \\Sigma ʻ(\\dot{\\Lambda} \\unicode{x21f7}P)=\\Sigma ʻP &\\qquad \\text{(4)}\\\\\n\\vdash . (3).(4) .\\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
+       "after": "Observe that in *162·43·431, \\(P\\) and \\(R\\) must be of different\ntypes, in fact \\(R\\) must be of the type to which members of \\(CʻP\\)\nbelong. *162·43·431 are often useful."
+      },
+      {
+       "n": "162·44",
+       "kind": "prop",
+       "formula": "\\(\\vdash . \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) = \\Sigma ʻ(\\dot{\\Lambda} \\unicode{x21f7}P) = \\Sigma ʻP\\)",
+       "page": "367",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *162·43 . \\supset \\vdash : \\dot{\\exists} !P .\\supset . \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) &= \\Sigma ʻP\\unicode{x2909}\\dot{\\Lambda}\n[*160·21] = \\Sigma ʻP &\\qquad \\text{(1)}\\\\\n\\vdash . *33·241.*35·88 .\\supset \\vdash : P = \\dot{\\Lambda} .&\\supset . CʻP\\uparrow \\iota ʻ\\dot{\\Lambda} = \\dot{\\Lambda} .\\\\\n[*162·4] &\\supset . \\Sigma ʻ(CʻP\\uparrow \\iota ʻ\\Lambda ) = \\dot{\\Lambda}\\\\ .\n[*25·24] \\supset . \\Sigma ʻP &= \\Sigma ʻP\\unicode{x228d} \\Sigma ʻ(CʻP\\uparrow \\iota ʻ\\dot{\\Lambda} )\\\\\n[*162·26] &= \\Sigma ʻ(P\\unicode{x228d} CʻP\\uparrow \\iota ʻ\\dot{\\Lambda} )\\\\\n[*161·1] & = \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) &\\qquad \\text{(2)}\\\\\n\\vdash . (1).(2). .&\\supset \\vdash . \\Sigma ʻ(P\\unicode{x21f8} \\dot{\\Lambda} ) = \\Sigma ʻP &\\qquad \\text{(3)}\\\\\n\\text{Similarly}\\quad &\\vdash . \\Sigma ʻ(\\dot{\\Lambda} \\unicode{x21f7}P)=\\Sigma ʻP &\\qquad \\text{(4)}\\\\\n\\vdash . (3).(4) .\\supset \\vdash . \\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "162·45",
@@ -40066,7 +40374,21 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash :\\alpha P_{\\text{cl}}\\beta .\\equiv .\\alpha ,\\beta \\in \\text{Cl}ʻCʻP.\\exists !\\alpha -(\\alpha \\cap \\beta )-\\breve{P} ʻʻ\\{\\beta -(\\alpha \\cap \\beta )\\}\\\\ &[*170·1.*22·93]\\end{align}\\]",
        "page": "413",
-       "after": "*170*121. \\[\\begin{align}&\\vdash \\colon\\ldotp \\alpha P_{\\text{cl}}\\beta\n.\\equiv .\\alpha ,\\beta \\in \\text{Cl}ʻCʻP.\\exists !(\\alpha \\cup \\beta )-\\beta -\\breve{P} ʻʻ\\{(\\alpha \\cup \\beta )-\\alpha\\}\\\\\n&[*170·1.*22·9]\\end{align}\\]\n\n*170*13. \\[\\begin{align}&\\vdash \\colon\\ldotp \\alpha P_{\\text{cl}}\\beta .\\equiv :(\\exists \\rho ,\\sigma ,\\gamma ).\\rho ,\\sigma ,\\gamma \\in \\text{Cl}ʻCʻP.\\\\\n&\\rho \\cap \\gamma =\\Lambda .\\sigma \\cap \\gamma =\\Lambda .\\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\exists !\\rho -\\breve{P} ʻʻ\\sigma\\end{align}\\]\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*24·24.*22·69 &\\supset \\vdash :\\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\supset .\\alpha \\cap \\beta =\\gamma &\\qquad \\text{(1)}\\\\\n\\vdash .*24·4. &\\supset \\vdash \\colon\\ldotp \\alpha =\\gamma \\cup \\rho .\\supset :\\rho \\cap \\gamma =\\Lambda .\\equiv .\\alpha -\\gamma =\\rho &\\qquad \\text{(2)}\\\\\n\\vdash .*24·4. &\\supset \\vdash \\colon\\ldotp \\beta =\\gamma \\cup \\sigma .\\supset :\\sigma \\cap \\gamma =\\Lambda .\\equiv .\\beta -\\gamma =\\sigma &\\qquad \\text{(3)}\\\\\n\\vdash .(1).(2).(3). &\\supset \\vdash \\colon\\ldotp \\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\supset :\\\\\n\\rho \\cap \\gamma =\\Lambda .\\sigma \\cap \\gamma =\\Lambda .&\\equiv .\\alpha -(\\alpha \\cap \\beta )=\\rho .\\beta -(\\alpha \\cap \\beta )=\\sigma .\\\\\n[*22·93] &\\equiv .\\alpha -\\beta =\\rho .\\beta -\\alpha =\\sigma &\\qquad \\text{(4)}\\\\\n\\vdash .(1).(4).\\supset \\vdash :&(\\exists \\rho ,\\sigma ,\\gamma ).\\rho ,\\sigma ,\\gamma \\in \\text{Cl}ʻCʻP.\\rho \\cap \\gamma =\\Lambda .\\sigma \\cap \\gamma =\\Lambda .\\rho \\cap \\sigma =\\Lambda .\\\\\n&\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\exists !\\rho -\\breve{P} ʻʻ\\sigma .\\equiv .\\\\\n&(\\exists \\rho ,\\sigma ,\\gamma ).\\rho ,\\sigma ,\\gamma \\in \\text{Cl}ʻCʻP.\\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\\\\n&\\alpha \\cap \\beta =\\gamma .\\alpha -\\beta =\\rho .\\beta -\\alpha =\\sigma .\\exists !\\rho -\\breve{P} ʻʻ\\sigma .\\\\\n[*13·22] &\\equiv .\\alpha -\\beta ,\\beta -\\alpha ,\\alpha \\cap \\beta \\,\\unicode{x2abd}\\, \\text{Cl}ʻCʻP.\\exists !\\alpha -\\beta -\\breve{P} ʻʻ(\\beta -\\alpha ).\\\\\n[*60·43.*24·41] &\\equiv .\\alpha ,\\beta \\in \\text{Cl}ʻCʻP.\\exists !\\alpha -\\beta -\\breve{P} ʻʻ(\\beta -\\alpha ).\\\\\n[*170·1] &\\equiv .\\alpha P_{\\text{cl}}\\beta :\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": ""
+      },
+      {
+       "n": "170·121",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}&\\vdash \\colon\\ldotp \\alpha P_{\\text{cl}}\\beta .\\equiv .\\alpha ,\\beta \\in \\text{Cl}ʻCʻP.\\exists !(\\alpha \\cup \\beta )-\\beta -\\breve{P} ʻʻ\\{(\\alpha \\cup \\beta )-\\alpha\\}\\\\ &[*170·1.*22·9]\\end{align}\\]",
+       "page": "413",
+       "after": ""
+      },
+      {
+       "n": "170·13",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}&\\vdash \\colon\\ldotp \\alpha P_{\\text{cl}}\\beta .\\equiv :(\\exists \\rho ,\\sigma ,\\gamma ).\\rho ,\\sigma ,\\gamma \\in \\text{Cl}ʻCʻP.\\\\ &\\rho \\cap \\gamma =\\Lambda .\\sigma \\cap \\gamma =\\Lambda .\\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\exists !\\rho -\\breve{P} ʻʻ\\sigma\\end{align}\\]",
+       "page": "413",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*24·24.*22·69 &\\supset \\vdash :\\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\supset .\\alpha \\cap \\beta =\\gamma &\\qquad \\text{(1)}\\\\\n\\vdash .*24·4. &\\supset \\vdash \\colon\\ldotp \\alpha =\\gamma \\cup \\rho .\\supset :\\rho \\cap \\gamma =\\Lambda .\\equiv .\\alpha -\\gamma =\\rho &\\qquad \\text{(2)}\\\\\n\\vdash .*24·4. &\\supset \\vdash \\colon\\ldotp \\beta =\\gamma \\cup \\sigma .\\supset :\\sigma \\cap \\gamma =\\Lambda .\\equiv .\\beta -\\gamma =\\sigma &\\qquad \\text{(3)}\\\\\n\\vdash .(1).(2).(3). &\\supset \\vdash \\colon\\ldotp \\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\supset :\\\\\n\\rho \\cap \\gamma =\\Lambda .\\sigma \\cap \\gamma =\\Lambda .&\\equiv .\\alpha -(\\alpha \\cap \\beta )=\\rho .\\beta -(\\alpha \\cap \\beta )=\\sigma .\\\\\n[*22·93] &\\equiv .\\alpha -\\beta =\\rho .\\beta -\\alpha =\\sigma &\\qquad \\text{(4)}\\\\\n\\vdash .(1).(4).\\supset \\vdash :&(\\exists \\rho ,\\sigma ,\\gamma ).\\rho ,\\sigma ,\\gamma \\in \\text{Cl}ʻCʻP.\\rho \\cap \\gamma =\\Lambda .\\sigma \\cap \\gamma =\\Lambda .\\rho \\cap \\sigma =\\Lambda .\\\\\n&\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\exists !\\rho -\\breve{P} ʻʻ\\sigma .\\equiv .\\\\\n&(\\exists \\rho ,\\sigma ,\\gamma ).\\rho ,\\sigma ,\\gamma \\in \\text{Cl}ʻCʻP.\\rho \\cap \\sigma =\\Lambda .\\alpha =\\gamma \\cup \\rho .\\beta =\\gamma \\cup \\sigma .\\\\\n&\\alpha \\cap \\beta =\\gamma .\\alpha -\\beta =\\rho .\\beta -\\alpha =\\sigma .\\exists !\\rho -\\breve{P} ʻʻ\\sigma .\\\\\n[*13·22] &\\equiv .\\alpha -\\beta ,\\beta -\\alpha ,\\alpha \\cap \\beta \\,\\unicode{x2abd}\\, \\text{Cl}ʻCʻP.\\exists !\\alpha -\\beta -\\breve{P} ʻʻ(\\beta -\\alpha ).\\\\\n[*60·43.*24·41] &\\equiv .\\alpha ,\\beta \\in \\text{Cl}ʻCʻP.\\exists !\\alpha -\\beta -\\breve{P} ʻʻ(\\beta -\\alpha ).\\\\\n[*170·1] &\\equiv .\\alpha P_{\\text{cl}}\\beta :\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "170·14",
@@ -40405,7 +40727,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash \\colon\\ldotp \\alpha P_\\text{fd}\\beta .\\equiv :\\alpha ,\\beta \\in \\text{Cl}ʻCʻP:(\\exists z).z\\in \\beta -\\alpha .\\overleftarrow{P}ʻz\\cap \\beta -\\iota ʻz=\\overleftarrow{P}ʻz\\cap \\alpha\\\\ &[*171·1·101]\\end{align}\\]",
        "page": "424",
-       "after": "*171*11. \\[\\begin{align}\\vdash \\colon\\colon\\ldotp \\alpha P_{\\text{df}}&\\beta .\\equiv \\colon\\colon \\alpha ,\\beta \\in \\text{Cl}ʻCʻP\\colon\\colon \\\\\n&(\\exists z)\\colon\\ldotp z\\in \\alpha -\\beta \\colon\\ldotp yPz.y\\neq z.\\supset _{y}:y\\in \\alpha .\\equiv .y\\in \\beta \\quad [*171·1]\\end{align}\\]"
+       "after": ""
+      },
+      {
+       "n": "171·11",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}\\vdash \\colon\\colon\\ldotp \\alpha P_{\\text{df}}&\\beta .\\equiv \\colon\\colon \\alpha ,\\beta \\in \\text{Cl}ʻCʻP\\colon\\colon \\\\ &(\\exists z)\\colon\\ldotp z\\in \\alpha -\\beta \\colon\\ldotp yPz.y\\neq z.\\supset _{y}:y\\in \\alpha .\\equiv .y\\in \\beta \\quad [*171·1]\\end{align}\\]",
+       "page": "424",
+       "after": ""
       },
       {
        "n": "171·12",
@@ -42138,7 +42467,14 @@
        "kind": "Df",
        "formula": "\\(\\mu \\dot{+} \\nu \\dot{+} \\omega = (\\mu \\dot{+} \\nu ])\\dot{+} \\omega \\quad\\text{Df}\\)",
        "page": "481",
-       "after": "*180*57. \\(\\vdash .(\\mu \\dot{+} \\nu )\\dot{+} (\\omega \\dot{+} \\rho ) = \\mu \\dot{+} \\nu \\dot{+} \\omega \\dot{+} \\rho\\)"
+       "after": ""
+      },
+      {
+       "n": "180·57",
+       "kind": "prop",
+       "formula": "\\(\\vdash .(\\mu \\dot{+} \\nu )\\dot{+} (\\omega \\dot{+} \\rho ) = \\mu \\dot{+} \\nu \\dot{+} \\omega \\dot{+} \\rho\\)",
+       "page": "481",
+       "after": ""
       },
       {
        "n": "180·6",
@@ -42288,7 +42624,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash \\colon\\ldotp \\mu \\in \\text{NR}.\\supset :Z\\in \\mu \\dot{+} \\dot{1} .\\equiv .(\\exists P,x).P\\in \\mu .Z\\,\\text{smor}\\,(P\\dot{\\unicode{x21f8}} x)\\\\ &[*181·2 .*155·26]\\end{align}\\]",
        "page": "484",
-       "after": "*181*22. \\(\\vdash .\\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} =\\text{Nr}ʻ(P\\dot{\\unicode{x21f8}} x)\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *181·21.\\supset \\vdash :Z\\in \\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} .\\equiv .(\\exists Q,y).Q\\in \\text{N}_{0}\\text{r}ʻP.Z\\,\\text{smor}\\,(Q\\dot{\\unicode{x21f8}}\ny) &\\qquad \\text{(1)}\\\\\n\\vdash .(1).*155·12.*152·11.\\supset \\vdash .\\text{Nr}ʻ(P\\dot{\\unicode{x21f8}} x)\\subset \\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} &\\qquad \\text{(2)}\\\\\n\\vdash . *181·12·11.*161·31.\\supset \\vdash :Q\\in \\text{N}_{0}\\text{r}ʻP.Z\\,\\text{smor}\\,(Q\\dot{\\unicode{x21f8}} y).\\supset .Z\\,\\text{smor}\\,(P\\dot{\\unicode{x21f8}} x) &\\qquad \\text{(3)}\\\\\n\\vdash .(1).(3).*152·11. \\supset \\vdash :Z\\in \\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} .\\supset .Z\\in \\text{Nr}ʻ(P\\dot{\\unicode{x21f8}} x) &\\qquad \\text{(4)}\\\\\n\\vdash .(2).(4).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": ""
+      },
+      {
+       "n": "181·22",
+       "kind": "prop",
+       "formula": "\\(\\vdash .\\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} =\\text{Nr}ʻ(P\\dot{\\unicode{x21f8}} x)\\)",
+       "page": "484",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash . *181·21.\\supset \\vdash :Z\\in \\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} .\\equiv .(\\exists Q,y).Q\\in \\text{N}_{0}\\text{r}ʻP.Z\\,\\text{smor}\\,(Q\\dot{\\unicode{x21f8}}\ny) &\\qquad \\text{(1)}\\\\\n\\vdash .(1).*155·12.*152·11.\\supset \\vdash .\\text{Nr}ʻ(P\\dot{\\unicode{x21f8}} x)\\subset \\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} &\\qquad \\text{(2)}\\\\\n\\vdash . *181·12·11.*161·31.\\supset \\vdash :Q\\in \\text{N}_{0}\\text{r}ʻP.Z\\,\\text{smor}\\,(Q\\dot{\\unicode{x21f8}} y).\\supset .Z\\,\\text{smor}\\,(P\\dot{\\unicode{x21f8}} x) &\\qquad \\text{(3)}\\\\\n\\vdash .(1).(3).*152·11. \\supset \\vdash :Z\\in \\text{N}_{0}\\text{r}ʻP\\dot{+} \\dot{1} .\\supset .Z\\in \\text{Nr}ʻ(P\\dot{\\unicode{x21f8}} x) &\\qquad \\text{(4)}\\\\\n\\vdash .(2).(4).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "181·24",
@@ -43922,7 +44265,7 @@
        "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*121·242.*90·151. &\\supset \\vdash :xPy.\\supset .P(x\\vdash\\dashv y)=\\iota ʻx\\cup \\iota ʻy\\cup P(x-y) &\\qquad \\text{(1)}\\\\\n\\vdash .(1).*201·19. &\\supset \\vdash \\colon\\ldotp \\text{Hp}.\\supset :xPy.\\supset .P(x\\vdash\\dashv y)=\\iota ʻx\\cup \\iota ʻy\\cup (\\overleftarrow{P}ʻx\\cap \\overrightarrow{P}ʻy) &\\qquad \\text{(2)}\\\\\n\\vdash .*34·11. &\\supset \\vdash :{\\sim}(xP^{2}y).\\supset .\\overleftarrow{P}ʻx\\cap \\overrightarrow{P}ʻy=\\Lambda &\\qquad \\text{(3)}\\\\\n\\vdash .*34·54. &\\supset \\vdash :xPy.{\\sim}(xP^{2}y).\\supset .x\\neq y &\\qquad \\text{(4)}\\\\\n\\vdash .(2).(3).(4). \\supset \\vdash \\colon\\ldotp \\text{Hp}.&\\supset :xPy.{\\sim}(xP^{2}y).\\supset .P(x\\vdash\\dashv y)=\\iota ʻx\\cup \\iota ʻy.x\\neq y.\\\\\n[*54·101] &\\supset .P(x\\vdash\\dashv y)\\in 2.\\\\\n[*121·11] &\\supset .xP_{1}y\\colon\\ldotp \\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
-       "n": "201·26",
+       "n": "201·62",
        "kind": "prop",
        "formula": "\\[\\begin{align}&\\vdash \\colon\\ldotp P\\in \\text{trans}.{\\sim}(xPx).{\\sim}(yPy).\\supset :xP_{1}y.\\equiv .x(P\\dot{-} P^{2})y\\\\ &[*201·6·61]\\end{align}\\]",
        "page": "531",
@@ -47716,7 +48059,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}\\vdash \\colon\\colon P^{2}=P.P\\in \\text{connex} .\\supset \\colon\\ldotp \\text{E}!\\text{max}_{P}ʻ\\alpha .&\\lor.\\text{E}!\\text{seq}_{P}ʻ\\alpha :\\equiv :\\\\ &\\text{E}!\\text{max}_{P}ʻ\\alpha .\\equiv .{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha\\end{align}\\]",
        "page": "638",
-       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*4·64.\\supset \\vdash \\colon\\ldotp \\text{E}!\\text{max}_{P}ʻ\\alpha .\\lor.\\text{E}!\\text{seq}_{P}ʻ\\alpha :&\\equiv :{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha\n.\\supset .\\text{E}!\\text{max}_{P}ʻ\\alpha &\\qquad \\text{(1)}\\\\\n\\vdash .*4·73.*211·52.\\supset \\\\\n\\vdash \\colon\\colon\\text{Hp}.\\supset \\colon\\ldotp {\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha .\\supset .\\text{E}!\\text{max}_{P}ʻ\\alpha :&\\equiv :\\text{E}!\\text{max}_{P}ʻ\\alpha\n.\\equiv .{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]\n\nThe condition \\((\\alpha ):\\text{E}!\\text{max}_{P}ʻ\\alpha .\\equiv.{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha\\)\nis the Dedekindian definition of continuity. In virtue of the above\nproposition, this is equivalent, in a series, to compactness combined\nwith Dedekind's axiom, namely\n\\[\n(\\alpha ):\\text{E}!\\text{max}_{P}ʻ\\alpha .\\lor.\\text{E}!\\text{seq}_{P}ʻ\\alpha .\n\\]\n\n*211*54. \\(\\vdash \\colon\\ldotp P\\,\\unicode{x2abd}\\, J:\\exists !\\overrightarrow{\\text{max}}_{P}ʻ\\alpha .\\supset _{\\alpha }.{\\sim}\\exists !\\overrightarrow{\\text{seq}} _{P}ʻ\\alpha\n:\\supset .P\\,\\unicode{x2abd}\\, P^{2}\\)\n\n*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*10·1.\\supset \\vdash \\colon\\ldotp \\text{Hp}.&\\supset :\\exists !\\overrightarrow{\\text{max}}_{P}ʻ\\iota ʻx.\\supset .{\\sim}\\exists !\\text{seq}_{P}ʻ\\iota ʻx:\\\\\n[*205·18] &\\supset :x\\in CʻP.\\supset .{\\sim}\\exists !\\text{seq}_{P}ʻ\\iota ʻx.\\\\\n[*206·42] &\\supset .{\\sim}\\exists !\\overleftarrow{P\\dot{-} P^{2}}ʻx.\\\\\n[*33·4] &\\supset .x{\\sim}\\in \\text{D}ʻ(P\\dot{-} P^{2}) &\\qquad \\text{(1)}\\\\\n\\vdash .*33·263.&\\supset \\vdash :x{\\sim}\\in CʻP.\\supset .x{\\sim}\\in \\text{D}ʻ(P\\dot{-} P^{2}) &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).\\supset \\vdash :\\text{Hp}.&\\supset .\\text{D}ʻ(P\\dot{-} P^{2})=\\Lambda .\\\\\n[*33·241.*25·3] &\\supset .P\\,\\unicode{x2abd}\\, P^{2}:\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*4·64.\\supset \\vdash \\colon\\ldotp \\text{E}!\\text{max}_{P}ʻ\\alpha .\\lor.\\text{E}!\\text{seq}_{P}ʻ\\alpha :&\\equiv :{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha\n.\\supset .\\text{E}!\\text{max}_{P}ʻ\\alpha &\\qquad \\text{(1)}\\\\\n\\vdash .*4·73.*211·52.\\supset \\\\\n\\vdash \\colon\\colon\\text{Hp}.\\supset \\colon\\ldotp {\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha .\\supset .\\text{E}!\\text{max}_{P}ʻ\\alpha :&\\equiv :\\text{E}!\\text{max}_{P}ʻ\\alpha\n.\\equiv .{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]\n\nThe condition \\((\\alpha ):\\text{E}!\\text{max}_{P}ʻ\\alpha .\\equiv.{\\sim}\\text{E}!\\text{seq}_{P}ʻ\\alpha\\)\nis the Dedekindian definition of continuity. In virtue of the above\nproposition, this is equivalent, in a series, to compactness combined\nwith Dedekind's axiom, namely\n\\[\n(\\alpha ):\\text{E}!\\text{max}_{P}ʻ\\alpha .\\lor.\\text{E}!\\text{seq}_{P}ʻ\\alpha .\n\\]"
+      },
+      {
+       "n": "211·54",
+       "kind": "prop",
+       "formula": "\\(\\vdash \\colon\\ldotp P\\,\\unicode{x2abd}\\, J:\\exists !\\overrightarrow{\\text{max}}_{P}ʻ\\alpha .\\supset _{\\alpha }.{\\sim}\\exists !\\overrightarrow{\\text{seq}} _{P}ʻ\\alpha :\\supset .P\\,\\unicode{x2abd}\\, P^{2}\\)",
+       "page": "639",
+       "after": "*Dem.*\n\\[\n\\begin{array}{l}\n\\vdash .*10·1.\\supset \\vdash \\colon\\ldotp \\text{Hp}.&\\supset :\\exists !\\overrightarrow{\\text{max}}_{P}ʻ\\iota ʻx.\\supset .{\\sim}\\exists !\\text{seq}_{P}ʻ\\iota ʻx:\\\\\n[*205·18] &\\supset :x\\in CʻP.\\supset .{\\sim}\\exists !\\text{seq}_{P}ʻ\\iota ʻx.\\\\\n[*206·42] &\\supset .{\\sim}\\exists !\\overleftarrow{P\\dot{-} P^{2}}ʻx.\\\\\n[*33·4] &\\supset .x{\\sim}\\in \\text{D}ʻ(P\\dot{-} P^{2}) &\\qquad \\text{(1)}\\\\\n\\vdash .*33·263.&\\supset \\vdash :x{\\sim}\\in CʻP.\\supset .x{\\sim}\\in \\text{D}ʻ(P\\dot{-} P^{2}) &\\qquad \\text{(2)}\\\\\n\\vdash .(1).(2).\\supset \\vdash :\\text{Hp}.&\\supset .\\text{D}ʻ(P\\dot{-} P^{2})=\\Lambda .\\\\\n[*33·241.*25·3] &\\supset .P\\,\\unicode{x2abd}\\, P^{2}:\\supset \\vdash .\\text{Prop}\n\\end{array}\n\\]"
       },
       {
        "n": "211·541",
@@ -49447,7 +49797,14 @@
        "kind": "prop",
        "formula": "\\[\\begin{align}& \\vdash :P\\in \\text{Ded}. \\equiv .-\\text{ᗡ}ʻ\\text{max}_{P}\\subset \\text{ᗡ}ʻ\\text{seq}_{P}. \\equiv .-\\text{ᗡ}ʻ\\text{max}_{P}\\subset \\text{ᗡ}ʻ\\text{lt}_P\\\\ &[*214·1.*24·312.*207·12]\\end{align}\\]",
        "page": "685",
-       "after": "*21·411. \\[\\begin{align}& \\vdash :P\\in \\text{Ded}. \\equiv .(\\alpha ).\\alpha \\in \\text{ᗡ}ʻ\\text{max}_{P}\\cup\n\\text{ᗡ}ʻ\\text{lt}_P. \\equiv .(\\alpha ).\\alpha \\in \\text{ᗡ}ʻ\\text{limax}_P\\\\\n&[*214·1.*207·14·44]\\end{align}\\]"
+       "after": ""
+      },
+      {
+       "n": "214·11",
+       "kind": "prop",
+       "formula": "\\[\\begin{align}& \\vdash :P\\in \\text{Ded}. \\equiv .(\\alpha ).\\alpha \\in \\text{ᗡ}ʻ\\text{max}_{P}\\cup \\text{ᗡ}ʻ\\text{lt}_P. \\equiv .(\\alpha ).\\alpha \\in \\text{ᗡ}ʻ\\text{limax}_P\\\\ &[*214·1.*207·14·44]\\end{align}\\]",
+       "page": "685",
+       "after": ""
       },
       {
        "n": "214·12",

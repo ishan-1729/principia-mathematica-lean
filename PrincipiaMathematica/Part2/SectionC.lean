@@ -624,10 +624,11 @@ function `R'y` (`R̆'x`) is `Desc R y ψ` (`Desc R˘ x ψ`), with the smallest s
 and `ῐ'α` is `Desc iota˘ A ψ`. `Rl'R`, `Cl'α`, `Cl ex'α` are the values `rl R`, `cl A`, `clEx A`,
 and `R_∈` is `imgRel R`. As PM says in the Summary, each many-one proposition is the one-many
 proposition for `R̆`, and is proved by applying it to `R˘`. Where a real or apparent variable
-occurs both as a referent and as a relatum (✱71·182, ✱71·532), `R` is homogeneous. ✱71·28 and
-✱71·341, which the e-text prints inside comments rather than as entries, are formalized as well.
+occurs both as a referent and as a relatum (✱71·182, ✱71·532), `R` is homogeneous. The e-text
+numbers ✱71·28 `*71.28.` (a full stop for the centred dot) and prints ✱71·341 as a plain paragraph
+(not in bold).
 
-**Status.** proved (all propositions, including ✱71·28 and ✱71·341; ✱71·01, ✱71·02, ✱71·03
+**Status.** proved (all propositions; ✱71·01, ✱71·02, ✱71·03
 proved (reading): `R̆` printed for `R̂`, as in ✱70·01)
 -/
 
@@ -994,7 +995,7 @@ theorem pm71_271 {R : α → β → Prop} {G : Set β} : R ∈ arrow Cls one →
 
 /-- ✱71·28. \(\vdash:R\in 1\rightarrow \text{Cls}.\supset.\beta\upharpoonleft R\upharpoonright \gamma\in 1\rightarrow \text{Cls} \quad[\text{*35·442.*71·22}]\)
 
-(The e-text prints this proposition inside the comments of ✱71·271, not as a separate entry.) -/
+The e-text numbers it `*71.28.` (a full stop for the centred dot). -/
 theorem pm71_28 {R : α → β → Prop} {B : Set α} {G : Set β} :
     R ∈ arrow one Cls → B ◁ R ↾ G ∈ arrow one Cls :=
   fun hR => pm71_22 ⟨hR, fun _ _ h => h.1.2⟩
@@ -1091,7 +1092,7 @@ theorem pm71_34 {R S : α → β → Prop} {y : β} :
 
 /-- ✱71·341. \(\vdash:R\in \text{Cls}\rightarrow 1.R=S.x\in \text{D}ʻR.\supset.\breve{R}ʻx=\breve{S}ʻx\)
 
-(The e-text prints this proposition inside the comments of ✱71·34, not as a separate entry.) -/
+The e-text prints it as a plain paragraph `*71·341.` (not in bold). -/
 theorem pm71_341 {R S : α → β → Prop} {x : α} :
     (R ∈ arrow Cls one ∧ R = S) ∧ x ∈ dom R →
       Desc R˘ x (fun b => Desc S˘ x (fun c => b = c)) := by

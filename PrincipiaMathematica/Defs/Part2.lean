@@ -12,7 +12,7 @@ printed (MathJax TeX, from `data/principia.json`), says how it is read in Lean, 
 been checked to elaborate and to hold by the indicated proof). The file ends with sanity lemmas
 (ι'x is `{x}`, one-many relations, similarity is an equivalence and is `Nonempty (A ≃ B)`, the
 ancestral is the reflexive-transitive closure restricted to the field, `R_po` is the transitive
-closure, `Mult ax` is provable by choice, …) that the Section agents may use.
+closure, `Mult ax` is provable by choice, …) used in the Section files.
 
 ## Encoding decisions (in addition to Basic §1–§10)
 
@@ -332,9 +332,8 @@ def typ₃ (K : Set (Set (Set (Set α)))) : Set α := typ₁ (typ₂ K)
 /-!
 ### ✱64: relative types of relations
 
-The Dfs of ✱64 are printed in the e-text inside the Summary of ✱64 (with ✱64·1·11·12), not as
-separate propositions of `data/principia.json`; they are PM's Dfs ✱64·01–✱64·041 all the same
-(PM adds "etc." after each group: further indices are formed in the same way). Naming rule: the two
+The Dfs of ✱64 are PM's Dfs ✱64·01–✱64·041 (the e-text numbers them, with ✱64·1·11·12,
+`*64.01.`, …, `*64.12.`, a full stop for the centred dot) (PM adds "etc." after each group: further indices are formed in the same way). Naming rule: the two
 indices are written in the order of the two factors of `↑`, a superscript as a plain digit and a
 subscript as a subscript digit: `t^{mn}` ↦ `typmn`, `t_{mn}` ↦ `typₘₙ`, `t_m^n` ↦ `typₘn`,
 `^m t_n` ↦ `typmₙ`.
@@ -407,7 +406,7 @@ def typ1₁ (A : Set (Set α)) : Set (Set (Set α) → α → Prop) := typ (cros
 In ✱65 `α` and `R` stand for typically ambiguous *symbols* (`Λ`, `V`, `1`, `Λ̇`, `V̇`, …), and
 `α_x` etc. give them the type determined by `x`. In Lean every term has a definite type, so these
 are the intersections/restrictions PM writes, at the type forced by `x` (they equal `α`, `R`:
-`clsT_eq`, `relT_eq`, …); a Section agent states e.g. `1_x` as `clsT one x` with `x : Set γ`.
+`clsT_eq`, `relT_eq`, …); the Section files state e.g. `1_x` as `clsT one x` with `x : Set γ`.
 -/
 
 /-- **✱65·01 Df.** \(\alpha_{x}=\alpha\cap tʻx \quad\text{Df}\)

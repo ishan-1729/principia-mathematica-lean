@@ -852,6 +852,9 @@ theorem pm33_14 {R : α → β → Prop} {x : α} {y : β} : R x y → x ∈ dom
 /-- ✱33·15. \(\vdash.\overrightarrow{R}ʻy\subset\text{D}ʻR\) -/
 theorem pm33_15 {R : α → β → Prop} {y : β} : refs R y ⊆ dom R := fun _ hx => mem_dom_of hx
 
+/-- ✱33·151. \(\vdash.\overleftarrow{R}ʻx\subset\text{ᗡ}ʻR\) -/
+theorem pm33_151 {R : α → β → Prop} {x : α} : rels R x ⊆ codom R := fun _ hy => mem_codom_of hy
+
 /-- ✱33·152. \(\vdash.\overrightarrow{R}ʻx\cup \overleftarrow{R}ʻx\subset CʻR\) -/
 theorem pm33_152 {R : α → α → Prop} {x : α} : refs R x ∪ rels R x ⊆ fld R := by
   rintro z (h | h)

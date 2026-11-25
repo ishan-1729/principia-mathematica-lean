@@ -710,6 +710,9 @@ theorem pm51_15 {x y : α} : y ∈ ι x ↔ y = x := Iff.rfl
 /-- ✱51·16. \(\vdash.x\in\iotaʻ x \quad[\text{*51·15.*13·15}]\) -/
 theorem pm51_16 {x : α} : x ∈ ι x := rfl
 
+/-- ✱51·161. \(\vdash.\exists!\iotaʻ x \quad[\text{*51·16.*10·24}]\) -/
+theorem pm51_161 {x : α} : (ι x).Nonempty := ⟨x, pm51_16⟩
+
 /-- ✱51·17. \(\vdash.\text{ᗡ}ʻ\iota=\text{V}\) -/
 theorem pm51_17 : codom (iota : Set α → α → Prop) = V := by
   ext x; simp
@@ -1871,6 +1874,15 @@ theorem pm54_4 {B : Set α} {x y : α} :
   simp only [Null_eq_empty, unitCls_eq_singleton, Set.singleton_union]
   rw [Set.subset_pair_iff_eq]
   simp only [or_assoc]
+
+/-- ✱54·41. \(\vdash\colon\colon \alpha\in 2.\supset\colon\ldotp \beta\subset \alpha.\supset:\beta=\Lambda.\lor.\beta\in 1.\lor.\beta\in 2\) -/
+theorem pm54_41 {A B : Set α} : A ∈ two → (B ⊆ A → (B = Λ ∨ B ∈ one) ∨ B ∈ two) := by
+  rintro ⟨x, y, hxy, rfl⟩ h
+  rcases pm54_4.1 h with ((h | h) | h) | h
+  · exact Or.inl (Or.inl h)
+  · exact Or.inl (Or.inr ⟨x, h⟩)
+  · exact Or.inl (Or.inr ⟨y, h⟩)
+  · exact Or.inr ⟨x, y, hxy, h⟩
 
 /-- ✱54·411. \(\vdash\colon\ldotp \alpha\in 2.\supset:\beta\subset \alpha.\supset.\beta\in 0\cup 1\cup 2 \quad[\text{*54·41·02}]\) -/
 theorem pm54_411 {A B : Set α} : A ∈ two → (B ⊆ A → B ∈ zero ∪ one ∪ two) := by

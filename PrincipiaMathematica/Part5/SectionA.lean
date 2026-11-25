@@ -770,8 +770,8 @@ with `P² ⊂̇ P`; `mem_transR` unfolds it. The propositions are stated for `P 
 `refs Beg P`, and `E!P'x`, `(P'x)P_1x` are descriptions (`EDesc P x`, `Desc P x …`, each with the
 smallest scope). `Nr'P ⊂ trans` is stated for the relation-number in an arbitrary type `γ`
 (`nr γ P`, typical ambiguity), `N₀r'P` is `n₀r P`. Products of hypotheses are nested to the left.
-The e-text numbers the proposition between ✱201·61 and ✱201·63 "✱201·26" (it is ✱201·62,
-cited so in ✱201·63); the declaration keeps the e-text's number. In ✱201·56 the e-text prints the
+The e-text numbers the proposition between ✱201·61 and ✱201·63 "✱201·26" (it is ✱201·62: the
+anchor is `*201·62`, and ✱201·63 cites it so). In ✱201·56 the e-text prints the
 bracket `{α ∪ β) ∩ C'P}`, read `(α ∪ β) ∩ C'P`.
 
 **Status.** proved (all propositions; ✱201·56 proved (reading), see its docstring).
@@ -1235,11 +1235,11 @@ theorem pm201_61 {α : Type u} {P : α → α → Prop} : P ∈ transR → P ∸
     · rw [show z = y from e]
       exact (mem y).2 ⟨Or.inr hxy, Or.inl ⟨rfl, ⟨x, Or.inr hxy⟩⟩⟩
 
-/-- ✱201·26. \[\begin{align}&\vdash \colon\ldotp P\in \text{trans}.{\sim}(xPx).{\sim}(yPy).\supset :xP_{1}y.\equiv .x(P\dot{-} P^{2})y\\ &[*201·6·61]\end{align}\]
+/-- ✱201·62. \[\begin{align}&\vdash \colon\ldotp P\in \text{trans}.{\sim}(xPx).{\sim}(yPy).\supset :xP_{1}y.\equiv .x(P\dot{-} P^{2})y\\ &[*201·6·61]\end{align}\]
 
-**Status.** proved: the e-text numbers this proposition ✱201·26; it stands between
-✱201·61 and ✱201·63 and is cited as ✱201·62 in ✱201·63. -/
-theorem pm201_26 {α : Type u} {P : α → α → Prop} {x y : α} :
+The e-text numbers it `*201·26` (the anchor is `*201·62`); it stands between ✱201·61 and ✱201·63
+and is cited as ✱201·62 in ✱201·63. -/
+theorem pm201_62{α : Type u} {P : α → α → Prop} {x y : α} :
     (P ∈ transR ∧ ¬P x x) ∧ ¬P y y → (P1 P x y ↔ (P ∸ rsq P) x y) :=
   fun h => ⟨fun h1 => pm201_6 ⟨h, h1⟩, fun h2 => pm201_61 h.1.1 x y h2⟩
 

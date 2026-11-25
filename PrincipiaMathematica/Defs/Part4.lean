@@ -9,7 +9,7 @@ the format of `Defs/Part1.lean`: each entry is headed `**✱N·M Df.**` with the
 statement* of `pmN_M` (status `definition` unless said otherwise; every target below has been
 checked to elaborate and to hold by the indicated proof). Then come the adequacy predicates for
 relation-numbers (the conventions IT, IIT, AT "apply to relation-numbers as to cardinals",
-Summary of Section A) and the sanity lemmas the Section agents will need: `S;Q` unfolded, likeness
+Summary of Section A) and the sanity lemmas the Section files use: `S;Q` unfolded, likeness
 (`smor`) is an equivalence and is "an isomorphism between the fields", `Nr'P` and `N₀r'P`, the
 existence of `Nr(γ)'P`, and the unfolded forms of `P ⤉ Q`, `P ⇸ x`, `Σ'P`, `Q × P`, `C'(P + Q)`.
 

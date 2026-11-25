@@ -3443,7 +3443,7 @@ is taken in the type PM's proof puts it in (as for `NC` in ✱110). The inner su
 hypotheses (none for `0_r`). `C''μ` is `C ʻʻ μ`, `Nc'C'P` in an arithmetical position is
 `n₀c (fld P)`.
 
-**Status.** proved (all propositions; ✱180·01·02·03·031·531·561 definition; ✱180·151·21·22·3·4·42·54·541·55·551·56·642·7 proved (reading), ✱180·212 proved (corrected), see their docstrings)
+**Status.** proved (all propositions; ✱180·01·02·03·031·531·561 definition; ✱180·151·21·22·3·4·42·54·541·55·551·56·57·642·7 proved (reading), ✱180·212 proved (corrected), see their docstrings)
 -/
 
 /-- ✱180·01 (Df). \(P + Q = {\downarrow (\Lambda \cap CʻQ)^{;}{℩}^{;}P} \unicode{x2909} \{(\Lambda \cap CʻP) \downarrow ^{;}\iota ^{;}Q\} \quad\text{Df}\) -/
@@ -3811,6 +3811,21 @@ arithmetical component, so its type is a separate parameter `W` (IIT). -/
 theorem pm180_561 {W : Type*} {μ : Set (α → α → Prop)} {ν : Set (β → β → Prop)}
     {ϖ : Set (δ → δ → Prop)} : ((μ ∔ ν : Set (W → W → Prop)) ∔ ϖ : Set (γ → γ → Prop)) =
       ((μ ∔ ν : Set (W → W → Prop)) ∔ ϖ : Set (γ → γ → Prop)) := rfl
+
+/-- ✱180·57. \(\vdash .(\mu \dot{+} \nu )\dot{+} (\omega \dot{+} \rho ) = \mu \dot{+} \nu \dot{+} \omega \dot{+} \rho\)
+
+(The e-text's `ω` is written `ϖ`, as in ✱180·56.) By ✱180·561 the right side is
+`((μ +̇ ν) +̇ ϖ) +̇ ρ`. The real variables have independent types; the inner sums are arithmetical
+components, each with its own type.
+
+**Status.** proved (reading): convention IIT (Prefatory Statement, IV): the actual types of the
+arithmetical components `(μ +̇ ν) +̇ ϖ` and `ϖ +̇ ρ` are adequate -/
+theorem pm180_57 {α₁ α₂ α₃ α₄ W₀ W₁ W₂ : Type*} {μ : Set (α₁ → α₁ → Prop)}
+    {ν : Set (α₂ → α₂ → Prop)} {ϖ : Set (α₃ → α₃ → Prop)} {ρ : Set (α₄ → α₄ → Prop)}
+    (h₁ : AdeqNrAdd W₁ (μ ∔ ν : Set (W₀ → W₀ → Prop)) ϖ) (h₂ : AdeqNrAdd W₂ ϖ ρ) :
+    ((μ ∔ ν : Set (W₀ → W₀ → Prop)) ∔ (ϖ ∔ ρ : Set (W₂ → W₂ → Prop)) : Set (γ → γ → Prop)) =
+      (((μ ∔ ν : Set (W₀ → W₀ → Prop)) ∔ ϖ : Set (W₁ → W₁ → Prop)) ∔ ρ : Set (γ → γ → Prop)) :=
+  (pm180_56 h₁ h₂).symm
 
 /-- ✱180·6. \(\vdash :\mu \in \text{NR}.\supset .\mu \dot{+} 0_{r} = \,\text{smor}\,ʻʻ\mu = 0_{r}\dot{+} \mu\)
 
@@ -4646,7 +4661,7 @@ or `2_r` in an arithmetical position has its own type with an adequacy hypothesi
 cardinal `1` of ✱181·6–·62 likewise (`[Nonempty W]`). Where a `μ +̇ 1̇` with an empty type of its
 apparent `x` would make the proposition false, that type is assumed `[Nonempty β]` (Basic §3).
 
-**Status.** proved (all propositions; ✱181·01·011·02·021·03·031·04·561·571 definition; ✱181·3·32·33·4·42·43·54·55·56·57·58·59·6·61·62 proved (reading), see their docstrings)
+**Status.** proved (all propositions; ✱181·01·011·02·021·03·031·04·561·571 definition; ✱181·22·3·32·33·4·42·43·54·55·56·57·58·59·6·61·62 proved (reading), see their docstrings)
 -/
 
 /-- ✱181·01 (Df). \(P \dot{\unicode{x21f8}} x = \downarrow \Lambda _{x}^{;}{℩}^{;}P \unicode{x21f8} (\Lambda \cap CʻP) \downarrow {℩}ʻx \quad\text{Df}\) -/
@@ -4733,7 +4748,17 @@ theorem pm181_21 {β' : Type*} {μ : Set (α → α → Prop)} {Z : γ → γ �
     · exact absurd hP (Set.notMem_empty P)
     · exact ⟨P, x, n₀r_eq_n₀r_iff.2 (smor_symm (mem_n₀r.1 hP)), h⟩
 
-/-- ✱181·24. \(\vdash :P\,\,\text{smor}\,\,Q.\supset .\text{N}_{0}\text{r}ʻP\dot{+} \dot{1} =\text{N}_{0}\text{r}ʻQ\dot{+} 1 \quad[*181·22·12·11.*161·31]\)
+/-- ✱181·22. \(\vdash .\text{N}_{0}\text{r}ʻP\dot{+} \dot{1} =\text{Nr}ʻ(P\dot{\unicode{x21f8}} x)\)
+
+The `x` of `P ⇸̇ x` is of the type `β` of the apparent `x` of ✱181·02, as in ✱181·3.
+
+**Status.** proved (reading): the type of the apparent `x` of ✱181·02 is taken to be that of the
+real `x` -/
+theorem pm181_22 {P : α → α → Prop} {x : β} :
+    (nrAddOne β (n₀r P) : Set (γ → γ → Prop)) = nr γ (addLastDot P x) :=
+  nrAddOne_n₀r P x
+
+/-- ✱181·24.\(\vdash :P\,\,\text{smor}\,\,Q.\supset .\text{N}_{0}\text{r}ʻP\dot{+} \dot{1} =\text{N}_{0}\text{r}ʻQ\dot{+} 1 \quad[*181·22·12·11.*161·31]\)
 
 (The e-text's `N₀r'Q +̇ 1` is `N₀r'Q +̇ 1̇`.) -/
 theorem pm181_24 {P : α → α → Prop} {Q : δ → δ → Prop} : smor P Q →

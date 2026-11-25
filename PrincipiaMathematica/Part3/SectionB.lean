@@ -528,7 +528,7 @@ which PM's proof puts it (`NC^α(α)` by ✱103·27 in ✱110·201·4·7·72, `N
 in ✱110·42). The e-text's `ν = N₀c'α` in ✱110·2 is read `ν = N₀c'β` (✱110·02). AT is applied
 in ✱110·71·72, where PM applies it.
 
-**Status.** proved (all propositions; ✱110·2·201·3·4·42·44·54·541·55·551·56·57·63·631·632·641·642·643·7·71·72 proved (reading), see their docstrings)
+**Status.** proved (all propositions; ✱110·2·201·21·3·4·42·44·54·541·55·551·56·57·63·631·632·641·642·643·7·71·72 proved (reading), see their docstrings)
 -/
 
 /-- ✱110·01 (Df). \(\alpha +\beta = \downarrow (\Lambda \cap \beta )ʻʻ\iota ʻʻ\alpha \cup (\Lambda \cap \alpha ) \downarrow ʻʻ\iota ʻʻ\beta \quad\text{Df}\) -/
@@ -670,7 +670,18 @@ theorem pm110_202 {μ : Set (Set α)} {ν : Set (Set β)} {X : Set γ} :
     · rw [hμ, n₀c_eq_nc]; exact nc_eq_nc_of_sm (sm_symm hA')
     · rw [hν, n₀c_eq_nc]; exact nc_eq_nc_of_sm (sm_symm hB')
 
-/-- ✱110·211. \[\begin{aligned}\vdash \colon\ldotp \mu ,\nu \in \text{NC}.\supset :\xi &\in \mu +_{\text{c}}\nu .\equiv .\\ &(\exists \gamma ,\delta ).\gamma \in \text{ sm }ʻʻ\mu .\delta \in \text{ sm }ʻʻ\nu .\gamma \cap \delta =\Lambda .\xi =\gamma \cup \delta\end{aligned}\]
+/-- ✱110·21. \[\begin{aligned}&\vdash \colon\ldotp \mu ,\nu \in \text{NC}.\supset :\xi \in \mu +_{\text{c}}\nu .\equiv .(\exists \alpha ,\beta ).\alpha \in \mu .\beta \in \nu .\xi \text{ sm }(\alpha +\beta )\\ &[*110·201]\end{aligned}\]
+
+**Status.** proved (reading): `μ, ν ∈ NC` is `μ ∈ NC α ∧ ν ∈ NC β`, as in ✱110·201 (the
+reference). -/
+theorem pm110_21 {μ : Set (Set α)} {ν : Set (Set β)} {X : Set γ} :
+    μ ∈ NC α ∧ ν ∈ NC β →
+      (X ∈ (μ +ᶜ ν : Set (Set γ)) ↔ ∃ A B, (A ∈ μ ∧ B ∈ ν) ∧ sm X (A +ₐ B)) := by
+  intro h
+  rw [pm110_201]
+  exact ⟨fun h' => h'.2, fun h' => ⟨h, h'⟩⟩
+
+/-- ✱110·211.\[\begin{aligned}\vdash \colon\ldotp \mu ,\nu \in \text{NC}.\supset :\xi &\in \mu +_{\text{c}}\nu .\equiv .\\ &(\exists \gamma ,\delta ).\gamma \in \text{ sm }ʻʻ\mu .\delta \in \text{ sm }ʻʻ\nu .\gamma \cap \delta =\Lambda .\xi =\gamma \cup \delta\end{aligned}\]
 
 `μ, ν ∈ NC` is `μ ∈ NC β₁ ∧ ν ∈ NC β₂` with independent types (Prefatory Statement, V). -/
 theorem pm110_211 {β₁ : Type*} {β₂ : Type*} {μ : Set (Set α)} {ν : Set (Set β)} {X : Set γ} :

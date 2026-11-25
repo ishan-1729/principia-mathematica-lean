@@ -10,7 +10,7 @@ is headed `**✱N·M Df.**` with the formula as printed (MathJax TeX, from `data
 says how it is read in Lean and gives the *target statement* of `pmN_M` (status `definition`;
 every target below has been checked to elaborate and to hold by `rfl`). ✱200, ✱205, ✱210, ✱217
 have no Df (`max_P`, `min_P` are ✱93·02·021, `minP`, `maxP` in `Defs/Part2`). Then come the sanity
-lemmas the Section agents will need (unfolded forms of `trans`, `connex`, `Ser`, `min_P`, `max_P`,
+lemmas the Section files use (unfolded forms of `trans`, `connex`, `Ser`, `min_P`, `max_P`,
 `seq_P`, `lt_P`, `limax_P`, `sect`, `ς`, `cror`, the segments of `P_*` (= `sect'P`), `Q_cn`, `P R̄_sc Q`; `prec_P = seq(P̆)`,
 `tl_P = lt(P̆)`, `limin_P = limax(P̆)`; for transitive `P`, `P_po = P` and
 `P_* = P ∪̇ I ↾ C'P`; `P_1` is the relation of `x` to `y` when `P(x⊢⊣y)` has two members, and is `P −̇ P²` when `P`
