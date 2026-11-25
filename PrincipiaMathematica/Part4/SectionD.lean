@@ -328,6 +328,2822 @@ private theorem C_img_nr {Q : β → β → Prop} : C ʻʻ nr γ Q = nc γ (fld 
 
 end HelpersD
 
+/-! ### Helpers copied from Part III, Section B2 (cardinal exponentiation) and Part IV,
+Section C (the associative law of `Π`, exponentiation of relations, `P_df`), for ✱185·4·41
+and ✱186·15·4·5 (not propositions of PM). -/
+
+section CopiedHelpers
+
+universe u'
+
+section CopyBlock
+variable {α : Type u} {β : Type v} {γ : Type w} {δ : Type u'}
+
+private theorem null_eq : (Λ : Set α) = ∅ := Null_eq_empty
+
+private theorem pmB2_excl_iff {K : Set (Set α)} :
+    K ∈ Cls2excl ↔ ∀ A B x, A ∈ K → B ∈ K → x ∈ A → x ∈ B → A = B := by
+  constructor
+  · intro h A B x hA hB hxA hxB
+    by_contra hne
+    have := h A B ⟨⟨hA, hB⟩, hne⟩
+    rw [null_eq] at this
+    exact (Set.eq_empty_iff_forall_notMem.1 this) x ⟨hxA, hxB⟩
+  · intro h A B ⟨⟨hA, hB⟩, hne⟩
+    rw [null_eq]
+    exact Set.eq_empty_iff_forall_notMem.2 fun x ⟨hxA, hxB⟩ => hne (h A B x hA hB hxA hxB)
+
+private theorem pmB2_mem_sel {P : α → β → Prop} {K : Set β} {R : α → β → Prop} :
+    R ∈ sel P K ↔ (∀ x y z, R x z ∧ R y z → x = y) ∧ (∀ x y, R x y → P x y) ∧ codom R = K := by
+  rw [mem_sel_iff, mem_arrow_one_Cls]
+  exact ⟨fun ⟨⟨a, b⟩, c⟩ => ⟨a, b, c⟩, fun ⟨a, b, c⟩ => ⟨⟨a, b⟩, c⟩⟩
+
+private theorem pmB2_sel_ex {P : α → β → Prop} {K : Set β} {R : α → β → Prop} (hR : R ∈ sel P K)
+    {y : β} (hy : y ∈ K) : ∃ x, R x y := by
+  rw [← (pmB2_mem_sel.1 hR).2.2] at hy; exact hy
+
+private theorem pmB2_sel_codom {P : α → β → Prop} {K : Set β} {R : α → β → Prop} (hR : R ∈ sel P K)
+    {x : α} {y : β} (h : R x y) : y ∈ K := by
+  rw [← (pmB2_mem_sel.1 hR).2.2]; exact ⟨x, h⟩
+
+private theorem pmB2_mem_prodK_of {K : Set (Set α)} {X : Set α}
+    (h1 : ∀ A, A ∈ K → X ∩ A ∈ one) (h2 : X ⊆ sumCls K) : X ∈ prodK K := by
+  refine ⟨fun z A => A ∈ K ∧ z ∈ X ∩ A, pmB2_mem_sel.2 ⟨?_, ?_, ?_⟩, ?_⟩
+  · rintro x y A ⟨⟨hA, hx⟩, ⟨-, hy⟩⟩
+    obtain ⟨c, hc⟩ := h1 A hA
+    have e1 : x ∈ ι c := by rw [← hc]; exact hx
+    have e2 : y ∈ ι c := by rw [← hc]; exact hy
+    exact (mem_unitCls.1 e1).trans (mem_unitCls.1 e2).symm
+  · rintro x A ⟨-, -, h⟩; exact h
+  · ext A
+    constructor
+    · rintro ⟨x, hA, -⟩; exact hA
+    · intro hA
+      obtain ⟨c, hc⟩ := h1 A hA
+      exact ⟨c, hA, hc ▸ rfl⟩
+  · ext z
+    constructor
+    · intro hz
+      obtain ⟨A, hA, hzA⟩ := h2 hz
+      exact ⟨A, hA, hz, hzA⟩
+    · rintro ⟨A, -, hz, -⟩; exact hz
+
+private theorem pmB2_dom_sel_sub {K : Set (Set α)} {R : α → Set α → Prop} (hR : R ∈ sel memRel K) :
+    dom R ⊆ sumCls K := by
+  rintro z ⟨A, hzA⟩
+  exact ⟨A, pmB2_sel_codom hR hzA, (pmB2_mem_sel.1 hR).2.1 _ _ hzA⟩
+
+private theorem pmB2_mem_prodK_excl {K : Set (Set α)} (hK : K ∈ Cls2excl) {X : Set α} :
+    X ∈ prodK K ↔ (∀ A, A ∈ K → X ∩ A ∈ one) ∧ X ⊆ sumCls K := by
+  refine ⟨?_, fun ⟨h1, h2⟩ => pmB2_mem_prodK_of h1 h2⟩
+  rintro ⟨R, hR, rfl⟩
+  refine ⟨fun A hA => ?_, pmB2_dom_sel_sub hR⟩
+  obtain ⟨x, hx⟩ := pmB2_sel_ex hR hA
+  refine ⟨x, Set.ext fun z => ⟨?_, ?_⟩⟩
+  · rintro ⟨⟨B, hzB⟩, hzA⟩
+    have hB := pmB2_sel_codom hR hzB
+    have e : B = A := pmB2_excl_iff.1 hK B A z hB hA ((pmB2_mem_sel.1 hR).2.1 _ _ hzB) hzA
+    subst e
+    exact (pmB2_mem_sel.1 hR).1 _ _ _ ⟨hzB, hx⟩
+  · rintro rfl; exact ⟨⟨A, hx⟩, (pmB2_mem_sel.1 hR).2.1 _ _ hx⟩
+
+private theorem pmB2_sm_of_equiv {A : Set α} {B : Set β} (e : A ≃ B) : sm A B :=
+  sm_iff_nonempty_equiv.2 ⟨e⟩
+
+private theorem pmB2_mem_clsTimes {A : Set α} {B : Set β} {R : α → β → Prop} :
+    R ∈ B ×ₐ A ↔ ∃ x y, (x ∈ A ∧ y ∈ B) ∧ R = x ↓ y := by
+  constructor
+  · rintro ⟨S, ⟨y, hy, hS⟩, hRS⟩
+    have hS' : S = opImg couple A y := hS
+    rw [hS'] at hRS
+    obtain ⟨x, hx, hR⟩ := hRS
+    exact ⟨x, y, ⟨hx, hy⟩, hR⟩
+  · rintro ⟨x, y, ⟨hx, hy⟩, rfl⟩
+    exact couple_mem_clsTimes.2 ⟨hx, hy⟩
+
+end CopyBlock
+
+section CopyBlock
+
+private theorem pmB2_coupleImg_excl {α β : Type*} (A : Set α) (B : Set β) :
+    coupleImg A ʻʻ B ∈ Cls2excl := by
+  rw [pmB2_excl_iff]
+  rintro Y Y' R ⟨y, hy, hY⟩ ⟨y', hy', hY'⟩ hR hR'
+  have e1 : Y = opImg couple A y := hY
+  have e2 : Y' = opImg couple A y' := hY'
+  subst e1; subst e2
+  obtain ⟨x, hx, rfl⟩ := hR
+  obtain ⟨x', hx', e⟩ := hR'
+  rw [(couple_eq_couple_iff.1 e).2]
+
+private theorem pmB2_mem_clsExp {α β : Type*} {A : Set α} {B : Set β} {ξ : Set (α → β → Prop)} :
+    ξ ∈ clsExp A B ↔ (∀ y, y ∈ B → A ∩ {x | x ↓ y ∈ ξ} ∈ one) ∧ ξ ⊆ B ×ₐ A := by
+  rw [show clsExp A B = prodK (coupleImg A ʻʻ B) from rfl,
+    pmB2_mem_prodK_excl (pmB2_coupleImg_excl A B)]
+  refine and_congr ⟨fun h y hy => ?_, fun h Y hY => ?_⟩ Iff.rfl
+  · obtain ⟨c, hc⟩ := h _ ⟨y, hy, rfl⟩
+    have hcm : c ∈ ξ ∩ opImg couple A y := by rw [hc]; rfl
+    obtain ⟨x₀, hx₀, hcx⟩ := hcm.2
+    have hcx' : c = x₀ ↓ y := hcx
+    subst hcx'
+    refine ⟨x₀, Set.ext fun x => ⟨fun ⟨hx, hxξ⟩ => ?_, fun e => ?_⟩⟩
+    · have : x ↓ y ∈ ξ ∩ opImg couple A y := ⟨hxξ, x, hx, rfl⟩
+      rw [hc, mem_unitCls] at this
+      exact (couple_eq_couple_iff.1 this).1
+    · rw [mem_unitCls] at e; subst e; exact ⟨hx₀, hcm.1⟩
+  · obtain ⟨y, hy, hY⟩ := hY
+    have hY' : Y = opImg couple A y := hY
+    subst hY'
+    obtain ⟨x₀, hx₀⟩ := h y hy
+    have hm : x₀ ∈ A ∩ {x | x ↓ y ∈ ξ} := by rw [hx₀]; rfl
+    refine ⟨x₀ ↓ y, Set.ext fun R => ⟨fun ⟨hRξ, x, hx, hR⟩ => ?_, fun e => ?_⟩⟩
+    · have hR' : R = x ↓ y := hR
+      subst hR'
+      have : x ∈ A ∩ {x | x ↓ y ∈ ξ} := ⟨hx, hRξ⟩
+      rw [hx₀, mem_unitCls] at this
+      rw [this]; rfl
+    · rw [mem_unitCls] at e; subst e; exact ⟨hm.2, x₀, hm.1, rfl⟩
+
+private noncomputable def pmB2_clsExpEquiv {α β : Type*} (A : Set α) (B : Set β) :
+    ↥(clsExp A B) ≃ (↥B → ↥A) := by
+  let Φ : (↥B → ↥A) → Set (α → β → Prop) := fun f => {R | ∃ y : ↥B, R = (f y).1 ↓ y.1}
+  have hb : Set.BijOn Φ Set.univ (clsExp A B) := by
+    refine ⟨fun f _ => pmB2_mem_clsExp.2 ⟨fun y hy => ⟨(f ⟨y, hy⟩).1, Set.ext fun x =>
+      ⟨fun ⟨_, y', e⟩ => ?_, fun e => ?_⟩⟩, ?_⟩, fun f _ g _ e => ?_, fun ξ hξ => ?_⟩
+    · obtain ⟨rfl, e2⟩ := couple_eq_couple_iff.1 e
+      have : (⟨y, hy⟩ : ↥B) = y' := Subtype.ext e2
+      subst this; rfl
+    · rw [mem_unitCls] at e; subst e; exact ⟨(f ⟨y, hy⟩).2, ⟨y, hy⟩, rfl⟩
+    · rintro R ⟨y, rfl⟩; exact couple_mem_clsTimes.2 ⟨(f y).2, y.2⟩
+    · funext y
+      have : (f y).1 ↓ y.1 ∈ Φ g := e ▸ ⟨y, rfl⟩
+      obtain ⟨y', e'⟩ := this
+      obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e'
+      have : y = y' := Subtype.ext e2
+      subst this
+      exact Subtype.ext e1
+    · obtain ⟨h1, h2⟩ := pmB2_mem_clsExp.1 hξ
+      choose g hg using fun y : ↥B => h1 y.1 y.2
+      have hgm : ∀ y : ↥B, g y ∈ A ∩ {x | x ↓ y.1 ∈ ξ} := fun y => by rw [hg y]; rfl
+      refine ⟨fun y => ⟨g y, (hgm y).1⟩, Set.mem_univ _, Set.ext fun R => ⟨?_, fun hR => ?_⟩⟩
+      · rintro ⟨y, rfl⟩; exact (hgm y).2
+      · obtain ⟨x, y, ⟨hx, hy⟩, rfl⟩ := pmB2_mem_clsTimes.1 (h2 hR)
+        have : x ∈ A ∩ {x | x ↓ y ∈ ξ} := ⟨hx, hR⟩
+        rw [hg ⟨y, hy⟩, mem_unitCls] at this
+        exact ⟨⟨y, hy⟩, by rw [this]⟩
+  exact ((Equiv.Set.univ _).symm.trans (Set.BijOn.equiv Φ hb)).symm
+
+private theorem pmB2_sm_clsExp {α β γ δ : Type*} {A : Set α} {B : Set β} {A' : Set γ} {B' : Set δ}
+    (hA : sm A A') (hB : sm B B') : sm (clsExp A B) (clsExp A' B') := by
+  obtain ⟨eA⟩ := sm_iff_nonempty_equiv.1 hA
+  obtain ⟨eB⟩ := sm_iff_nonempty_equiv.1 hB
+  exact pmB2_sm_of_equiv ((pmB2_clsExpEquiv A B).trans ((Equiv.arrowCongr eB eA).trans
+    (pmB2_clsExpEquiv A' B').symm))
+
+private theorem pmB2_of_mem_n₀c {α : Type*} {A A' : Set α} (h : n₀c A' = n₀c A) : sm A A' :=
+  mem_n₀c.1 (h ▸ self_mem_n₀c A)
+
+private theorem pmB2_n₀c_exp {α β γ : Type*} (A : Set α) (B : Set β) :
+    (n₀c A ^ᶜ n₀c B : Set (Set γ)) = nc γ (clsExp A B) := by
+  ext ξ
+  constructor
+  · rintro ⟨A', B', ⟨hA, hB⟩, h⟩
+    exact sm_trans h (pmB2_sm_clsExp (pmB2_of_mem_n₀c hA) (pmB2_of_mem_n₀c hB))
+  · intro h
+    exact ⟨A, B, ⟨rfl, rfl⟩, h⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm170_aux_Null (x : α) : x ∉ (Λ : Set α) := fun h => h rfl
+
+private theorem pm170_aux_Null_eq : (Λ : Set α) = ∅ := Null_eq_empty
+
+private theorem pm170_aux_rEx_iff_fld {P : α → α → Prop} : rEx P ↔ (fld P).Nonempty := by
+  constructor
+  · rintro ⟨x, y, h⟩; exact ⟨x, y, Or.inl h⟩
+  · rintro ⟨x, y, h | h⟩
+    · exact ⟨x, y, h⟩
+    · exact ⟨y, x, h⟩
+
+private theorem pm170_aux_smorbar {P : α → α → Prop} {Q : β → β → Prop} (f : β → α)
+    (hinj : ∀ z w, z ∈ fld Q → w ∈ fld Q → f z = f w → z = w)
+    (hP : ∀ x y, P x y ↔ ∃ z w, Q z w ∧ x = f z ∧ y = f w) :
+    graph f ↾ fld Q ∈ smorbar P Q := by
+  refine ⟨⟨mem_arrow_one_one.2 ⟨?_, ?_⟩, ?_⟩, ?_⟩
+  · rintro x y z ⟨⟨hx, -⟩, ⟨hy, -⟩⟩; exact hx.trans hy.symm
+  · rintro x y z ⟨⟨hy, hyQ⟩, ⟨hz, hzQ⟩⟩; exact hinj y z hyQ hzQ (hy.symm.trans hz)
+  · ext z; exact ⟨fun h => ⟨f z, rfl, h⟩, fun ⟨_, _, h⟩ => h⟩
+  · funext x y; apply propext; rw [hP, semi_apply]
+    constructor
+    · rintro ⟨z, w, hzw, rfl, rfl⟩
+      exact ⟨z, w, ⟨⟨rfl, w, Or.inl hzw⟩, ⟨rfl, z, Or.inr hzw⟩⟩, hzw⟩
+    · rintro ⟨z, w, ⟨⟨hx, -⟩, ⟨hy, -⟩⟩, hzw⟩
+      exact ⟨z, w, hzw, hx, hy⟩
+
+private theorem pm170_aux_mem_fld_couple {x y z : α} : z ∈ fld (x ↓ y) ↔ z = x ∨ z = y := by
+  constructor
+  · rintro ⟨w, ⟨h, -⟩ | ⟨-, h⟩⟩
+    · exact Or.inl h
+    · exact Or.inr h
+  · rintro (rfl | rfl)
+    · exact ⟨y, Or.inl ⟨rfl, rfl⟩⟩
+    · exact ⟨x, Or.inr ⟨rfl, rfl⟩⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm170_aux_fld_semi {S : α → β → Prop} {Q : β → β → Prop} (hc : fld Q = codom S) :
+    fld (S ⁏ Q) = dom S := by
+  ext x
+  constructor
+  · rintro ⟨y, h | h⟩
+    · obtain ⟨z, w, ⟨hxz, -⟩, -⟩ := (semi_apply S Q x y).1 h; exact ⟨z, hxz⟩
+    · obtain ⟨z, w, ⟨-, hxw⟩, -⟩ := (semi_apply S Q y x).1 h; exact ⟨w, hxw⟩
+  · rintro ⟨z, hxz⟩
+    have hz : z ∈ fld Q := by rw [hc]; exact ⟨x, hxz⟩
+    obtain ⟨w, hzw | hwz⟩ := hz
+    · have : w ∈ codom S := by rw [← hc]; exact ⟨z, Or.inr hzw⟩
+      obtain ⟨y, hyw⟩ := this
+      exact ⟨y, Or.inl ((semi_apply S Q x y).2 ⟨z, w, ⟨hxz, hyw⟩, hzw⟩)⟩
+    · have : w ∈ codom S := by rw [← hc]; exact ⟨z, Or.inl hwz⟩
+      obtain ⟨y, hyw⟩ := this
+      exact ⟨y, Or.inr ((semi_apply S Q y x).2 ⟨w, z, ⟨hyw, hxz⟩, hwz⟩)⟩
+
+private theorem pm170_aux_semi_cres (S : α → β → Prop) (Q : β → β → Prop) : S ⁏ Q = (S ↾ fld Q) ⁏ Q := by
+  funext x y; apply propext
+  rw [semi_apply, semi_apply]
+  constructor
+  · rintro ⟨z, w, ⟨h1, h2⟩, hq⟩
+    exact ⟨z, w, ⟨⟨h1, w, Or.inl hq⟩, ⟨h2, z, Or.inr hq⟩⟩, hq⟩
+  · rintro ⟨z, w, ⟨h1, h2⟩, hq⟩
+    exact ⟨z, w, ⟨h1.1, h2.1⟩, hq⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm170_aux_fld_couple (x y : α) : fld (x ↓ y) = ι x ∪ ι y := by
+  ext z; rw [pm170_aux_mem_fld_couple]; rfl
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm170_aux_mem_iota {x y : α} : y ∈ ι x ↔ y = x := mem_unitCls
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v} {γ : Type w}
+
+private theorem pm170_aux_fld_rtimes {Q : β → β → Prop} {P : α → α → Prop} {u : α → β → Prop}
+    (hu : u ∈ fld (Q ×ᵣ P)) : ∃ x z, (x ∈ fld P ∧ z ∈ fld Q) ∧ u = x ↓ z := by
+  obtain ⟨v, h | h⟩ := hu
+  · rcases (rtimes_apply Q P u v).1 h with ⟨z, hz, a, b, ⟨rfl, -⟩, hab⟩ |
+      ⟨z, w, hzw, a, b, ⟨ha, -⟩, rfl, -⟩
+    · exact ⟨a, z, ⟨⟨b, Or.inl hab⟩, hz⟩, rfl⟩
+    · exact ⟨a, z, ⟨ha, ⟨w, Or.inl hzw⟩⟩, rfl⟩
+  · rcases (rtimes_apply Q P v u).1 h with ⟨z, hz, a, b, ⟨-, rfl⟩, hab⟩ |
+      ⟨z, w, hzw, a, b, ⟨-, hb⟩, -, rfl⟩
+    · exact ⟨b, z, ⟨⟨a, Or.inr hab⟩, hz⟩, rfl⟩
+    · exact ⟨b, w, ⟨hb, ⟨z, Or.inr hzw⟩⟩, rfl⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm171_1 {P : α → α → Prop} {A B : Set α} : Pdf P A B ↔ (A ∈ cl (fld P) ∧ B ∈ cl (fld P)) ∧
+    ∃ z, z ∈ A \ B ∧ (refs P z ∩ A) \ ι z = refs P z ∩ B := Iff.rfl
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm172_aux_sel_unique {R M : α → β → Prop} {K : Set β} (hM : M ∈ sel R K) {x y : α} {Q : β}
+    (h1 : M x Q) (h2 : M y Q) : x = y :=
+  mem_arrow_one_Cls.1 (mem_sel_iff.1 hM).1.1 x y Q ⟨h1, h2⟩
+
+private theorem pm172_aux_sel_exists {R M : α → β → Prop} {K : Set β} (hM : M ∈ sel R K) {Q : β}
+    (hQ : Q ∈ K) : ∃ x, M x Q := by
+  rw [← (mem_sel_iff.1 hM).2] at hQ; exact hQ
+
+private theorem pm172_aux_sel_sub {R M : α → β → Prop} {K : Set β} (hM : M ∈ sel R K) {x : α} {Q : β}
+    (h : M x Q) : R x Q := (mem_sel_iff.1 hM).1.2 x Q h
+
+private theorem pm172_aux_sel_mem {R M : α → β → Prop} {K : Set β} (hM : M ∈ sel R K) {x : α} {Q : β}
+    (h : M x Q) : Q ∈ K := by
+  rw [← (mem_sel_iff.1 hM).2]; exact ⟨x, h⟩
+
+private theorem pm172_aux_desc_sel {R M : α → β → Prop} {K : Set β} (hM : M ∈ sel R K) {x : α} {Q : β}
+    (hx : M x Q) (ψ : α → Prop) : Desc M Q ψ ↔ ψ x :=
+  TheIs_iff_of_unique fun y => ⟨fun hy => pm172_aux_sel_unique hM hy hx, fun e => e ▸ hx⟩
+
+private theorem pm172_aux_mk_sel {R M : α → β → Prop} {K : Set β}
+    (h1 : ∀ x y Q, M x Q → M y Q → x = y) (h2 : ∀ x Q, M x Q → R x Q) (h3 : codom M = K) :
+    M ∈ sel R K :=
+  mem_sel_iff.2 ⟨⟨mem_arrow_one_Cls.2 fun x y z h => h1 x y z h.1 h.2, h2⟩, h3⟩
+
+private theorem pm172_aux_sel_iff_sub {R R' M : α → β → Prop} {K : Set β} (hM : M ∈ sel R K) :
+    M ∈ sel R' K ↔ M ⪽ R' :=
+  ⟨fun h => (mem_sel_iff.1 h).1.2, fun h =>
+    mem_sel_iff.2 ⟨⟨(mem_sel_iff.1 hM).1.1, h⟩, (mem_sel_iff.1 hM).2⟩⟩
+
+private theorem pm172_aux_sel_ext {R M N : α → β → Prop} {K : Set β} (hM : M ∈ sel R K)
+    (hN : N ∈ sel R K) (h : ∀ x Q, M x Q → N x Q) : M = N := by
+  funext x Q; apply propext
+  refine ⟨h x Q, fun hx => ?_⟩
+  obtain ⟨y, hy⟩ := pm172_aux_sel_exists hM (pm172_aux_sel_mem hN hx)
+  rw [pm172_aux_sel_unique hN hx (h y Q hy)]; exact hy
+
+private theorem pm172_aux_rEx_iff_ne {Q : α → α → Prop} : rEx Q ↔ Q ≠ rNull := by
+  constructor
+  · rintro ⟨x, y, h⟩ rfl; exact rNull_apply x y h
+  · intro h; by_contra h'
+    exact h (funext fun x => funext fun y => propext
+      ⟨fun hxy => absurd ⟨x, y, hxy⟩ h', fun hxy => absurd hxy (rNull_apply x y)⟩)
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm172_aux_relPi_iff {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {M N : α → (α → α → Prop) → Prop} :
+    relPi P M N ↔ (M ∈ sel F (fld P) ∧ N ∈ sel F (fld P)) ∧
+      ∃ Q x y, ((M x Q ∧ N y Q) ∧ Q x y) ∧ ∀ R, P R Q ∧ R ≠ Q → ∀ u, M u R → N u R := by
+  constructor
+  · rintro ⟨⟨hM, hN⟩, Q, ⟨x, hx, y, hy, hq⟩, hR⟩
+    refine ⟨⟨hM, hN⟩, Q, x, y, ⟨⟨(hx x).2 rfl, (hy y).2 rfl⟩, hq⟩, fun R hR' u hu => ?_⟩
+    obtain ⟨u0, hu0, v0, hv0, e⟩ := hR R hR'
+    rw [(hu0 u).1 hu, e]; exact (hv0 v0).2 rfl
+  · rintro ⟨⟨hM, hN⟩, Q, x, y, ⟨⟨hx, hy⟩, hq⟩, hR⟩
+    refine ⟨⟨hM, hN⟩, Q, (pm172_aux_desc_sel hM hx _).2 ((pm172_aux_desc_sel hN hy _).2 hq),
+      fun R hR' => ?_⟩
+    have hRP : R ∈ fld P := ⟨Q, Or.inl hR'.1⟩
+    obtain ⟨u, hu⟩ := pm172_aux_sel_exists hM hRP
+    exact (pm172_aux_desc_sel hM hu _).2 ((pm172_aux_desc_sel hN (hR R hR' u hu) _).2 rfl)
+
+private theorem pm172_aux_modify {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {M : α → (α → α → Prop) → Prop} {Q : α → α → Prop} {y : α} (hM : M ∈ sel F (fld P))
+    (hQ : Q ∈ fld P) (hy : y ∈ fld Q) : (M ↾ (ι Q)ᶜ) ⊍ y ↓ Q ∈ sel F (fld P) := by
+  refine pm172_aux_mk_sel ?_ ?_ ?_
+  · rintro x x' R (⟨h1, h1'⟩ | ⟨h1, h1'⟩) (⟨h2, h2'⟩ | ⟨h2, h2'⟩)
+    · exact pm172_aux_sel_unique hM h1 h2
+    · exact absurd h2' h1'
+    · exact absurd h1' h2'
+    · exact (show x = y from h1).trans (show x' = y from h2).symm
+  · rintro x R (⟨h1, -⟩ | ⟨h1, h1'⟩)
+    · exact pm172_aux_sel_sub hM h1
+    · rw [show x = y from h1, show R = Q from h1']; exact hy
+  · ext R; constructor
+    · rintro ⟨x, ⟨h1, -⟩ | ⟨-, h1'⟩⟩
+      · exact pm172_aux_sel_mem hM h1
+      · rw [show R = Q from h1']; exact hQ
+    · intro hR
+      by_cases e : R ∈ ι Q
+      · exact ⟨y, Or.inr ⟨rfl, e⟩⟩
+      · obtain ⟨x, hx⟩ := pm172_aux_sel_exists hM hR
+        exact ⟨x, Or.inl ⟨hx, e⟩⟩
+
+private theorem pm172_aux_Beg_sub_F {x : α} {Q : α → α → Prop} (h : Beg x Q) : F x Q := by
+  obtain ⟨⟨y, hy⟩, -⟩ := h; exact ⟨y, Or.inl hy⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm172_12 (P : (α → α → Prop) → (α → α → Prop) → Prop) : fld (relPi P) ⊆ sel F (fld P) := by
+  rintro M ⟨N, ⟨⟨hM, -⟩, -⟩ | ⟨⟨-, hM⟩, -⟩⟩ <;> exact hM
+
+private theorem pm172_13 : relPi (rNull : (α → α → Prop) → (α → α → Prop) → Prop) = rNull := by
+  funext M N; apply propext
+  constructor
+  · rintro ⟨⟨hM, -⟩, Q, ⟨x, hx, -⟩, -⟩
+    obtain ⟨R, hR | hR⟩ := pm172_aux_sel_mem hM ((hx x).2 rfl) <;> exact absurd hR (rNull_apply _ _)
+  · intro h; exact absurd h (rNull_apply M N)
+
+private theorem pm172_15 {P : (α → α → Prop) → (α → α → Prop) → Prop} {M : α → (α → α → Prop) → Prop}
+    {Q : α → α → Prop} {y : α}
+    (h : (M ∈ sel F (fld P) ∧ Q ∈ fld P) ∧ Desc M Q (fun x => Q x y)) :
+    relPi P M ((M ↾ (ι Q)ᶜ) ⊍ y ↓ Q) := by
+  obtain ⟨⟨hM, hQ⟩, x, hx, hxy⟩ := h
+  have hMx : M x Q := (hx x).2 rfl
+  refine pm172_aux_relPi_iff.2 ⟨⟨hM, pm172_aux_modify hM hQ ⟨x, Or.inr hxy⟩⟩, Q, x, y,
+    ⟨⟨hMx, Or.inr ⟨rfl, rfl⟩⟩, hxy⟩, fun R hR u hu => Or.inl ⟨hu, hR.2⟩⟩
+
+private theorem pm172_151 {P : (α → α → Prop) → (α → α → Prop) → Prop} {N : α → (α → α → Prop) → Prop}
+    {Q : α → α → Prop} {y : α}
+    (h : (N ∈ sel F (fld P) ∧ Q ∈ fld P) ∧ Desc N Q (fun x => Q y x)) :
+    relPi P ((N ↾ (ι Q)ᶜ) ⊍ y ↓ Q) N := by
+  obtain ⟨⟨hN, hQ⟩, x, hx, hxy⟩ := h
+  have hNx : N x Q := (hx x).2 rfl
+  refine pm172_aux_relPi_iff.2 ⟨⟨pm172_aux_modify hN hQ ⟨x, Or.inl hxy⟩, hN⟩, Q, y, x,
+    ⟨⟨Or.inr ⟨rfl, rfl⟩, hNx⟩, hxy⟩, fun R hR u hu => ?_⟩
+  rcases hu with ⟨hu, -⟩ | ⟨-, hu⟩
+  · exact hu
+  · exact absurd hu hR.2
+
+private theorem pm172_16 {P : (α → α → Prop) → (α → α → Prop) → Prop} {M : α → (α → α → Prop) → Prop}
+    (h : M ∈ sel F (fld P) ∧ rEx (M ∸ Beg)) : M ∈ codom (relPi P) := by
+  obtain ⟨hM, x, Q, hxQ, hB⟩ := h
+  have hF := pm172_aux_sel_sub hM hxQ
+  have : x ∈ codom Q := by
+    by_contra h'
+    refine hB ⟨?_, h'⟩
+    obtain ⟨y, hy | hy⟩ := hF
+    · exact ⟨y, hy⟩
+    · exact absurd ⟨y, hy⟩ h'
+  obtain ⟨y, hy⟩ := this
+  exact ⟨_, pm172_151 ⟨⟨hM, pm172_aux_sel_mem hM hxQ⟩, (pm172_aux_desc_sel hM hxQ _).2 hy⟩⟩
+
+private theorem pm172_aux_codom_iff {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {M : α → (α → α → Prop) → Prop} :
+    M ∈ codom (relPi P) ↔ M ∈ sel F (fld P) ∧ M ∉ sel Beg (fld P) := by
+  constructor
+  · rintro ⟨N, hMN⟩
+    obtain ⟨⟨hN, hM⟩, Q, x, y, ⟨⟨-, hy⟩, hq⟩, -⟩ := pm172_aux_relPi_iff.1 hMN
+    refine ⟨hM, fun h' => ?_⟩
+    exact ((mem_sel_iff.1 h').1.2 y Q hy).2 ⟨x, hq⟩
+  · rintro ⟨hM, hM'⟩
+    by_cases h' : M ⪽ Beg
+    · exact absurd ((pm172_aux_sel_iff_sub hM).2 h') hM'
+    · simp only [RSub, not_forall] at h'
+      obtain ⟨x, Q, hxQ, hB⟩ := h'
+      exact pm172_16 ⟨hM, x, Q, hxQ, hB⟩
+
+private theorem pm172_aux_sel_Beg_dom {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {M : α → (α → α → Prop) → Prop} (hP : rEx P) (h : M ∈ sel Beg (fld P)) :
+    M ∈ dom (relPi P) := by
+  have hM : M ∈ sel F (fld P) := (pm172_aux_sel_iff_sub h).2 fun x Q hx =>
+    pm172_aux_Beg_sub_F ((mem_sel_iff.1 h).1.2 x Q hx)
+  obtain ⟨Q, hQ⟩ := pm170_aux_rEx_iff_fld.1 hP
+  obtain ⟨x, hx⟩ := pm172_aux_sel_exists hM hQ
+  obtain ⟨⟨y, hy⟩, -⟩ := (mem_sel_iff.1 h).1.2 x Q hx
+  exact ⟨_, pm172_15 ⟨⟨hM, hQ⟩, (pm172_aux_desc_sel hM hx _).2 hy⟩⟩
+
+private theorem pm172_17 {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : rEx P) :
+    fld (relPi P) = sel F (fld P) := by
+  refine Set.Subset.antisymm (pm172_12 P) (fun M hM => ?_)
+  by_cases h : M ∈ sel Beg (fld P)
+  · obtain ⟨N, hN⟩ := pm172_aux_sel_Beg_dom hP h; exact ⟨N, Or.inl hN⟩
+  · obtain ⟨N, hN⟩ := pm172_aux_codom_iff.2 ⟨hM, h⟩; exact ⟨N, Or.inr hN⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm172_aux_inter_Null {A B : Set α} : A ∩ B = Λ ↔ ∀ x, x ∈ A → x ∈ B → False := by
+  rw [pm170_aux_Null_eq, Set.eq_empty_iff_forall_notMem]
+  exact ⟨fun h x ha hb => h x ⟨ha, hb⟩, fun h x hx => h x hx.1 hx.2⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v} {γ : Type w} {δ : Type u'}
+
+private theorem pm172_aux_smor_empty {P : α → α → Prop} {Q : β → β → Prop} (hP : ∀ x y, ¬ P x y)
+    (hQ : ∀ x y, ¬ Q x y) : smor P Q := by
+  refine ⟨fun _ _ => False, ⟨mem_arrow_one_one.2 ⟨fun _ _ _ h => h.1.elim,
+    fun _ _ _ h => h.1.elim⟩, ?_⟩, ?_⟩
+  · ext y; constructor
+    · rintro ⟨z, h | h⟩ <;> exact (hQ _ _ h).elim
+    · rintro ⟨x, h⟩; exact h.elim
+  · funext x y; apply propext; rw [semi_apply]
+    exact ⟨fun h => (hP _ _ h).elim, fun ⟨_, _, ⟨h, _⟩, _⟩ => h.elim⟩
+
+private theorem pm172_aux_fld_img {P : α → α → Prop} {Q : β → β → Prop} {g : β → α}
+    (hP : ∀ x y, P x y ↔ ∃ z w, Q z w ∧ x = g z ∧ y = g w) {x : α} :
+    x ∈ fld P ↔ ∃ z, z ∈ fld Q ∧ x = g z := by
+  constructor
+  · rintro ⟨y, h | h⟩
+    · obtain ⟨z, w, hzw, rfl, -⟩ := (hP _ _).1 h; exact ⟨z, ⟨w, Or.inl hzw⟩, rfl⟩
+    · obtain ⟨z, w, hzw, -, rfl⟩ := (hP _ _).1 h; exact ⟨w, ⟨z, Or.inr hzw⟩, rfl⟩
+  · rintro ⟨z, ⟨w, h | h⟩, rfl⟩
+    · exact ⟨g w, Or.inl ((hP _ _).2 ⟨z, w, h, rfl, rfl⟩)⟩
+    · exact ⟨g w, Or.inr ((hP _ _).2 ⟨w, z, h, rfl, rfl⟩)⟩
+
+private theorem pm172_aux_rtimes_empty {Q : β → β → Prop} {P : α → α → Prop}
+    (h : fld Q = ∅ ∨ fld P = ∅) (U V : α → β → Prop) : ¬ (Q ×ᵣ P) U V := by
+  intro hUV
+  obtain ⟨x, z, ⟨hx, hz⟩, -⟩ := pm170_aux_fld_rtimes ⟨V, Or.inl hUV⟩
+  rcases h with h | h
+  · rw [h] at hz; exact hz
+  · rw [h] at hx; exact hx
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm172_aux_eq_rNull_of_not_rEx {P : α → α → Prop} (h : ¬ rEx P) : P = rNull := by
+  by_contra h'; exact h (pm172_aux_rEx_iff_ne.2 h')
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm172_aux_mem_fld_relSigma {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : α → α → Prop} {x : α} (hQ : Q ∈ fld P) (hx : x ∈ fld Q) : x ∈ fld (relSigma P) := by
+  obtain ⟨y, hy | hy⟩ := hx
+  · exact ⟨y, Or.inl (Or.inl ⟨Q, hQ, hy⟩)⟩
+  · exact ⟨y, Or.inr (Or.inl ⟨Q, hQ, hy⟩)⟩
+
+private theorem pm172_aux_fld_relSigma {P : (α → α → Prop) → (α → α → Prop) → Prop} {x : α}
+    (hx : x ∈ fld (relSigma P)) : ∃ Q, Q ∈ fld P ∧ x ∈ fld Q := by
+  obtain ⟨y, h | h⟩ := hx
+  · rcases (relSigma_apply P _ _).1 h with ⟨Q, hQ, hq⟩ | ⟨Q, R, ⟨h1, -⟩, hQR⟩
+    · exact ⟨Q, hQ, y, Or.inl hq⟩
+    · exact ⟨Q, ⟨R, Or.inl hQR⟩, h1⟩
+  · rcases (relSigma_apply P _ _).1 h with ⟨Q, hQ, hq⟩ | ⟨Q, R, ⟨-, h2⟩, hQR⟩
+    · exact ⟨Q, hQ, y, Or.inr hq⟩
+    · exact ⟨R, ⟨Q, Or.inr hQR⟩, h2⟩
+
+private theorem pm172_aux_dpar_tr (T : α → β → Prop) (M : α → (α → α → Prop) → Prop)
+    (N : β → (β → β → Prop) → Prop) :
+    (T ∥ (daggerRel T)˘) M N ↔ M = T ⨾ N ⨾ (daggerRel T)˘ := by
+  rw [dpar_iff]
+  have : T ⨾ (N ⨾ (daggerRel T)˘) = T ⨾ N ⨾ (daggerRel T)˘ := by
+    funext x R; apply propext
+    constructor
+    · rintro ⟨y, h1, S, h2, h3⟩; exact ⟨S, ⟨y, h1, h2⟩, h3⟩
+    · rintro ⟨S, ⟨y, h1, h2⟩, h3⟩; exact ⟨y, h1, S, h2, h3⟩
+  rw [this]
+
+private theorem pm172_aux_tr_apply (T : α → β → Prop) (N : β → (β → β → Prop) → Prop) (x : α)
+    (R : α → α → Prop) :
+    (T ⨾ N ⨾ (daggerRel T)˘) x R ↔ ∃ y S, (T x y ∧ N y S) ∧ R = daggerOp T S := by
+  constructor
+  · rintro ⟨S, ⟨y, h1, h2⟩, h3⟩; exact ⟨y, S, ⟨h1, h2⟩, h3⟩
+  · rintro ⟨y, S, ⟨h1, h2⟩, h3⟩; exact ⟨S, ⟨y, h1, h2⟩, h3⟩
+
+private theorem pm172_aux_dagger_cres {T : α → β → Prop} {K : Set β} {S : β → β → Prop}
+    (h : fld S ⊆ K) : daggerOp (T ↾ K) S = daggerOp T S := by
+  funext a b; apply propext
+  rw [daggerOp_eq_semi, daggerOp_eq_semi, semi_apply, semi_apply]
+  constructor
+  · rintro ⟨z, w, ⟨h1, h2⟩, h3⟩; exact ⟨z, w, ⟨h1.1, h2.1⟩, h3⟩
+  · rintro ⟨z, w, ⟨h1, h2⟩, h3⟩
+    exact ⟨z, w, ⟨⟨h1, h ⟨w, Or.inl h3⟩⟩, ⟨h2, h ⟨z, Or.inr h3⟩⟩⟩, h3⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+variable {T : α → β → Prop} {Q : (β → β → Prop) → (β → β → Prop) → Prop}
+  (h1 : ∀ x y z, T x z ∧ T y z → x = y) (h2 : ∀ x y z, T x y ∧ T x z → y = z)
+  (hc : ∀ S, S ∈ fld Q → fld S ⊆ codom T)
+
+include h2 hc in
+private theorem pm172_aux_dagger_inj {S S' : β → β → Prop} (hS : S ∈ fld Q) (hS' : S' ∈ fld Q)
+    (e : daggerOp T S = daggerOp T S') : S = S' := by
+  have key : ∀ {S S' : β → β → Prop}, S ∈ fld Q → daggerOp T S = daggerOp T S' →
+      ∀ y y', S y y' → S' y y' := by
+    intro S S' hS e y y' h
+    obtain ⟨a, ha⟩ := hc S hS ⟨y', Or.inl h⟩
+    obtain ⟨b, hb⟩ := hc S hS ⟨y, Or.inr h⟩
+    have : daggerOp T S a b := (semi_apply _ _ _ _).2 ⟨y, y', ⟨ha, hb⟩, h⟩
+    rw [e] at this
+    obtain ⟨z, w, ⟨hz, hw⟩, hzw⟩ := (semi_apply _ _ _ _).1 this
+    rw [h2 a y z ⟨ha, hz⟩, h2 b y' w ⟨hb, hw⟩]; exact hzw
+  funext y y'; apply propext
+  exact ⟨key hS e y y', key hS' e.symm y y'⟩
+
+include hc in
+private theorem pm172_aux_mem_fld_dagger {S : β → β → Prop} (hS : S ∈ fld Q) {x : α} :
+    x ∈ fld (daggerOp T S) ↔ ∃ y, T x y ∧ y ∈ fld S := by
+  constructor
+  · rintro ⟨x', h | h⟩
+    · obtain ⟨z, w, ⟨hz, -⟩, hzw⟩ := (semi_apply _ _ _ _).1 h
+      exact ⟨z, hz, w, Or.inl hzw⟩
+    · obtain ⟨z, w, ⟨-, hw⟩, hzw⟩ := (semi_apply _ _ _ _).1 h
+      exact ⟨w, hw, z, Or.inr hzw⟩
+  · rintro ⟨y, hxy, w, hw | hw⟩
+    · obtain ⟨b, hb⟩ := hc S hS ⟨y, Or.inr hw⟩
+      exact ⟨b, Or.inl ((semi_apply _ _ _ _).2 ⟨y, w, ⟨hxy, hb⟩, hw⟩)⟩
+    · obtain ⟨b, hb⟩ := hc S hS ⟨y, Or.inl hw⟩
+      exact ⟨b, Or.inr ((semi_apply _ _ _ _).2 ⟨w, y, ⟨hb, hxy⟩, hw⟩)⟩
+
+omit h1 h2 hc in
+private theorem pm172_aux_P_apply {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : P = daggerRel T ⁏ Q)
+    (R R' : α → α → Prop) :
+    P R R' ↔ ∃ S S', (R = daggerOp T S ∧ R' = daggerOp T S') ∧ Q S S' := by
+  rw [hP]; exact semi_graph_apply _ _ _ _
+
+omit h1 h2 hc in
+private theorem pm172_aux_fld_P {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : P = daggerRel T ⁏ Q)
+    (R : α → α → Prop) : R ∈ fld P ↔ ∃ S, S ∈ fld Q ∧ R = daggerOp T S := by
+  rw [hP, show (daggerRel T : (α → α → Prop) → (β → β → Prop) → Prop) = graph (daggerOp T)
+    from rfl, fld_semi_graph]; exact Iff.rfl
+
+include h1 h2 hc in
+private theorem pm172_aux_tr_sel {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : P = daggerRel T ⁏ Q)
+    {N : β → (β → β → Prop) → Prop} (hN : N ∈ sel F (fld Q)) :
+    T ⨾ N ⨾ (daggerRel T)˘ ∈ sel F (fld P) := by
+  refine pm172_aux_mk_sel ?_ ?_ ?_
+  · intro x x' R hx hx'
+    obtain ⟨y, S, ⟨hxy, hyS⟩, rfl⟩ := (pm172_aux_tr_apply _ _ _ _).1 hx
+    obtain ⟨y', S', ⟨hxy', hyS'⟩, e⟩ := (pm172_aux_tr_apply _ _ _ _).1 hx'
+    have := pm172_aux_dagger_inj h2 hc (pm172_aux_sel_mem hN hyS) (pm172_aux_sel_mem hN hyS') e
+    subst this
+    rw [pm172_aux_sel_unique hN hyS hyS'] at hxy
+    exact h1 x x' y' ⟨hxy, hxy'⟩
+  · intro x R hx
+    obtain ⟨y, S, ⟨hxy, hyS⟩, rfl⟩ := (pm172_aux_tr_apply _ _ _ _).1 hx
+    exact (pm172_aux_mem_fld_dagger hc (pm172_aux_sel_mem hN hyS)).2
+      ⟨y, hxy, pm172_aux_sel_sub hN hyS⟩
+  · ext R; rw [pm172_aux_fld_P hP]
+    constructor
+    · rintro ⟨x, hx⟩
+      obtain ⟨y, S, ⟨-, hyS⟩, rfl⟩ := (pm172_aux_tr_apply _ _ _ _).1 hx
+      exact ⟨S, pm172_aux_sel_mem hN hyS, rfl⟩
+    · rintro ⟨S, hS, rfl⟩
+      obtain ⟨y, hy⟩ := pm172_aux_sel_exists hN hS
+      obtain ⟨x, hx⟩ := hc S hS (pm172_aux_sel_sub hN hy)
+      exact ⟨x, (pm172_aux_tr_apply _ _ _ _).2 ⟨y, S, ⟨hx, hy⟩, rfl⟩⟩
+
+include h2 hc in
+private theorem pm172_aux_tr_at {N : β → (β → β → Prop) → Prop} (hN : N ∈ sel F (fld Q))
+    {S : β → β → Prop} (hS : S ∈ fld Q) (x : α) :
+    (T ⨾ N ⨾ (daggerRel T)˘) x (daggerOp T S) ↔ ∃ y, T x y ∧ N y S := by
+  rw [pm172_aux_tr_apply]
+  constructor
+  · rintro ⟨y, S', ⟨hxy, hyS'⟩, e⟩
+    rw [pm172_aux_dagger_inj h2 hc hS (pm172_aux_sel_mem hN hyS') e]; exact ⟨y, hxy, hyS'⟩
+  · rintro ⟨y, hxy, hyS⟩; exact ⟨y, S, ⟨hxy, hyS⟩, rfl⟩
+
+include h2 hc in
+private theorem pm172_aux_tr_inj {N N' : β → (β → β → Prop) → Prop} (hN : N ∈ sel F (fld Q))
+    (hN' : N' ∈ sel F (fld Q)) (e : T ⨾ N ⨾ (daggerRel T)˘ = T ⨾ N' ⨾ (daggerRel T)˘) :
+    N = N' := by
+  refine pm172_aux_sel_ext hN hN' fun y S hy => ?_
+  have hS := pm172_aux_sel_mem hN hy
+  obtain ⟨x, hx⟩ := hc S hS (pm172_aux_sel_sub hN hy)
+  have h := (pm172_aux_tr_at h2 hc hN hS x).2 ⟨y, hx, hy⟩
+  rw [e, pm172_aux_tr_at h2 hc hN' hS] at h
+  obtain ⟨y', hxy', hy'⟩ := h
+  rw [h2 x y y' ⟨hx, hxy'⟩]; exact hy'
+
+include h1 h2 hc in
+private theorem pm172_aux_tr_surj {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : P = daggerRel T ⁏ Q)
+    {M : α → (α → α → Prop) → Prop} (hM : M ∈ sel F (fld P)) :
+    ∃ N, N ∈ sel F (fld Q) ∧ M = T ⨾ N ⨾ (daggerRel T)˘ := by
+  refine ⟨fun y S => S ∈ fld Q ∧ ∃ x, T x y ∧ M x (daggerOp T S), ?_, ?_⟩
+  · refine pm172_aux_mk_sel ?_ ?_ ?_
+    · rintro y y' S ⟨-, x, hxy, hx⟩ ⟨-, x', hxy', hx'⟩
+      rw [pm172_aux_sel_unique hM hx hx'] at hxy
+      exact h2 x' y y' ⟨hxy, hxy'⟩
+    · rintro y S ⟨hS, x, hxy, hx⟩
+      obtain ⟨y0, hxy0, hy0⟩ := (pm172_aux_mem_fld_dagger hc hS).1 (pm172_aux_sel_sub hM hx)
+      rw [h2 x y y0 ⟨hxy, hxy0⟩]; exact hy0
+    · ext S; constructor
+      · rintro ⟨y, hS, -⟩; exact hS
+      · intro hS
+        have hR : daggerOp T S ∈ fld P := (pm172_aux_fld_P hP _).2 ⟨S, hS, rfl⟩
+        obtain ⟨x, hx⟩ := pm172_aux_sel_exists hM hR
+        obtain ⟨y, hxy, -⟩ := (pm172_aux_mem_fld_dagger hc hS).1 (pm172_aux_sel_sub hM hx)
+        exact ⟨y, hS, x, hxy, hx⟩
+  · funext x R; apply propext
+    rw [pm172_aux_tr_apply]
+    constructor
+    · intro hx
+      obtain ⟨S, hS, rfl⟩ := (pm172_aux_fld_P hP R).1 (pm172_aux_sel_mem hM hx)
+      obtain ⟨y, hxy, -⟩ := (pm172_aux_mem_fld_dagger hc hS).1 (pm172_aux_sel_sub hM hx)
+      exact ⟨y, S, ⟨hxy, hS, x, hxy, hx⟩, rfl⟩
+    · rintro ⟨y, S, ⟨hxy, -, x', hxy', hx'⟩, rfl⟩
+      rw [h1 x x' y ⟨hxy, hxy'⟩]; exact hx'
+
+include h1 h2 hc in
+private theorem pm172_aux_tr_relPi {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : P = daggerRel T ⁏ Q)
+    {N N' : β → (β → β → Prop) → Prop} (hN : N ∈ sel F (fld Q)) (hN' : N' ∈ sel F (fld Q)) :
+    relPi P (T ⨾ N ⨾ (daggerRel T)˘) (T ⨾ N' ⨾ (daggerRel T)˘) ↔ relPi Q N N' := by
+  have hM := pm172_aux_tr_sel h1 h2 hc hP hN
+  have hM' := pm172_aux_tr_sel h1 h2 hc hP hN'
+  rw [pm172_aux_relPi_iff, pm172_aux_relPi_iff]
+  constructor
+  · rintro ⟨-, R, x, x', ⟨⟨hx, hx'⟩, hR⟩, hall⟩
+    obtain ⟨y, S, ⟨hxy, hyS⟩, rfl⟩ := (pm172_aux_tr_apply _ _ _ _).1 hx
+    have hS := pm172_aux_sel_mem hN hyS
+    obtain ⟨y', hxy', hy'⟩ := (pm172_aux_tr_at h2 hc hN' hS x').1 hx'
+    obtain ⟨z, w, ⟨hz, hw⟩, hzw⟩ := (semi_apply _ _ _ _).1 hR
+    rw [h2 x z y ⟨hz, hxy⟩, h2 x' w y' ⟨hw, hxy'⟩] at hzw
+    refine ⟨⟨hN, hN'⟩, S, y, y', ⟨⟨hyS, hy'⟩, hzw⟩, fun S0 ⟨hS0, hne⟩ v hv => ?_⟩
+    have hS0f : S0 ∈ fld Q := ⟨S, Or.inl hS0⟩
+    obtain ⟨u, hu⟩ := hc S0 hS0f (pm172_aux_sel_sub hN hv)
+    have hP0 : P (daggerOp T S0) (daggerOp T S) :=
+      (pm172_aux_P_apply hP _ _).2 ⟨S0, S, ⟨rfl, rfl⟩, hS0⟩
+    have hne' : daggerOp T S0 ≠ daggerOp T S := fun e => hne (pm172_aux_dagger_inj h2 hc hS0f hS e)
+    have := hall _ ⟨hP0, hne'⟩ u ((pm172_aux_tr_at h2 hc hN hS0f u).2 ⟨v, hu, hv⟩)
+    obtain ⟨v', huv', hv'⟩ := (pm172_aux_tr_at h2 hc hN' hS0f u).1 this
+    rw [h2 u v v' ⟨hu, huv'⟩]; exact hv'
+  · rintro ⟨-, S, y, y', ⟨⟨hyS, hy'⟩, hyy⟩, hall⟩
+    have hS := pm172_aux_sel_mem hN hyS
+    obtain ⟨x, hx⟩ := hc S hS ⟨y', Or.inl hyy⟩
+    obtain ⟨x', hx'⟩ := hc S hS ⟨y, Or.inr hyy⟩
+    refine ⟨⟨hM, hM'⟩, daggerOp T S, x, x', ⟨⟨(pm172_aux_tr_at h2 hc hN hS x).2 ⟨y, hx, hyS⟩,
+      (pm172_aux_tr_at h2 hc hN' hS x').2 ⟨y', hx', hy'⟩⟩,
+      (semi_apply _ _ _ _).2 ⟨y, y', ⟨hx, hx'⟩, hyy⟩⟩, fun R0 ⟨hR0, hne⟩ u hu => ?_⟩
+    obtain ⟨S0, S1, ⟨rfl, e⟩, hS01⟩ := (pm172_aux_P_apply hP _ _).1 hR0
+    have hS0f : S0 ∈ fld Q := ⟨S1, Or.inl hS01⟩
+    have hS1 : S1 = S := pm172_aux_dagger_inj h2 hc ⟨S0, Or.inr hS01⟩ hS e.symm
+    subst hS1
+    obtain ⟨v, huv, hv⟩ := (pm172_aux_tr_at h2 hc hN hS0f u).1 hu
+    exact (pm172_aux_tr_at h2 hc hN' hS0f u).2
+      ⟨v, huv, hall S0 ⟨hS01, fun e' => hne (by rw [e'])⟩ v hv⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm172_aux_ss {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : (β → β → Prop) → (β → β → Prop) → Prop} {T : α → β → Prop} (h : T ∈ smorsmorbar P Q) :
+    ((∀ x y z, T x z ∧ T y z → x = y) ∧ (∀ x y z, T x y ∧ T x z → y = z)) ∧
+      (∀ S, S ∈ fld Q → fld S ⊆ codom T) ∧ P = daggerRel T ⁏ Q := by
+  obtain ⟨⟨hT, hcod⟩, hP⟩ := h
+  refine ⟨mem_arrow_one_one.1 hT, fun S hS y hy => ?_, hP⟩
+  have : y ∈ fld (relSigma Q) := pm172_aux_mem_fld_relSigma hS hy
+  rw [show fld (relSigma Q) = codom T from hcod] at this; exact this
+
+private theorem pm172_aux_tr_cres {T : α → β → Prop} {Q : (β → β → Prop) → (β → β → Prop) → Prop}
+    {N : β → (β → β → Prop) → Prop} (hN : N ∈ sel F (fld Q)) :
+    (T ↾ fld (relSigma Q)) ⨾ N ⨾ (daggerRel (T ↾ fld (relSigma Q)))˘ = T ⨾ N ⨾ (daggerRel T)˘ := by
+  funext x R; apply propext
+  rw [pm172_aux_tr_apply, pm172_aux_tr_apply]
+  have hsub : ∀ y S, N y S → fld S ⊆ fld (relSigma Q) := fun y S h z hz =>
+    pm172_aux_mem_fld_relSigma (pm172_aux_sel_mem hN h) hz
+  constructor
+  · rintro ⟨y, S, ⟨⟨hxy, -⟩, hyS⟩, rfl⟩
+    exact ⟨y, S, ⟨hxy, hyS⟩, pm172_aux_dagger_cres (hsub y S hyS)⟩
+  · rintro ⟨y, S, ⟨hxy, hyS⟩, rfl⟩
+    exact ⟨y, S, ⟨⟨hxy, hsub y S hyS (pm172_aux_sel_sub hN hyS)⟩, hyS⟩,
+      (pm172_aux_dagger_cres (hsub y S hyS)).symm⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm172_4 {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : (β → β → Prop) → (β → β → Prop) → Prop} {T : α → β → Prop} (h : T ∈ smorsmorbar P Q) :
+    (T ∥ (daggerRel T)˘) ↾ fld (relPi Q) ∈ arrow one one := by
+  obtain ⟨⟨-, h2⟩, hc, -⟩ := pm172_aux_ss h
+  refine mem_arrow_one_one.2 ⟨?_, ?_⟩
+  · rintro M M' N ⟨⟨hM, -⟩, ⟨hM', -⟩⟩
+    rw [pm172_aux_dpar_tr] at hM hM'; rw [hM, hM']
+  · rintro M N N' ⟨⟨hM, hN⟩, ⟨hM', hN'⟩⟩
+    rw [pm172_aux_dpar_tr] at hM hM'
+    exact pm172_aux_tr_inj h2 hc (pm172_12 Q hN) (pm172_12 Q hN') (hM.symm.trans hM')
+
+private theorem pm172_42 {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : (β → β → Prop) → (β → β → Prop) → Prop} {T : α → β → Prop} (h : T ∈ smorsmorbar P Q) :
+    (T ∥ (daggerRel T)˘) ↾ fld (relPi Q) ∈ smorbar (relPi P) (relPi Q) := by
+  obtain ⟨⟨h1, h2⟩, hc, hP⟩ := pm172_aux_ss h
+  refine ⟨⟨pm172_4 h, ?_⟩, ?_⟩
+  · ext N; constructor
+    · intro hN; exact ⟨_, (pm172_aux_dpar_tr _ _ _).2 rfl, hN⟩
+    · rintro ⟨M, -, hN⟩; exact hN
+  · funext M M'; apply propext
+    rw [semi_apply]
+    constructor
+    · intro hMM
+      obtain ⟨⟨hM, hM'⟩, -⟩ := pm172_aux_relPi_iff.1 hMM
+      obtain ⟨N, hN, rfl⟩ := pm172_aux_tr_surj h1 h2 hc hP hM
+      obtain ⟨N', hN', rfl⟩ := pm172_aux_tr_surj h1 h2 hc hP hM'
+      have hQ := (pm172_aux_tr_relPi h1 h2 hc hP hN hN').1 hMM
+      exact ⟨N, N', ⟨⟨(pm172_aux_dpar_tr _ _ _).2 rfl, N', Or.inl hQ⟩,
+        ⟨(pm172_aux_dpar_tr _ _ _).2 rfl, N, Or.inr hQ⟩⟩, hQ⟩
+    · rintro ⟨N, N', ⟨⟨hMN, hN⟩, ⟨hMN', hN'⟩⟩, hQ⟩
+      rw [pm172_aux_dpar_tr] at hMN hMN'
+      rw [hMN, hMN']
+      exact (pm172_aux_tr_relPi h1 h2 hc hP (pm172_12 Q hN) (pm172_12 Q hN')).2 hQ
+
+private theorem pm172_43 {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : (β → β → Prop) → (β → β → Prop) → Prop} {T : α → β → Prop}
+    (h : T ↾ fld (relSigma Q) ∈ smorsmorbar P Q) :
+    (T ∥ (daggerRel T)˘) ↾ fld (relPi Q) ∈ smorbar (relPi P) (relPi Q) := by
+  have e : ((T ↾ fld (relSigma Q)) ∥ (daggerRel (T ↾ fld (relSigma Q)))˘) ↾ fld (relPi Q) =
+      (T ∥ (daggerRel T)˘) ↾ fld (relPi Q) := by
+    funext M N; apply propext
+    constructor
+    · rintro ⟨hMN, hN⟩
+      rw [pm172_aux_dpar_tr, pm172_aux_tr_cres (pm172_12 Q hN)] at hMN
+      exact ⟨(pm172_aux_dpar_tr _ _ _).2 hMN, hN⟩
+    · rintro ⟨hMN, hN⟩
+      rw [pm172_aux_dpar_tr, ← pm172_aux_tr_cres (pm172_12 Q hN)] at hMN
+      exact ⟨(pm172_aux_dpar_tr _ _ _).2 hMN, hN⟩
+  rw [← e]; exact pm172_42 h
+
+private theorem pm172_44 {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : (β → β → Prop) → (β → β → Prop) → Prop} (h : smorsmor P Q) :
+    smor (relPi P) (relPi Q) := by
+  obtain ⟨T, hT⟩ := h; exact ⟨_, pm172_42 hT⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm173_aux_rEx_semi_graph (f : β → α) (R : β → β → Prop) : rEx (graph f ⁏ R) ↔ rEx R := by
+  constructor
+  · rintro ⟨x, y, h⟩
+    obtain ⟨z, w, -, hzw⟩ := (semi_graph_apply f R x y).1 h
+    exact ⟨z, w, hzw⟩
+  · rintro ⟨z, w, h⟩; exact ⟨f z, f w, (semi_graph_apply f R _ _).2 ⟨z, w, ⟨rfl, rfl⟩, h⟩⟩
+
+private theorem pm173_aux_semi_rNull (S : α → β → Prop) : S ⁏ (rNull : β → β → Prop) = rNull := by
+  funext x y; apply propext
+  constructor
+  · intro h; obtain ⟨z, w, -, h'⟩ := (semi_apply _ _ x y).1 h; exact absurd h' (rNull_apply z w)
+  · intro h; exact absurd h (rNull_apply x y)
+
+private theorem pm173_aux_semi_congr {R R' : α → β → Prop} {S : β → β → Prop}
+    (h : ∀ x z, z ∈ fld S → (R x z ↔ R' x z)) : R ⁏ S = R' ⁏ S := by
+  funext x y; apply propext
+  rw [semi_apply, semi_apply]
+  constructor
+  · rintro ⟨z, w, ⟨h1, h2⟩, h3⟩
+    exact ⟨z, w, ⟨(h x z ⟨w, Or.inl h3⟩).1 h1, (h y w ⟨z, Or.inr h3⟩).1 h2⟩, h3⟩
+  · rintro ⟨z, w, ⟨h1, h2⟩, h3⟩
+    exact ⟨z, w, ⟨(h x z ⟨w, Or.inl h3⟩).2 h1, (h y w ⟨z, Or.inr h3⟩).2 h2⟩, h3⟩
+
+private theorem pm173_aux_relPi_rEx {P : (α → α → Prop) → (α → α → Prop) → Prop} (h : rEx (relPi P)) :
+    rEx P := by
+  by_contra hP
+  have : P = rNull := by by_contra h'; exact hP (pm172_aux_rEx_iff_ne.2 h')
+  obtain ⟨M, N, hMN⟩ := h; rw [this, pm172_13] at hMN; exact rNull_apply M N hMN
+
+private theorem pm173_aux_excl_dom {P : (α → α → Prop) → (α → α → Prop) → Prop} (hP : P ∈ Rel2excl)
+    {M N : α → (α → α → Prop) → Prop} (hM : M ∈ sel F (fld P)) (hN : N ∈ sel F (fld P))
+    (e : dom M = dom N) : M = N := by
+  refine pm172_aux_sel_ext hM hN fun x Q hx => ?_
+  have : x ∈ dom N := by rw [← e]; exact ⟨Q, hx⟩
+  obtain ⟨Q', hQ'⟩ := this
+  by_cases hQQ : Q = Q'
+  · rw [hQQ]; exact hQ'
+  · have h0 := hP Q Q' ⟨⟨pm172_aux_sel_mem hM hx, pm172_aux_sel_mem hN hQ'⟩, hQQ⟩
+    have : x ∈ fld Q ∩ fld Q' := ⟨pm172_aux_sel_sub hM hx, pm172_aux_sel_sub hN hQ'⟩
+    rw [h0] at this; exact absurd this (pm170_aux_Null x)
+
+private theorem pm173_aux_dom_tr (T : α → β → Prop) (N : β → (β → β → Prop) → Prop) :
+    dom (T ⨾ N ⨾ (daggerRel T)˘) = T ʻʻ dom N := by
+  ext x; constructor
+  · rintro ⟨R, hR⟩
+    obtain ⟨y, S, ⟨hxy, hyS⟩, -⟩ := (pm172_aux_tr_apply _ _ _ _).1 hR
+    exact ⟨y, ⟨S, hyS⟩, hxy⟩
+  · rintro ⟨y, ⟨S, hyS⟩, hxy⟩
+    exact ⟨_, (pm172_aux_tr_apply _ _ _ _).2 ⟨y, S, ⟨hxy, hyS⟩, rfl⟩⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm173_1 (P : (α → α → Prop) → (α → α → Prop) → Prop) : prodR P = D ⁏ relPi P := rfl
+
+private theorem pm173_11 {P : (α → α → Prop) → (α → α → Prop) → Prop} {μ ν : Set α} :
+    prodR P μ ν ↔ ∃ M N, (relPi P M N ∧ μ = dom M) ∧ ν = dom N := by
+  rw [show prodR P = graph dom ⁏ relPi P from rfl, semi_graph_apply]
+  exact ⟨fun ⟨M, N, ⟨h1, h2⟩, h3⟩ => ⟨M, N, ⟨h3, h1⟩, h2⟩, fun ⟨M, N, ⟨h3, h1⟩, h2⟩ => ⟨M, N, ⟨h1, h2⟩, h3⟩⟩
+
+private theorem pm173_12 (P : (α → α → Prop) → (α → α → Prop) → Prop) :
+    fld (prodR P) ⊆ D ʻʻ sel F (fld P) := by
+  rw [show fld (prodR P) = D ʻʻ fld (relPi P) from fld_semi_graph _ _]
+  rintro A ⟨M, hM, hA⟩; exact ⟨M, pm172_12 P hM, hA⟩
+
+private theorem pm173_121 (P : (α → α → Prop) → (α → α → Prop) → Prop) :
+    fld (prodR P) = D ʻʻ fld (relPi P) := fld_semi_graph _ _
+
+private theorem pm173_15 {P : (α → α → Prop) → (α → α → Prop) → Prop} (h : D ↾ sel F (fld P) ∈ arrow one one) :
+    D ↾ fld (relPi P) ∈ smorbar (prodR P) (relPi P) := by
+  obtain ⟨-, h2⟩ := mem_arrow_one_one.1 h
+  apply pm170_aux_smorbar dom
+  · intro M N hM hN e
+    exact h2 (dom M) M N ⟨⟨rfl, pm172_12 P hM⟩, ⟨e, pm172_12 P hN⟩⟩
+  · intro x y
+    rw [pm173_11]
+    exact ⟨fun ⟨M, N, ⟨h1, h2⟩, h3⟩ => ⟨M, N, h1, h2, h3⟩, fun ⟨M, N, h1, h2, h3⟩ => ⟨M, N, ⟨h1, h2⟩, h3⟩⟩
+
+private theorem pm173_151 {P : (α → α → Prop) → (α → α → Prop) → Prop} (h : D ↾ sel F (fld P) ∈ arrow one one) :
+    smor (prodR P) (relPi P) := ⟨_, pm173_15 h⟩
+
+private theorem pm173_16 {P : (α → α → Prop) → (α → α → Prop) → Prop} (h : P ∈ Rel2excl) :
+    smor (prodR P) (relPi P) ∧ D ↾ fld (relPi P) ∈ smorbar (prodR P) (relPi P) := by
+  have h' : D ↾ sel F (fld P) ∈ arrow one one := by
+    refine mem_arrow_one_one.2 ⟨?_, ?_⟩
+    · rintro x y M ⟨⟨h1, -⟩, ⟨h2, -⟩⟩; exact (show x = dom M from h1).trans (show y = dom M from h2).symm
+    · rintro A M N ⟨⟨h1, hM⟩, ⟨h2, hN⟩⟩
+      exact pm173_aux_excl_dom h hM hN ((show A = dom M from h1).symm.trans h2)
+  exact ⟨pm173_151 h', pm173_15 h'⟩
+
+private theorem pm173_2 : prodR (rNull : (α → α → Prop) → (α → α → Prop) → Prop) = rNull := by
+  rw [pm173_1, pm172_13, pm173_aux_semi_rNull]
+
+private theorem pm173_3 {P : (α → α → Prop) → (α → α → Prop) → Prop}
+    {Q : (β → β → Prop) → (β → β → Prop) → Prop} {T : α → β → Prop}
+    (h : T ↾ fld (relSigma Q) ∈ smorsmorbar P Q) :
+    imgRel T ↾ fld (prodR Q) ∈ smorbar (prodR P) (prodR Q) := by
+  have hW := pm172_43 h
+  obtain ⟨⟨-, h2⟩, hc, -⟩ := pm172_aux_ss h
+  -- every member of a class in `C'Prod'Q` is in `C'Σ'Q` and has a `T`-referent there
+  have hB : ∀ B, B ∈ fld (prodR Q) → ∀ y, y ∈ B →
+      y ∈ fld (relSigma Q) ∧ ∃ x, (T ↾ fld (relSigma Q)) x y := by
+    intro B hB y hy
+    obtain ⟨N, hN, hBN⟩ := pm173_12 Q hB
+    rw [show B = dom N from hBN] at hy
+    obtain ⟨S, hyS⟩ := hy
+    have hS := pm172_aux_sel_mem hN hyS
+    exact ⟨pm172_aux_mem_fld_relSigma hS (pm172_aux_sel_sub hN hyS),
+      hc S hS (pm172_aux_sel_sub hN hyS)⟩
+  have hinj : ∀ B B', B ∈ fld (prodR Q) → B' ∈ fld (prodR Q) → T ʻʻ B = T ʻʻ B' → B ⊆ B' := by
+    intro B B' hB1 hB1' e y hy
+    obtain ⟨-, x, hxy, -⟩ := hB B hB1 y hy
+    have : x ∈ T ʻʻ B' := by rw [← e]; exact ⟨y, hy, hxy⟩
+    obtain ⟨y', hy', hxy'⟩ := this
+    have := h2 x y y' ⟨⟨hxy, (hB B hB1 y hy).1⟩, ⟨hxy', (hB B' hB1' y' hy').1⟩⟩
+    rw [this]; exact hy'
+  refine ⟨⟨mem_arrow_one_one.2 ⟨?_, ?_⟩, ?_⟩, ?_⟩
+  · rintro A A' B ⟨⟨h1, -⟩, ⟨h1', -⟩⟩
+    exact (show A = T ʻʻ B from h1).trans (show A' = T ʻʻ B from h1').symm
+  · rintro A B B' ⟨⟨h1, hB1⟩, ⟨h1', hB1'⟩⟩
+    have e : T ʻʻ B = T ʻʻ B' := (show A = T ʻʻ B from h1).symm.trans h1'
+    exact Set.Subset.antisymm (hinj B B' hB1 hB1' e) (hinj B' B hB1' hB1 e.symm)
+  · ext B; constructor
+    · intro hB1; exact ⟨T ʻʻ B, rfl, hB1⟩
+    · rintro ⟨_, -, hB1⟩; exact hB1
+  · funext μ ν; apply propext
+    rw [pm173_11, semi_apply]
+    constructor
+    · rintro ⟨M, N, ⟨hMN, rfl⟩, rfl⟩
+      rw [hW.2, semi_apply] at hMN
+      obtain ⟨N1, N2, ⟨⟨hM1, hN1⟩, ⟨hM2, hN2⟩⟩, hQ⟩ := hMN
+      rw [pm172_aux_dpar_tr] at hM1 hM2
+      subst hM1 hM2
+      have hpr : prodR Q (dom N1) (dom N2) := pm173_11.2 ⟨N1, N2, ⟨hQ, rfl⟩, rfl⟩
+      exact ⟨dom N1, dom N2, ⟨⟨pm173_aux_dom_tr T N1, ⟨_, Or.inl hpr⟩⟩,
+        ⟨pm173_aux_dom_tr T N2, ⟨_, Or.inr hpr⟩⟩⟩, hpr⟩
+    · rintro ⟨B, B', ⟨⟨hμ, -⟩, ⟨hν, -⟩⟩, hpr⟩
+      obtain ⟨N1, N2, ⟨hQ, rfl⟩, rfl⟩ := pm173_11.1 hpr
+      refine ⟨_, _, ⟨?_, (show μ = T ʻʻ dom N1 from hμ).trans (pm173_aux_dom_tr T N1).symm⟩,
+        (show ν = T ʻʻ dom N2 from hν).trans (pm173_aux_dom_tr T N2).symm⟩
+      rw [hW.2, semi_apply]
+      exact ⟨N1, N2, ⟨⟨(pm172_aux_dpar_tr _ _ _).2 rfl, N2, Or.inl hQ⟩,
+        ⟨(pm172_aux_dpar_tr _ _ _).2 rfl, N1, Or.inr hQ⟩⟩, hQ⟩
+
+private theorem pm173_32 {Q : (β → β → Prop) → (β → β → Prop) → Prop} {R : α → β → Prop}
+    (h : R ↾ fld (relSigma Q) ∈ arrow one one ∧ fld (relSigma Q) ⊆ codom R) :
+    prodR (daggerRel R ⁏ Q) = imgRel R ⁏ prodR Q := by
+  obtain ⟨hR, hsub⟩ := h
+  have hyp : R ↾ fld (relSigma Q) ∈ smorsmorbar (daggerRel R ⁏ Q) Q := by
+    refine ⟨⟨hR, ?_⟩, ?_⟩
+    · show fld (relSigma Q) = codom (R ↾ fld (relSigma Q))
+      ext y; constructor
+      · intro hy; obtain ⟨x, hx⟩ := hsub hy; exact ⟨x, hx, hy⟩
+      · rintro ⟨x, -, hy⟩; exact hy
+    · show daggerRel R ⁏ Q = daggerRel (R ↾ fld (relSigma Q)) ⁏ Q
+      apply pm173_aux_semi_congr
+      intro X S hS
+      show X = daggerOp R S ↔ X = daggerOp (R ↾ fld (relSigma Q)) S
+      rw [pm172_aux_dagger_cres fun z hz => pm172_aux_mem_fld_relSigma hS hz]
+  rw [(pm173_3 hyp).2, ← pm170_aux_semi_cres]
+
+private theorem pm173_33 {Q : ((α → β → Prop) → (α → β → Prop) → Prop) →
+    ((α → β → Prop) → (α → β → Prop) → Prop) → Prop}
+    (h : (D : Set α → (α → β → Prop) → Prop) ↾ fld (relSigma Q) ∈ arrow one one) :
+    prodR (daggerRel D ⁏ Q) = imgRel D ⁏ prodR Q :=
+  pm173_32 ⟨h, fun R _ => ⟨dom R, rfl⟩⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm174_aux_inter_Null {A B : Set α} : A ∩ B = Λ ↔ ∀ x, x ∈ A → x ∈ B → False := by
+  rw [pm170_aux_Null_eq, Set.eq_empty_iff_forall_notMem]
+  exact ⟨fun h x ha hb => h x ⟨ha, hb⟩, fun h x hx => h x hx.1 hx.2⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+variable {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+  ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+
+private theorem pm174_aux_fld_RelPi : fld (RelPi ⁏ P) = RelPi ʻʻ fld P := fld_semi_graph relPi P
+
+private theorem pm174_aux_rEx_of_mem (h0 : rNull ∉ fld P) {Q : (α → α → Prop) → (α → α → Prop) → Prop}
+    (hQ : Q ∈ fld P) : rEx Q :=
+  pm172_aux_rEx_iff_ne.2 fun e => h0 (e ▸ hQ)
+
+private theorem pm174_aux_sel_at {M : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (RelPi ʻʻ fld P)) {Q : (α → α → Prop) → (α → α → Prop) → Prop}
+    (hQ : Q ∈ fld P) : ∃ X, M X (relPi Q) ∧ X ∈ sel F (fld Q) := by
+  obtain ⟨X, hX⟩ := pm172_aux_sel_exists hM (⟨Q, hQ, rfl⟩ : relPi Q ∈ RelPi ʻʻ fld P)
+  exact ⟨X, hX, pm172_12 Q (pm172_aux_sel_sub hM hX)⟩
+
+private theorem pm174_aux_dom_mem {M : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (RelPi ʻʻ fld P)) {X : α → (α → α → Prop) → Prop} (hX : X ∈ dom M) :
+    ∃ Q, Q ∈ fld P ∧ M X (relPi Q) ∧ X ∈ sel F (fld Q) := by
+  obtain ⟨Z, hZ⟩ := hX
+  obtain ⟨Q, hQ, hZQ⟩ := pm172_aux_sel_mem hM hZ
+  have e : Z = relPi Q := hZQ
+  subst e
+  exact ⟨Q, hQ, hZ, pm172_12 Q (pm172_aux_sel_sub hM hZ)⟩
+
+private theorem pm174_aux_sum_iff (hP : P ∈ Rel2excl) {M : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (RelPi ʻʻ fld P)) {Q : (α → α → Prop) → (α → α → Prop) → Prop}
+    (hQ : Q ∈ fld P) {X : α → (α → α → Prop) → Prop} (hX : M X (relPi Q)) {R : α → α → Prop}
+    (hR : R ∈ fld Q) (x : α) : sumRel (dom M) x R ↔ X x R := by
+  constructor
+  · rintro ⟨Y, hY, hxY⟩
+    obtain ⟨Q', hQ', hY', hYs⟩ := pm174_aux_dom_mem hM hY
+    have hR' : R ∈ fld Q' := pm172_aux_sel_mem hYs hxY
+    have hQQ : Q = Q' := by
+      by_contra hne
+      exact pm174_aux_inter_Null.1 (hP Q Q' ⟨⟨hQ, hQ'⟩, hne⟩) R hR hR'
+    subst hQQ
+    rw [pm172_aux_sel_unique hM hX hY']; exact hxY
+  · intro h; exact ⟨X, ⟨_, hX⟩, h⟩
+
+private theorem pm174_aux_sum_sel (hP : P ∈ Rel2excl) {M : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (RelPi ʻʻ fld P)) : sumRel (dom M) ∈ sel F (fld (relSigma P)) := by
+  refine pm172_aux_mk_sel ?_ ?_ ?_
+  · rintro x y R ⟨Y, hY, hxY⟩ hy
+    obtain ⟨Q, hQ, hY', hYs⟩ := pm174_aux_dom_mem hM hY
+    have hR := pm172_aux_sel_mem hYs hxY
+    exact pm172_aux_sel_unique hYs hxY ((pm174_aux_sum_iff hP hM hQ hY' hR y).1 hy)
+  · rintro x R ⟨Y, hY, hxY⟩
+    obtain ⟨Q, -, -, hYs⟩ := pm174_aux_dom_mem hM hY
+    exact pm172_aux_sel_sub hYs hxY
+  · ext R; constructor
+    · rintro ⟨x, Y, hY, hxY⟩
+      obtain ⟨Q, hQ, -, hYs⟩ := pm174_aux_dom_mem hM hY
+      exact pm172_aux_mem_fld_relSigma hQ (pm172_aux_sel_mem hYs hxY)
+    · intro hR
+      obtain ⟨Q, hQ, hRQ⟩ := pm172_aux_fld_relSigma hR
+      obtain ⟨X, hX, hXs⟩ := pm174_aux_sel_at hM hQ
+      obtain ⟨x, hx⟩ := pm172_aux_sel_exists hXs hRQ
+      exact ⟨x, X, ⟨_, hX⟩, hx⟩
+
+private theorem pm174_aux_sum_inj (hP : P ∈ Rel2excl) {M N : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (RelPi ʻʻ fld P)) (hN : N ∈ sel F (RelPi ʻʻ fld P))
+    (e : sumRel (dom M) = sumRel (dom N)) : M = N := by
+  refine pm172_aux_sel_ext hM hN fun X Z hX => ?_
+  obtain ⟨Q, hQ, hZQ⟩ := pm172_aux_sel_mem hM hX
+  have hZ : Z = relPi Q := hZQ
+  subst hZ
+  have hXs : X ∈ sel F (fld Q) := pm172_12 Q (pm172_aux_sel_sub hM hX)
+  obtain ⟨Y, hY, hYs⟩ := pm174_aux_sel_at hN hQ
+  have : X = Y := pm172_aux_sel_ext hXs hYs fun x R hx => by
+    have hR := pm172_aux_sel_mem hXs hx
+    have h1 := (pm174_aux_sum_iff hP hM hQ hX hR x).2 hx
+    rw [e] at h1
+    exact (pm174_aux_sum_iff hP hN hQ hY hR x).1 h1
+  rw [this]; exact hY
+
+private theorem pm174_aux_surj (hP : P ∈ Rel2excl) (h0 : rNull ∉ fld P)
+    {Y : α → (α → α → Prop) → Prop} (hY : Y ∈ sel F (fld (relSigma P))) :
+    ∃ M, M ∈ sel F (RelPi ʻʻ fld P) ∧ sumRel (dom M) = Y := by
+  have hres : ∀ Q, Q ∈ fld P → Y ↾ fld Q ∈ fld (relPi Q) := by
+    intro Q hQ
+    rw [pm172_17 (pm174_aux_rEx_of_mem h0 hQ)]
+    refine pm172_aux_mk_sel ?_ ?_ ?_
+    · rintro x y R ⟨hx, -⟩ ⟨hy, -⟩; exact pm172_aux_sel_unique hY hx hy
+    · rintro x R ⟨hx, -⟩; exact pm172_aux_sel_sub hY hx
+    · ext R; constructor
+      · rintro ⟨x, -, hR⟩; exact hR
+      · intro hR
+        obtain ⟨x, hx⟩ := pm172_aux_sel_exists hY (pm172_aux_mem_fld_relSigma hQ hR)
+        exact ⟨x, hx, hR⟩
+  have hinj : ∀ Q Q', Q ∈ fld P → Q' ∈ fld P → relPi Q = relPi Q' → Q = Q' := by
+    intro Q Q' hQ hQ' e
+    have h1 : Y ↾ fld Q ∈ sel F (fld Q') := pm172_12 Q' (by rw [← e]; exact hres Q hQ)
+    have h2 : fld Q = fld Q' := by
+      rw [← (mem_sel_iff.1 h1).2]
+      ext R; constructor
+      · intro hR
+        obtain ⟨x, hx⟩ := pm172_aux_sel_exists hY (pm172_aux_mem_fld_relSigma hQ hR)
+        exact ⟨x, hx, hR⟩
+      · rintro ⟨x, -, hR⟩; exact hR
+    by_contra hne
+    obtain ⟨R, hR⟩ := pm170_aux_rEx_iff_fld.1 (pm174_aux_rEx_of_mem h0 hQ)
+    exact pm174_aux_inter_Null.1 (hP Q Q' ⟨⟨hQ, hQ'⟩, hne⟩) R hR (h2 ▸ hR)
+  refine ⟨fun X Z => ∃ Q, Q ∈ fld P ∧ Z = relPi Q ∧ X = Y ↾ fld Q,
+    pm172_aux_mk_sel ?_ ?_ ?_, ?_⟩
+  · rintro X X' Z ⟨Q, hQ, rfl, rfl⟩ ⟨Q', hQ', e, rfl⟩
+    rw [hinj Q Q' hQ hQ' e]
+  · rintro X Z ⟨Q, hQ, rfl, rfl⟩; exact hres Q hQ
+  · ext Z; constructor
+    · rintro ⟨X, Q, hQ, rfl, -⟩; exact ⟨Q, hQ, rfl⟩
+    · rintro ⟨Q, hQ, hZ⟩; exact ⟨Y ↾ fld Q, Q, hQ, hZ, rfl⟩
+  · funext x R; apply propext; constructor
+    · rintro ⟨X, ⟨Z, Q, hQ, -, rfl⟩, h⟩; exact h.1
+    · intro h
+      obtain ⟨Q, hQ, hRQ⟩ := pm172_aux_fld_relSigma (pm172_aux_sel_mem hY h)
+      exact ⟨Y ↾ fld Q, ⟨relPi Q, Q, hQ, rfl, rfl⟩, h, hRQ⟩
+
+private theorem pm174_aux_inj_relPi (hP : P ∈ Rel2excl) {M : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (RelPi ʻʻ fld P)) {Q Q' : (α → α → Prop) → (α → α → Prop) → Prop}
+    (hQ : Q ∈ fld P) (hQ' : Q' ∈ fld P) (e : relPi Q = relPi Q') : Q = Q' := by
+  obtain ⟨X, hX, hXs⟩ := pm174_aux_sel_at hM hQ
+  obtain ⟨X', hX', hX's⟩ := pm174_aux_sel_at hM hQ'
+  rw [← e] at hX'
+  have hXX := pm172_aux_sel_unique hM hX hX'
+  subst hXX
+  have hfld : fld Q = fld Q' := (mem_sel_iff.1 hXs).2.symm.trans (mem_sel_iff.1 hX's).2
+  have hrex : rEx Q := by
+    obtain ⟨Y, hY | hY⟩ := pm172_aux_sel_sub hM hX
+    · exact pm173_aux_relPi_rEx ⟨_, _, hY⟩
+    · exact pm173_aux_relPi_rEx ⟨_, _, hY⟩
+  by_contra hne
+  obtain ⟨R, hR⟩ := pm170_aux_rEx_iff_fld.1 hrex
+  exact pm174_aux_inter_Null.1 (hP Q Q' ⟨⟨hQ, hQ'⟩, hne⟩) R hR (hfld ▸ hR)
+
+private theorem pm174_aux_PiPi (hP : P ∈ Rel2excl) {M N : (α → (α → α → Prop) → Prop) →
+    ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop} :
+    relPi (RelPi ⁏ P) M N ↔ (M ∈ sel F (RelPi ʻʻ fld P) ∧ N ∈ sel F (RelPi ʻʻ fld P)) ∧
+      ∃ Q S x y, ((((Q ∈ fld P ∧ S ∈ fld Q) ∧ (sumRel (dom M) x S ∧ sumRel (dom N) y S)) ∧
+        S x y) ∧ ∀ T, Q T S ∧ T ≠ S → ∀ u, sumRel (dom M) u T → sumRel (dom N) u T) ∧
+        ∀ R T, (P R Q ∧ R ≠ Q) ∧ T ∈ fld R → ∀ u, sumRel (dom M) u T → sumRel (dom N) u T := by
+  rw [pm172_aux_relPi_iff, pm174_aux_fld_RelPi]
+  refine and_congr_right fun ⟨hM, hN⟩ => ?_
+  have hinj := fun Q Q' => @pm174_aux_inj_relPi α P hP M hM Q Q'
+  constructor
+  · rintro ⟨Z, X, Y, ⟨⟨hX, hY⟩, hXY⟩, hR⟩
+    obtain ⟨Q, hQ, hZ⟩ := pm172_aux_sel_mem hM hX
+    have hZ' : Z = relPi Q := hZ
+    subst hZ'
+    obtain ⟨⟨hXs, hYs⟩, S, x, y, ⟨⟨hx, hy⟩, hxy⟩, hT⟩ := pm172_aux_relPi_iff.1 hXY
+    have hS := pm172_aux_sel_mem hXs hx
+    refine ⟨Q, S, x, y, ⟨⟨⟨⟨hQ, hS⟩, (pm174_aux_sum_iff hP hM hQ hX hS x).2 hx,
+      (pm174_aux_sum_iff hP hN hQ hY hS y).2 hy⟩, hxy⟩, ?_⟩, ?_⟩
+    · intro T hT' u hu
+      have hTQ : T ∈ fld Q := ⟨S, Or.inl hT'.1⟩
+      exact (pm174_aux_sum_iff hP hN hQ hY hTQ u).2
+        (hT T hT' u ((pm174_aux_sum_iff hP hM hQ hX hTQ u).1 hu))
+    · rintro R T ⟨⟨hRQ, hne⟩, hTR⟩ u hu
+      have hRP : R ∈ fld P := ⟨Q, Or.inl hRQ⟩
+      obtain ⟨X', hX', -⟩ := pm174_aux_sel_at hM hRP
+      have hR' := hR (relPi R) ⟨(semi_graph_apply relPi P _ _).2 ⟨R, Q, ⟨rfl, rfl⟩, hRQ⟩,
+        fun e => hne (hinj R Q hRP hQ e)⟩
+      exact (pm174_aux_sum_iff hP hN hRP (hR' X' hX') hTR u).2
+        ((pm174_aux_sum_iff hP hM hRP hX' hTR u).1 hu)
+  · rintro ⟨Q, S, x, y, ⟨⟨⟨⟨hQ, hS⟩, hx, hy⟩, hxy⟩, hT⟩, hR⟩
+    obtain ⟨X, hX, hXs⟩ := pm174_aux_sel_at hM hQ
+    obtain ⟨Y, hY, hYs⟩ := pm174_aux_sel_at hN hQ
+    refine ⟨relPi Q, X, Y, ⟨⟨hX, hY⟩, ?_⟩, ?_⟩
+    · refine pm172_aux_relPi_iff.2 ⟨⟨hXs, hYs⟩, S, x, y,
+        ⟨⟨(pm174_aux_sum_iff hP hM hQ hX hS x).1 hx, (pm174_aux_sum_iff hP hN hQ hY hS y).1 hy⟩,
+          hxy⟩, fun T hT' u hu => ?_⟩
+      have hTQ : T ∈ fld Q := ⟨S, Or.inl hT'.1⟩
+      exact (pm174_aux_sum_iff hP hN hQ hY hTQ u).1
+        (hT T hT' u ((pm174_aux_sum_iff hP hM hQ hX hTQ u).2 hu))
+    · rintro Z ⟨hZ, hne⟩ X' hX'
+      obtain ⟨R, Q', ⟨e1, e2⟩, hRQ'⟩ := (semi_graph_apply relPi P _ _).1 hZ
+      subst e1
+      have hQ' : Q' ∈ fld P := ⟨R, Or.inr hRQ'⟩
+      have hQQ := hinj Q Q' hQ hQ' e2
+      subst hQQ
+      have hRP : R ∈ fld P := ⟨Q, Or.inl hRQ'⟩
+      have hRne : R ≠ Q := fun e => hne (by rw [e])
+      obtain ⟨Y', hY', hY's⟩ := pm174_aux_sel_at hN hRP
+      have hX's : X' ∈ sel F (fld R) := pm172_12 R (pm172_aux_sel_sub hM hX')
+      have : X' = Y' := pm172_aux_sel_ext hX's hY's fun u T hu => by
+        have hTR := pm172_aux_sel_mem hX's hu
+        exact (pm174_aux_sum_iff hP hN hRP hY' hTR u).1
+          (hR R T ⟨⟨hRQ', hRne⟩, hTR⟩ u ((pm174_aux_sum_iff hP hM hRP hX' hTR u).2 hu))
+      rw [this]; exact hY'
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm174_aux_sD_graph {β : Type v} {γ : Type w} {δ : Type u'} :
+    (sDotRel ⨾ D : (β → γ → Prop) → ((β → γ → Prop) → δ → Prop) → Prop) =
+      graph (fun M : (β → γ → Prop) → δ → Prop => sumRel (dom M)) := by
+  funext X M; apply propext
+  constructor
+  · rintro ⟨L, h1, h2⟩
+    exact (show X = sumRel L from h1).trans (congrArg sumRel (show L = dom M from h2))
+  · intro h; exact ⟨dom M, h, rfl⟩
+
+private theorem pm174_aux_dom_sumRel {β : Type v} (L : Set (α → β → Prop)) :
+    dom (sumRel L) = sumCls (D ʻʻ L) := by
+  ext x; constructor
+  · rintro ⟨y, R, hR, hxy⟩; exact ⟨dom R, ⟨R, hR, rfl⟩, y, hxy⟩
+  · rintro ⟨A, ⟨R, hR, hA⟩, hx⟩
+    rw [show A = dom R from hA] at hx
+    obtain ⟨y, hxy⟩ := hx
+    exact ⟨y, R, hR, hxy⟩
+
+private theorem pm174_aux_4b {β : Type v} (X : Set (α → β → Prop) → Set (α → β → Prop) → Prop) :
+    D ⁏ sDotRel ⁏ X = sRel ⁏ imgRel D ⁏ X := by
+  rw [semi_semi, semi_semi]
+  congr 1
+  funext A L; apply propext
+  constructor
+  · rintro ⟨R, h1, h2⟩
+    refine ⟨D ʻʻ L, ?_, rfl⟩
+    show A = sumCls (D ʻʻ L)
+    rw [← pm174_aux_dom_sumRel, show A = dom R from h1, show R = sumRel L from h2]
+  · rintro ⟨K, h1, h2⟩
+    refine ⟨sumRel L, ?_, rfl⟩
+    show A = dom (sumRel L)
+    rw [pm174_aux_dom_sumRel, show A = sumCls K from h1, show K = D ʻʻ L from h2]
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm174_214 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} {S T : α → α → Prop}
+    (h : P ∈ Rel2excl ∧ ∀ Q, P Q Q → fld Q ∈ (zero ∪ one : Set (Set (α → α → Prop)))) :
+    (∃ Q, Q ∈ fld P ∧ ((Q T S ∧ T ≠ S) ∨ ∃ R, ((P R Q ∧ R ≠ Q) ∧ S ∈ fld Q) ∧ T ∈ fld R)) ↔
+      (relSigma P T S ∧ T ≠ S) := by
+  obtain ⟨hex, h2⟩ := h
+  constructor
+  · rintro ⟨Q, hQ, ⟨hq, hne⟩ | ⟨R, ⟨⟨hRQ, hRne⟩, hS⟩, hT⟩⟩
+    · exact ⟨(relSigma_apply P T S).2 (Or.inl ⟨Q, hQ, hq⟩), hne⟩
+    · refine ⟨(relSigma_apply P T S).2 (Or.inr ⟨R, Q, ⟨hT, hS⟩, hRQ⟩), fun e => ?_⟩
+      have h0 := pm174_aux_inter_Null.1 (hex R Q ⟨⟨⟨Q, Or.inl hRQ⟩, hQ⟩, hRne⟩)
+      exact h0 T hT (by rw [e]; exact hS)
+  · rintro ⟨hSig, hne⟩
+    rcases (relSigma_apply P T S).1 hSig with ⟨Q, hQ, hq⟩ | ⟨R, Q, ⟨hT, hS⟩, hRQ⟩
+    · exact ⟨Q, hQ, Or.inl ⟨hq, hne⟩⟩
+    · by_cases hRQ' : R = Q
+      · subst hRQ'
+        exfalso
+        rcases h2 R hRQ with h0 | h1
+        · have : fld R = Λ := h0
+          rw [this] at hT; exact pm170_aux_Null T hT
+        · obtain ⟨x, hx⟩ := mem_one_iff.1 h1
+          exact hne (((hx T).1 hT).trans ((hx S).1 hS).symm)
+      · exact ⟨Q, ⟨R, Or.inr hRQ⟩, Or.inr ⟨R, ⟨⟨hRQ, hRQ'⟩, hS⟩, hT⟩⟩
+
+private theorem pm174_215 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    {M N : (α → (α → α → Prop) → Prop) →
+      ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (h : P ∈ Rel2excl ∧ ∀ Q, P Q Q → fld Q ∈ (zero ∪ one : Set (Set (α → α → Prop)))) :
+    (relPi (RelPi ⁏ P) M N ↔ (M ∈ sel F (RelPi ʻʻ fld P) ∧ N ∈ sel F (RelPi ʻʻ fld P)) ∧
+      relPi (relSigma P) (sumRel (dom M)) (sumRel (dom N))) := by
+  obtain ⟨hP, h01⟩ := h
+  rw [pm174_aux_PiPi hP]
+  refine and_congr_right fun ⟨hM, hN⟩ => ?_
+  have hsM := pm174_aux_sum_sel hP hM
+  have hsN := pm174_aux_sum_sel hP hN
+  rw [pm172_aux_relPi_iff]
+  constructor
+  · rintro ⟨Q, S, x, y, ⟨⟨⟨⟨hQ, hS⟩, hx, hy⟩, hxy⟩, hT⟩, hR⟩
+    refine ⟨⟨hsM, hsN⟩, S, x, y, ⟨⟨hx, hy⟩, hxy⟩, fun T ⟨hTS, hne⟩ u hu => ?_⟩
+    obtain ⟨Q', hQ', hc⟩ := (pm174_214 ⟨hP, h01⟩).2 ⟨hTS, hne⟩
+    rcases hc with ⟨hq, hne'⟩ | ⟨R, ⟨⟨hRQ, hRne⟩, hSQ'⟩, hTR⟩
+    · have hSQ' : S ∈ fld Q' := ⟨T, Or.inr hq⟩
+      have : Q = Q' := by
+        by_contra hne''
+        exact pm174_aux_inter_Null.1 (hP Q Q' ⟨⟨hQ, hQ'⟩, hne''⟩) S hS hSQ'
+      subst this
+      exact hT T ⟨hq, hne'⟩ u hu
+    · have : Q = Q' := by
+        by_contra hne''
+        exact pm174_aux_inter_Null.1 (hP Q Q' ⟨⟨hQ, hQ'⟩, hne''⟩) S hS hSQ'
+      subst this
+      exact hR R T ⟨⟨hRQ, hRne⟩, hTR⟩ u hu
+  · rintro ⟨-, S, x, y, ⟨⟨hx, hy⟩, hxy⟩, hT⟩
+    obtain ⟨Q, hQ, hSQ⟩ := pm172_aux_fld_relSigma (pm172_aux_sel_mem hsM hx)
+    refine ⟨Q, S, x, y, ⟨⟨⟨⟨hQ, hSQ⟩, hx, hy⟩, hxy⟩, fun T ⟨hTS, hne⟩ u hu => ?_⟩,
+      fun R T ⟨⟨hRQ, hRne⟩, hTR⟩ u hu => ?_⟩
+    · exact hT T ⟨(relSigma_apply P T S).2 (Or.inl ⟨Q, hQ, hTS⟩), hne⟩ u hu
+    · refine hT T ⟨(relSigma_apply P T S).2 (Or.inr ⟨R, Q, ⟨hTR, hSQ⟩, hRQ⟩), fun e => ?_⟩ u hu
+      subst e
+      exact pm174_aux_inter_Null.1 (hP R Q ⟨⟨⟨Q, Or.inl hRQ⟩, hQ⟩, hRne⟩) T hTR hSQ
+
+private theorem pm174_216 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} (h : P ⪽ J) :
+    ∀ Q, P Q Q → fld Q ∈ (zero ∪ one : Set (Set (α → α → Prop))) :=
+  fun Q hQ => absurd rfl (h Q Q hQ)
+
+private theorem pm174_221 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    (h : (P ∈ Rel2excl ∧ ∀ Q, P Q Q → fld Q ∈ (zero ∪ one : Set (Set (α → α → Prop)))) ∧
+      rNull ∉ fld P) :
+    relPi (relSigma P) = sDotRel ⁏ D ⁏ relPi (RelPi ⁏ P) ∧
+      (sDotRel ⨾ D) ↾ fld (relPi (RelPi ⁏ P)) ∈
+        smorbar (relPi (relSigma P)) (relPi (RelPi ⁏ P)) := by
+  obtain ⟨⟨hP, h01⟩, h0⟩ := h
+  have key : relPi (relSigma P) = sDotRel ⁏ D ⁏ relPi (RelPi ⁏ P) := by
+    rw [semi_semi, pm174_aux_sD_graph]
+    funext X Y; apply propext
+    rw [semi_graph_apply]
+    constructor
+    · intro hXY
+      obtain ⟨⟨hX, hY⟩, -⟩ := pm172_aux_relPi_iff.1 hXY
+      obtain ⟨M, hM, rfl⟩ := pm174_aux_surj hP h0 hX
+      obtain ⟨N, hN, rfl⟩ := pm174_aux_surj hP h0 hY
+      exact ⟨M, N, ⟨rfl, rfl⟩, (pm174_215 ⟨hP, h01⟩).2 ⟨⟨hM, hN⟩, hXY⟩⟩
+    · rintro ⟨M, N, ⟨rfl, rfl⟩, hMN⟩
+      exact ((pm174_215 ⟨hP, h01⟩).1 hMN).2
+  refine ⟨key, ?_⟩
+  rw [pm174_aux_sD_graph]
+  apply pm170_aux_smorbar (fun M => sumRel (dom M))
+  · intro M N hM hN e
+    have hM' := pm172_12 _ hM
+    have hN' := pm172_12 _ hN
+    rw [pm174_aux_fld_RelPi] at hM' hN'
+    exact pm174_aux_sum_inj hP hM' hN' e
+  · intro X Y
+    rw [key, semi_semi, pm174_aux_sD_graph, semi_graph_apply]
+    exact ⟨fun ⟨z, w, ⟨h1, h2⟩, h3⟩ => ⟨z, w, h3, h1, h2⟩,
+      fun ⟨z, w, h3, h1, h2⟩ => ⟨z, w, ⟨h1, h2⟩, h3⟩⟩
+
+private theorem pm174_23 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    (h : (P ∈ Rel2excl ∧ P ⪽ J) ∧ rNull ∉ fld P) :
+    relPi (relSigma P) = sDotRel ⁏ D ⁏ relPi (RelPi ⁏ P) ∧
+      (sDotRel ⨾ D) ↾ fld (relPi (RelPi ⁏ P)) ∈
+        smorbar (relPi (relSigma P)) (relPi (RelPi ⁏ P)) :=
+  pm174_221 ⟨⟨h.1.1, pm174_216 h.1.2⟩, h.2⟩
+
+private theorem pm174_361 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} (h : P ∈ Rel3arithm) :
+    fld P ⊆ Rel2excl := by
+  intro Q hQ R R' ⟨⟨hR, hR'⟩, hne⟩
+  exact h.2 R R' ⟨⟨pm172_aux_mem_fld_relSigma hQ hR, pm172_aux_mem_fld_relSigma hQ hR'⟩, hne⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm174_aux_fld_relPi_ex {Q : (α → α → Prop) → (α → α → Prop) → Prop}
+    {M : α → (α → α → Prop) → Prop} (hM : M ∈ fld (relPi Q)) : ∃ x S, M x S := by
+  obtain ⟨N, h | h⟩ := hM
+  · obtain ⟨-, S, x, y, ⟨⟨hx, -⟩, -⟩, -⟩ := pm172_aux_relPi_iff.1 h
+    exact ⟨x, S, hx⟩
+  · obtain ⟨-, S, x, y, ⟨⟨-, hy⟩, -⟩, -⟩ := pm172_aux_relPi_iff.1 h
+    exact ⟨y, S, hy⟩
+
+private theorem pm174_aux_dom_inj {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} (h : P ∈ Rel3arithm)
+    {Q Q' : (α → α → Prop) → (α → α → Prop) → Prop} (hQ : Q ∈ fld P) (hQ' : Q' ∈ fld P)
+    {M M' : α → (α → α → Prop) → Prop} (hM : M ∈ fld (relPi Q)) (hM' : M' ∈ fld (relPi Q'))
+    (e : dom M = dom M') : Q = Q' ∧ M = M' := by
+  have hMs := pm172_12 Q hM
+  have hM's := pm172_12 Q' hM'
+  obtain ⟨x, S, hxS⟩ := pm174_aux_fld_relPi_ex hM
+  have hx : x ∈ dom M' := by rw [← e]; exact ⟨S, hxS⟩
+  obtain ⟨S', hxS'⟩ := hx
+  have hS := pm172_aux_sel_mem hMs hxS
+  have hS' := pm172_aux_sel_mem hM's hxS'
+  have hSS : S = S' := by
+    by_contra hne
+    exact pm174_aux_inter_Null.1 (h.2 S S' ⟨⟨pm172_aux_mem_fld_relSigma hQ hS,
+      pm172_aux_mem_fld_relSigma hQ' hS'⟩, hne⟩) x (pm172_aux_sel_sub hMs hxS)
+      (pm172_aux_sel_sub hM's hxS')
+  subst hSS
+  have hQQ : Q = Q' := by
+    by_contra hne
+    exact pm174_aux_inter_Null.1 (h.1 Q Q' ⟨⟨hQ, hQ'⟩, hne⟩) S hS hS'
+  subst hQQ
+  exact ⟨rfl, pm173_aux_excl_dom (pm174_361 h hQ) hMs hM's e⟩
+
+private theorem pm174_aux_mem_fld_sigmaPi {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} {M : α → (α → α → Prop) → Prop}
+    (hM : M ∈ fld (relSigma (RelPi ⁏ P))) : ∃ Q, Q ∈ fld P ∧ M ∈ fld (relPi Q) := by
+  obtain ⟨Z, hZ, hMZ⟩ := pm172_aux_fld_relSigma hM
+  rw [pm174_aux_fld_RelPi] at hZ
+  obtain ⟨Q, hQ, hZQ⟩ := hZ
+  have e : Z = relPi Q := hZQ
+  subst e
+  exact ⟨Q, hQ, hMZ⟩
+
+private theorem pm174_aux_Ds_inj {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} (h : P ∈ Rel3arithm)
+    {M N : (α → (α → α → Prop) → Prop) →
+      ((α → (α → α → Prop) → Prop) → (α → (α → α → Prop) → Prop) → Prop) → Prop}
+    (hM : M ∈ fld (relPi (RelPi ⁏ P))) (hN : N ∈ fld (relPi (RelPi ⁏ P)))
+    (e : dom (sumRel (dom M)) = dom (sumRel (dom N))) : M = N := by
+  have hM' := pm172_12 _ hM
+  have hN' := pm172_12 _ hN
+  rw [pm174_aux_fld_RelPi] at hM' hN'
+  exact pm174_aux_sum_inj h.1 hM' hN'
+    (pm173_aux_excl_dom h.2 (pm174_aux_sum_sel h.1 hM') (pm174_aux_sum_sel h.1 hN') e)
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm174_4 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    (h : (P ∈ Rel2excl ∧ P ⪽ J) ∧ rNull ∉ fld P) :
+    prodR (relSigma P) = D ⁏ sDotRel ⁏ prodR (RelPi ⁏ P) ∧
+      D ⁏ sDotRel ⁏ prodR (RelPi ⁏ P) = sRel ⁏ imgRel D ⁏ prodR (RelPi ⁏ P) := by
+  refine ⟨?_, pm174_aux_4b _⟩
+  have e := (pm174_23 h).1
+  show D ⁏ relPi (relSigma P) = D ⁏ sDotRel ⁏ D ⁏ relPi (RelPi ⁏ P)
+  rw [e]
+
+private theorem pm174_401 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} (h : P ∈ Rel3arithm) :
+    prodR (ProdR ⁏ P) = imgRel D ⁏ prodR (RelPi ⁏ P) := by
+  have e : (ProdR ⁏ P : (Set α → Set α → Prop) → (Set α → Set α → Prop) → Prop) =
+      daggerRel D ⁏ RelPi ⁏ P := by
+    rw [semi_semi]
+    congr 1
+    funext X Q; apply propext
+    constructor
+    · intro hX; exact ⟨relPi Q, hX, rfl⟩
+    · rintro ⟨Y, h1, h2⟩
+      show X = prodR Q
+      rw [show X = daggerOp D Y from h1, show Y = relPi Q from h2]; rfl
+  rw [e]
+  apply pm173_33
+  refine mem_arrow_one_one.2 ⟨?_, ?_⟩
+  · rintro x y M ⟨⟨h1, -⟩, ⟨h2, -⟩⟩
+    exact (show x = dom M from h1).trans (show y = dom M from h2).symm
+  · rintro A M N ⟨⟨h1, hM⟩, ⟨h2, hN⟩⟩
+    obtain ⟨Q, hQ, hMQ⟩ := pm174_aux_mem_fld_sigmaPi hM
+    obtain ⟨Q', hQ', hNQ⟩ := pm174_aux_mem_fld_sigmaPi hN
+    exact (pm174_aux_dom_inj h hQ hQ' hMQ hNQ ((show A = dom M from h1).symm.trans h2)).2
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u}
+
+private theorem pm174_aux_fld_PP {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} (h : P ∈ Rel3arithm)
+    {z : Set (Set α)} (hz : z ∈ fld (prodR (ProdR ⁏ P))) :
+    ∃ M, M ∈ fld (relPi (RelPi ⁏ P)) ∧ z = D ʻʻ dom M := by
+  rw [pm174_401 h] at hz
+  have e1 : fld (imgRel D ⁏ prodR (RelPi ⁏ P)) = imgRel D ʻʻ fld (prodR (RelPi ⁏ P)) :=
+    fld_semi_graph _ _
+  rw [e1, pm173_121] at hz
+  obtain ⟨μ, ⟨M, hM, hμ⟩, hz⟩ := hz
+  refine ⟨M, hM, ?_⟩
+  rw [show z = D ʻʻ μ from hz, show μ = dom M from hμ]
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm174_41 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    (h : (P ∈ Rel3arithm ∧ P ⪽ J) ∧ rNull ∉ fld P) :
+    prodR (relSigma P) = sRel ⁏ prodR (ProdR ⁏ P) := by
+  rw [pm174_401 h.1.1, ← pm174_aux_4b]
+  exact (pm174_4 ⟨⟨h.1.1.1, h.1.2⟩, h.2⟩).1
+
+private theorem pm174_42 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    (h : (P ∈ Rel3arithm ∧ P ⪽ J) ∧ rNull ∉ fld P) :
+    sRel ↾ fld (prodR (ProdR ⁏ P)) ∈ smorbar (prodR (relSigma P)) (prodR (ProdR ⁏ P)) := by
+  have h3 := h.1.1
+  apply pm170_aux_smorbar sumCls
+  · intro z w hz hw e
+    obtain ⟨M, hM, rfl⟩ := pm174_aux_fld_PP h3 hz
+    obtain ⟨N, hN, rfl⟩ := pm174_aux_fld_PP h3 hw
+    rw [← pm174_aux_dom_sumRel, ← pm174_aux_dom_sumRel] at e
+    rw [pm174_aux_Ds_inj h3 hM hN e]
+  · intro x y
+    rw [pm174_41 h]
+    show (graph sumCls ⁏ prodR (ProdR ⁏ P)) x y ↔ _
+    rw [semi_graph_apply]
+    exact ⟨fun ⟨z, w, ⟨h1, h2⟩, h3⟩ => ⟨z, w, h3, h1, h2⟩,
+      fun ⟨z, w, h3, h1, h2⟩ => ⟨z, w, ⟨h1, h2⟩, h3⟩⟩
+
+private theorem pm174_43 {P : ((α → α → Prop) → (α → α → Prop) → Prop) →
+    ((α → α → Prop) → (α → α → Prop) → Prop) → Prop}
+    (h : (P ∈ Rel3arithm ∧ P ⪽ J) ∧ rNull ∉ fld P) :
+    smor (prodR (relSigma P)) (prodR (ProdR ⁏ P)) := ⟨_, pm174_42 h⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm176_aux_excl (P : α → α → Prop) (Q : β → β → Prop) :
+    coupleSemi P ⁏ Q ∈ Rel2excl := by
+  intro X Y ⟨⟨hX, hY⟩, hne⟩
+  rw [fld_coupleSemi_semi] at hX hY
+  obtain ⟨y, -, rfl⟩ := hX
+  obtain ⟨y', -, rfl⟩ := hY
+  refine pm174_aux_inter_Null.2 fun U hU hU' => hne ?_
+  rw [fld_opSemi_couple] at hU hU'
+  obtain ⟨x, -, rfl⟩ := hU
+  obtain ⟨x', -, e⟩ := hU'
+  rw [(couple_eq_couple_iff.1 e).2]
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm176_01 (P : α → α → Prop) (Q : β → β → Prop) : rexp P Q = prodR (coupleSemi P ⁏ Q) := rfl
+
+private theorem pm176_02 (P : α → α → Prop) (Q : β → β → Prop) : rpow P Q = sDotRel ⁏ rexp P Q := rfl
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm176_aux_mem_clsExp {A : Set α} {B : Set β} {ξ : Set (α → β → Prop)} :
+    ξ ∈ clsExp A B ↔ (∀ y, y ∈ B → ∃ x, x ∈ A ∧ x ↓ y ∈ ξ) ∧
+      (∀ x x' y, x ↓ y ∈ ξ → x' ↓ y ∈ ξ → x = x') ∧
+      ∀ U, U ∈ ξ → ∃ x y, (x ∈ A ∧ y ∈ B) ∧ U = x ↓ y := by
+  constructor
+  · rintro ⟨M, hM, hξ⟩
+    have hξ' : ξ = dom M := hξ
+    subst hξ'
+    have key : ∀ U Y, M U Y → ∃ x y, (x ∈ A ∧ y ∈ B) ∧ U = x ↓ y ∧ Y = opImg couple A y := by
+      intro U Y h
+      obtain ⟨y, hy, hY⟩ := pm172_aux_sel_mem hM h
+      have hY' : Y = opImg couple A y := hY
+      have hU : U ∈ Y := pm172_aux_sel_sub hM h
+      rw [hY'] at hU
+      obtain ⟨x, hx, hUx⟩ := hU
+      exact ⟨x, y, ⟨hx, hy⟩, hUx, hY'⟩
+    refine ⟨fun y hy => ?_, fun x x' y hx hx' => ?_, fun U ⟨Y, h⟩ => ?_⟩
+    · obtain ⟨U, hU⟩ := pm172_aux_sel_exists hM
+        (show opImg couple A y ∈ coupleImg A ʻʻ B from ⟨y, hy, rfl⟩)
+      have hU' : U ∈ opImg couple A y := pm172_aux_sel_sub hM hU
+      obtain ⟨x, hx, hUx⟩ := hU'
+      have hUx' : U = x ↓ y := hUx
+      subst hUx'
+      exact ⟨x, hx, _, hU⟩
+    · obtain ⟨Y1, h1⟩ := hx
+      obtain ⟨Y2, h2⟩ := hx'
+      obtain ⟨a, y1, -, e1, f1⟩ := key _ _ h1
+      obtain ⟨a', y2, -, e2, f2⟩ := key _ _ h2
+      have g1 := (couple_eq_couple_iff.1 e1).2
+      have g2 := (couple_eq_couple_iff.1 e2).2
+      rw [f1, ← g1] at h1
+      rw [f2, ← g2] at h2
+      exact (couple_eq_couple_iff.1 (pm172_aux_sel_unique hM h1 h2)).1
+    · obtain ⟨x, y, hxy, e, -⟩ := key _ _ h
+      exact ⟨x, y, hxy, e⟩
+  · rintro ⟨h1, h2, h3⟩
+    refine ⟨fun U Y => U ∈ ξ ∧ U ∈ Y ∧ Y ∈ coupleImg A ʻʻ B, pm172_aux_mk_sel ?_ ?_ ?_, ?_⟩
+    · rintro U U' Y ⟨hU, hUY, y, hy, hY⟩ ⟨hU', hU'Y, -⟩
+      have hY' : Y = opImg couple A y := hY
+      rw [hY'] at hUY hU'Y
+      obtain ⟨x, -, hx⟩ := hUY
+      obtain ⟨x', -, hx'⟩ := hU'Y
+      have e : U = x ↓ y := hx
+      have e' : U' = x' ↓ y := hx'
+      rw [e] at hU ⊢
+      rw [e'] at hU' ⊢
+      rw [h2 x x' y hU hU']
+    · rintro U Y ⟨-, h, -⟩; exact h
+    · ext Y; constructor
+      · rintro ⟨U, -, -, hY⟩; exact hY
+      · intro hY
+        obtain ⟨y, hy, hY'⟩ := hY
+        have hY'' : Y = opImg couple A y := hY'
+        obtain ⟨x, hx, hxξ⟩ := h1 y hy
+        exact ⟨x ↓ y, hxξ, by rw [hY'']; exact ⟨x, hx, rfl⟩, ⟨y, hy, hY'⟩⟩
+    · show ξ = dom _
+      ext U; constructor
+      · intro hU
+        obtain ⟨x, y, ⟨hx, hy⟩, rfl⟩ := h3 U hU
+        exact ⟨opImg couple A y, hU, ⟨x, hx, rfl⟩, ⟨y, hy, rfl⟩⟩
+      · rintro ⟨Y, hU, -⟩; exact hU
+
+private theorem pm176_aux_cpl {A : Set α} {B : Set β} {ξ : Set (α → β → Prop)} (hξ : ξ ∈ clsExp A B) :
+    ∀ U, U ∈ ξ → ∃ x y, U = x ↓ y := fun U hU => by
+  obtain ⟨x, y, -, e⟩ := (pm176_aux_mem_clsExp.1 hξ).2.2 U hU; exact ⟨x, y, e⟩
+
+private theorem pm176_aux_clsExp_couple {A : Set α} {B : Set β} {ξ : Set (α → β → Prop)}
+    (hξ : ξ ∈ clsExp A B) {x : α} {y : β} (h : x ↓ y ∈ ξ) : x ∈ A ∧ y ∈ B := by
+  obtain ⟨a, b, hab, e⟩ := (pm176_aux_mem_clsExp.1 hξ).2.2 _ h
+  obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+  rw [e1, e2]; exact hab
+
+private theorem pm176_aux_modify {A : Set α} {B : Set β} {ξ : Set (α → β → Prop)} (hξ : ξ ∈ clsExp A B)
+    {y0 : β} {x1 : α} (hy0 : y0 ∈ B) (hx1 : x1 ∈ A) :
+    {U | (U ∈ ξ ∧ ∀ x, U ≠ x ↓ y0) ∨ U = x1 ↓ y0} ∈ clsExp A B ∧
+      x1 ↓ y0 ∈ {U | (U ∈ ξ ∧ ∀ x, U ≠ x ↓ y0) ∨ U = x1 ↓ y0} ∧
+      ∀ w z, z ≠ y0 → (w ↓ z ∈ {U | (U ∈ ξ ∧ ∀ x, U ≠ x ↓ y0) ∨ U = x1 ↓ y0} ↔ w ↓ z ∈ ξ) := by
+  obtain ⟨h1, h2, h3⟩ := pm176_aux_mem_clsExp.1 hξ
+  have hz : ∀ w z, z ≠ y0 →
+      (w ↓ z ∈ {U | (U ∈ ξ ∧ ∀ x, U ≠ x ↓ y0) ∨ U = x1 ↓ y0} ↔ w ↓ z ∈ ξ) := by
+    intro w z hne; constructor
+    · rintro (⟨h, -⟩ | e)
+      · exact h
+      · exact absurd (couple_eq_couple_iff.1 e).2 hne
+    · intro h; exact Or.inl ⟨h, fun x e => hne (couple_eq_couple_iff.1 e).2⟩
+  have hy : ∀ w, w ↓ y0 ∈ {U | (U ∈ ξ ∧ ∀ x, U ≠ x ↓ y0) ∨ U = x1 ↓ y0} ↔ w = x1 := by
+    intro w; constructor
+    · rintro (⟨-, h⟩ | e)
+      · exact absurd rfl (h w)
+      · exact (couple_eq_couple_iff.1 e).1
+    · rintro rfl; exact Or.inr rfl
+  refine ⟨pm176_aux_mem_clsExp.2 ⟨fun y hyB => ?_, fun x x' y hx hx' => ?_, fun U hU => ?_⟩,
+    (hy x1).2 rfl, hz⟩
+  · by_cases e : y = y0
+    · subst e; exact ⟨x1, hx1, (hy x1).2 rfl⟩
+    · obtain ⟨x, hx, hxξ⟩ := h1 y hyB; exact ⟨x, hx, (hz x y e).2 hxξ⟩
+  · by_cases e : y = y0
+    · subst e; rw [(hy x).1 hx, (hy x').1 hx']
+    · exact h2 x x' y ((hz x y e).1 hx) ((hz x' y e).1 hx')
+  · rcases hU with ⟨h, -⟩ | rfl
+    · exact h3 U h
+    · exact ⟨x1, y0, ⟨hx1, hy0⟩, rfl⟩
+
+private theorem pm176_aux_sumRel_apply {ξ : Set (α → β → Prop)} (h : ∀ U, U ∈ ξ → ∃ x y, U = x ↓ y)
+    (x : α) (y : β) : sumRel ξ x y ↔ x ↓ y ∈ ξ := by
+  constructor
+  · rintro ⟨U, hU, hxy⟩
+    obtain ⟨a, b, rfl⟩ := h U hU
+    obtain ⟨e1, e2⟩ := (couple_apply _ _ _ _).1 hxy
+    rw [e1, e2]; exact hU
+  · intro h'; exact ⟨_, h', (couple_apply _ _ _ _).2 ⟨rfl, rfl⟩⟩
+
+private theorem pm176_aux_sumRel_inj {ξ ξ' : Set (α → β → Prop)} (h : ∀ U, U ∈ ξ → ∃ x y, U = x ↓ y)
+    (h' : ∀ U, U ∈ ξ' → ∃ x y, U = x ↓ y) (e : sumRel ξ = sumRel ξ') : ξ = ξ' := by
+  ext U; constructor
+  · intro hU; obtain ⟨x, y, rfl⟩ := h U hU
+    rw [← pm176_aux_sumRel_apply h', ← e, pm176_aux_sumRel_apply h]; exact hU
+  · intro hU; obtain ⟨x, y, rfl⟩ := h' U hU
+    rw [← pm176_aux_sumRel_apply h, e, pm176_aux_sumRel_apply h']; exact hU
+
+private theorem pm176_aux_sumRel_sel {A : Set α} {B : Set β} {ξ : Set (α → β → Prop)}
+    (hξ : ξ ∈ clsExp A B) : sumRel ξ ∈ sel (cross A B) B := by
+  obtain ⟨h1, h2, -⟩ := pm176_aux_mem_clsExp.1 hξ
+  have hc := pm176_aux_cpl hξ
+  refine pm172_aux_mk_sel (fun x x' y hx hx' => ?_) (fun x y hxy => ?_) ?_
+  · rw [pm176_aux_sumRel_apply hc] at hx hx'; exact h2 x x' y hx hx'
+  · rw [pm176_aux_sumRel_apply hc] at hxy; exact pm176_aux_clsExp_couple hξ hxy
+  · ext y; constructor
+    · rintro ⟨x, hxy⟩
+      rw [pm176_aux_sumRel_apply hc] at hxy; exact (pm176_aux_clsExp_couple hξ hxy).2
+    · intro hy; obtain ⟨x, -, hx⟩ := h1 y hy; exact ⟨x, (pm176_aux_sumRel_apply hc _ _).2 hx⟩
+
+private theorem pm176_aux_sel_cross {A : Set α} {B : Set β} {S : α → β → Prop}
+    (hS : S ∈ sel (cross A B) B) :
+    {U | ∃ x y, S x y ∧ U = x ↓ y} ∈ clsExp A B ∧ sumRel {U | ∃ x y, S x y ∧ U = x ↓ y} = S := by
+  have hc : ∀ U, U ∈ {U | ∃ x y, S x y ∧ U = x ↓ y} → ∃ x y, U = x ↓ y :=
+    fun U ⟨x, y, _, e⟩ => ⟨x, y, e⟩
+  have hmem : ∀ x y, x ↓ y ∈ {U | ∃ x y, S x y ∧ U = x ↓ y} ↔ S x y := by
+    intro x y; constructor
+    · rintro ⟨a, b, h, e⟩
+      obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+      rw [e1, e2]; exact h
+    · intro h; exact ⟨x, y, h, rfl⟩
+  refine ⟨pm176_aux_mem_clsExp.2 ⟨fun y hy => ?_, fun x x' y hx hx' => ?_, fun U hU => ?_⟩, ?_⟩
+  · obtain ⟨x, hx⟩ := pm172_aux_sel_exists hS hy
+    exact ⟨x, (pm172_aux_sel_sub hS hx).1, (hmem x y).2 hx⟩
+  · exact pm172_aux_sel_unique hS ((hmem _ _).1 hx) ((hmem _ _).1 hx')
+  · obtain ⟨x, y, h, rfl⟩ := hU
+    exact ⟨x, y, pm172_aux_sel_sub hS h, rfl⟩
+  · funext x y; apply propext
+    rw [pm176_aux_sumRel_apply hc, hmem]
+
+private theorem pm176_aux_sel_eq_img {A : Set α} {B : Set β} :
+    sel (cross A B) B = sDotRel ʻʻ clsExp A B := by
+  ext S; constructor
+  · intro hS; obtain ⟨h1, h2⟩ := pm176_aux_sel_cross hS; exact ⟨_, h1, h2.symm⟩
+  · rintro ⟨ξ, hξ, rfl⟩; exact pm176_aux_sumRel_sel hξ
+
+private theorem pm176_aux_X_inj {P : α → α → Prop} (hP : rEx P) {y y' : β}
+    (e : opSemi couple P y = opSemi couple P y') : y = y' := by
+  obtain ⟨a, b, hab⟩ := hP
+  have h : opSemi couple P y (a ↓ y) (b ↓ y) :=
+    (opSemi_couple_apply P y _ _).2 ⟨a, b, ⟨rfl, rfl⟩, hab⟩
+  rw [e, opSemi_couple_apply] at h
+  obtain ⟨x, x', ⟨e1, -⟩, -⟩ := h
+  exact (couple_eq_couple_iff.1 e1).2
+
+private theorem pm176_aux_sel_of_mem {P : α → α → Prop} {Q : β → β → Prop} {ξ : Set (α → β → Prop)}
+    (hξ : ξ ∈ clsExp (fld P) (fld Q)) :
+    (fun U X => U ∈ ξ ∧ X ∈ fld (coupleSemi P ⁏ Q) ∧ F U X) ∈ sel F (fld (coupleSemi P ⁏ Q)) ∧
+      dom (fun U X => U ∈ ξ ∧ X ∈ fld (coupleSemi P ⁏ Q) ∧ F U X) = ξ := by
+  obtain ⟨h1, h2, h3⟩ := pm176_aux_mem_clsExp.1 hξ
+  refine ⟨pm172_aux_mk_sel ?_ ?_ ?_, ?_⟩
+  · rintro U U' X ⟨hU, hX, hUX⟩ ⟨hU', -, hU'X⟩
+    rw [fld_coupleSemi_semi] at hX
+    obtain ⟨z, -, rfl⟩ := hX
+    have hUX' : U ∈ fld (opSemi couple P z) := hUX
+    have hU'X' : U' ∈ fld (opSemi couple P z) := hU'X
+    rw [fld_opSemi_couple] at hUX' hU'X'
+    obtain ⟨x, -, rfl⟩ := hUX'
+    obtain ⟨x', -, rfl⟩ := hU'X'
+    rw [h2 x x' z hU hU']
+  · rintro U X ⟨-, -, h⟩; exact h
+  · ext X; constructor
+    · rintro ⟨U, -, hX, -⟩; exact hX
+    · intro hX
+      have hX' := hX
+      rw [fld_coupleSemi_semi] at hX'
+      obtain ⟨z, hz, rfl⟩ := hX'
+      obtain ⟨x, hx, hxξ⟩ := h1 z hz
+      refine ⟨x ↓ z, hxξ, hX, ?_⟩
+      show x ↓ z ∈ fld (opSemi couple P z)
+      rw [fld_opSemi_couple]; exact ⟨x, hx, rfl⟩
+  · ext U; constructor
+    · rintro ⟨X, hU, -⟩; exact hU
+    · intro hU
+      obtain ⟨x, z, ⟨hx, hz⟩, rfl⟩ := h3 U hU
+      refine ⟨opSemi couple P z, hU, ?_, ?_⟩
+      · rw [fld_coupleSemi_semi]; exact ⟨z, hz, rfl⟩
+      · show x ↓ z ∈ fld (opSemi couple P z)
+        rw [fld_opSemi_couple]; exact ⟨x, hx, rfl⟩
+
+private theorem pm176_aux_sel_key {P : α → α → Prop} {Q : β → β → Prop}
+    {M : (α → β → Prop) → ((α → β → Prop) → (α → β → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (fld (coupleSemi P ⁏ Q))) {U X} (h : M U X) :
+    ∃ x z, (x ∈ fld P ∧ z ∈ fld Q) ∧ U = x ↓ z ∧ X = opSemi couple P z := by
+  have hX := pm172_aux_sel_mem hM h
+  rw [fld_coupleSemi_semi] at hX
+  obtain ⟨z, hz, rfl⟩ := hX
+  have hU : U ∈ fld (opSemi couple P z) := pm172_aux_sel_sub hM h
+  rw [fld_opSemi_couple] at hU
+  obtain ⟨x, hx, rfl⟩ := hU
+  exact ⟨x, z, ⟨hx, hz⟩, rfl, rfl⟩
+
+private theorem pm176_aux_dom_sel {P : α → α → Prop} {Q : β → β → Prop}
+    {M : (α → β → Prop) → ((α → β → Prop) → (α → β → Prop) → Prop) → Prop}
+    (hM : M ∈ sel F (fld (coupleSemi P ⁏ Q))) : dom M ∈ clsExp (fld P) (fld Q) := by
+  refine pm176_aux_mem_clsExp.2 ⟨fun z hz => ?_, fun x x' z hx hx' => ?_, fun U ⟨X, h⟩ => ?_⟩
+  · obtain ⟨U, hU⟩ := pm172_aux_sel_exists hM (show opSemi couple P z ∈ fld (coupleSemi P ⁏ Q) by
+      rw [fld_coupleSemi_semi]; exact ⟨z, hz, rfl⟩)
+    obtain ⟨x, z', ⟨hx, -⟩, rfl, e⟩ := pm176_aux_sel_key hM hU
+    have := pm176_aux_X_inj (pm170_aux_rEx_iff_fld.2 ⟨x, hx⟩) e
+    rw [← this] at hU
+    exact ⟨x, hx, _, hU⟩
+  · obtain ⟨Y1, h1⟩ := hx
+    obtain ⟨Y2, h2⟩ := hx'
+    obtain ⟨a, y1, -, e1, f1⟩ := pm176_aux_sel_key hM h1
+    obtain ⟨a', y2, -, e2, f2⟩ := pm176_aux_sel_key hM h2
+    rw [f1, ← (couple_eq_couple_iff.1 e1).2] at h1
+    rw [f2, ← (couple_eq_couple_iff.1 e2).2] at h2
+    exact (couple_eq_couple_iff.1 (pm172_aux_sel_unique hM h1 h2)).1
+  · obtain ⟨x, y, hxy, e, -⟩ := pm176_aux_sel_key hM h
+    exact ⟨x, y, hxy, e⟩
+
+private theorem pm176_aux_12 (P : α → α → Prop) (Q : β → β → Prop) (μ ν : Set (α → β → Prop)) :
+    rexp P Q μ ν ↔ (μ ∈ clsExp (fld P) (fld Q) ∧ ν ∈ clsExp (fld P) (fld Q)) ∧
+      ∃ y x x', ((x ↓ y ∈ μ ∧ x' ↓ y ∈ ν) ∧ P x x') ∧
+        ∀ w z, (Q z y ∧ z ≠ y) ∧ w ↓ z ∈ μ → w ↓ z ∈ ν := by
+  rw [pm176_01, pm173_11]
+  constructor
+  · rintro ⟨M, N, ⟨hMN, rfl⟩, rfl⟩
+    obtain ⟨⟨hM, hN⟩, Z, a, b, ⟨⟨ha, hb⟩, hZ⟩, hR⟩ := pm172_aux_relPi_iff.1 hMN
+    refine ⟨⟨pm176_aux_dom_sel hM, pm176_aux_dom_sel hN⟩, ?_⟩
+    have hZK := pm172_aux_sel_mem hM ha
+    rw [fld_coupleSemi_semi] at hZK
+    obtain ⟨y, hy, rfl⟩ := hZK
+    rw [opSemi_couple_apply] at hZ
+    obtain ⟨x, x', ⟨rfl, rfl⟩, hxx⟩ := hZ
+    have hP : rEx P := ⟨x, x', hxx⟩
+    refine ⟨y, x, x', ⟨⟨⟨_, ha⟩, ⟨_, hb⟩⟩, hxx⟩, fun w z ⟨⟨hzy, hne⟩, hw⟩ => ?_⟩
+    obtain ⟨X, hX⟩ := hw
+    obtain ⟨w', z', -, e, f⟩ := pm176_aux_sel_key hM hX
+    rw [f, ← (couple_eq_couple_iff.1 e).2] at hX
+    refine ⟨_, hR (opSemi couple P z) ⟨?_, ?_⟩ _ hX⟩
+    · exact (coupleSemi_semi_apply P Q _ _).2 ⟨z, y, ⟨rfl, rfl⟩, hzy⟩
+    · intro e; exact hne (pm176_aux_X_inj hP e)
+  · rintro ⟨⟨hμ, hν⟩, y, x, x', ⟨⟨hx, hx'⟩, hxx⟩, hR⟩
+    obtain ⟨hM, hMd⟩ := pm176_aux_sel_of_mem hμ
+    obtain ⟨hN, hNd⟩ := pm176_aux_sel_of_mem hν
+    have hP : rEx P := ⟨x, x', hxx⟩
+    have hy := (pm176_aux_clsExp_couple hμ hx).2
+    have hXy : opSemi couple P y ∈ fld (coupleSemi P ⁏ Q) := by
+      rw [fld_coupleSemi_semi]; exact ⟨y, hy, rfl⟩
+    have hfx : ∀ a, a ∈ fld P → a ↓ y ∈ fld (opSemi couple P y) := fun a ha => by
+      rw [fld_opSemi_couple]; exact ⟨a, ha, rfl⟩
+    refine ⟨_, _, ⟨pm172_aux_relPi_iff.2 ⟨⟨hM, hN⟩, opSemi couple P y, x ↓ y, x' ↓ y,
+      ⟨⟨⟨hx, hXy, hfx x ⟨x', Or.inl hxx⟩⟩, ⟨hx', hXy, hfx x' ⟨x, Or.inr hxx⟩⟩⟩,
+        (opSemi_couple_apply P y _ _).2 ⟨x, x', ⟨rfl, rfl⟩, hxx⟩⟩, ?_⟩, hMd.symm⟩, hNd.symm⟩
+    rintro Rr ⟨hRr, hne⟩ u ⟨hu, hRfld, huR⟩
+    rw [coupleSemi_semi_apply] at hRr
+    obtain ⟨z, y', ⟨rfl, e⟩, hzy'⟩ := hRr
+    have ey := pm176_aux_X_inj hP e
+    rw [← ey] at hzy'
+    have huR' : u ∈ fld (opSemi couple P z) := huR
+    rw [fld_opSemi_couple] at huR'
+    obtain ⟨w, -, rfl⟩ := huR'
+    have hzne : z ≠ y := fun e' => hne (by rw [e'])
+    exact ⟨hR w z ⟨⟨hzy', hzne⟩, hu⟩, hRfld, huR⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+
+private theorem pm176_131 {P : α → α → Prop} {Q : β → β → Prop} (h : Q = rNull) :
+    rexp P Q = rNull ∧ rpow P Q = rNull := by
+  have e : rexp P Q = rNull := by
+    rw [pm176_01, h, pm173_aux_semi_rNull, pm173_2]
+  exact ⟨e, by rw [pm176_02, e, pm173_aux_semi_rNull]⟩
+
+private theorem pm176_133 (P : α → α → Prop) (Q : β → β → Prop) :
+    fld (rpow P Q) = sDotRel ʻʻ fld (rexp P Q) := fld_semi_graph _ _
+
+private theorem pm176_aux_fld_sub (P : α → α → Prop) (Q : β → β → Prop) :
+    fld (rexp P Q) ⊆ clsExp (fld P) (fld Q) := by
+  rintro μ ⟨ν, h | h⟩
+  · exact ((pm176_aux_12 P Q μ ν).1 h).1.1
+  · exact ((pm176_aux_12 P Q ν μ).1 h).1.2
+
+private theorem pm176_aux_fld_eq {P : α → α → Prop} {Q : β → β → Prop} (hQ : rEx Q) :
+    fld (rexp P Q) = clsExp (fld P) (fld Q) := by
+  refine Set.Subset.antisymm (pm176_aux_fld_sub P Q) fun ξ hξ => ?_
+  obtain ⟨y0, hy0⟩ := pm170_aux_rEx_iff_fld.1 hQ
+  obtain ⟨x0, hx0, hξ0⟩ := (pm176_aux_mem_clsExp.1 hξ).1 y0 hy0
+  obtain ⟨x1, h01 | h10⟩ := hx0
+  · obtain ⟨hξ', h1, hz⟩ := pm176_aux_modify hξ hy0 (show x1 ∈ fld P from ⟨x0, Or.inr h01⟩)
+    exact ⟨_, Or.inl ((pm176_aux_12 P Q _ _).2 ⟨⟨hξ, hξ'⟩, y0, x0, x1, ⟨⟨hξ0, h1⟩, h01⟩,
+      fun w z ⟨⟨_, hne⟩, hw⟩ => (hz w z hne).2 hw⟩)⟩
+  · obtain ⟨hξ', h1, hz⟩ := pm176_aux_modify hξ hy0 (show x1 ∈ fld P from ⟨x0, Or.inl h10⟩)
+    exact ⟨_, Or.inr ((pm176_aux_12 P Q _ _).2 ⟨⟨hξ', hξ⟩, y0, x1, x0, ⟨⟨h1, hξ0⟩, h10⟩,
+      fun w z ⟨⟨_, hne⟩, hw⟩ => (hz w z hne).1 hw⟩)⟩
+
+private theorem pm176_14 (P : α → α → Prop) (Q : β → β → Prop) (hQ : rEx Q) :
+    fld (rexp P Q) = clsExp (fld P) (fld Q) ∧ fld (rpow P Q) = sel (cross (fld P) (fld Q)) (fld Q) :=
+  ⟨pm176_aux_fld_eq hQ, by rw [pm176_133, pm176_aux_fld_eq hQ, pm176_aux_sel_eq_img]⟩
+
+private theorem pm176_aux_eq_rNull_iff {γ : Type w} (R : γ → γ → Prop) : R = rNull ↔ ¬ rEx R := by
+  rw [pm172_aux_rEx_iff_ne, not_not]
+
+private theorem pm176_aux_sumRel_inj_fld {P : α → α → Prop} {Q : β → β → Prop} {μ ν : Set (α → β → Prop)}
+    (hμ : μ ∈ fld (rexp P Q)) (hν : ν ∈ fld (rexp P Q)) (e : sumRel μ = sumRel ν) : μ = ν :=
+  pm176_aux_sumRel_inj (pm176_aux_cpl (pm176_aux_fld_sub P Q hμ))
+    (pm176_aux_cpl (pm176_aux_fld_sub P Q hν)) e
+
+private theorem pm176_18 (P : α → α → Prop) (Q : β → β → Prop) :
+    sDotRel ↾ fld (rexp P Q) ∈ smorbar (rpow P Q) (rexp P Q) := by
+  apply pm170_aux_smorbar sumRel
+  · intro μ ν hμ hν e; exact pm176_aux_sumRel_inj_fld hμ hν e
+  · intro S T
+    show (graph sumRel ⁏ rexp P Q) S T ↔ _
+    rw [semi_graph_apply]
+    exact ⟨fun ⟨z, w, ⟨h1, h2⟩, h3⟩ => ⟨z, w, h3, h1, h2⟩,
+      fun ⟨z, w, h3, h1, h2⟩ => ⟨z, w, ⟨h1, h2⟩, h3⟩⟩
+
+private theorem pm176_181 (P : α → α → Prop) (Q : β → β → Prop) : smor (rpow P Q) (rexp P Q) :=
+  ⟨_, pm176_18 P Q⟩
+
+private theorem pm176_19 (P : α → α → Prop) (Q : β → β → Prop) (S T : α → β → Prop) :
+    rpow P Q S T ↔ (S ∈ sel (cross (fld P) (fld Q)) (fld Q) ∧ T ∈ sel (cross (fld P) (fld Q)) (fld Q)) ∧
+      ∃ y, (y ∈ fld Q ∧ Desc S y (fun a => Desc T y (fun b => P a b))) ∧
+        ∀ y', Q y' y ∧ y' ≠ y → Desc S y' (fun a => Desc T y' (fun b => a = b)) := by
+  show (graph sumRel ⁏ rexp P Q) S T ↔ _
+  rw [semi_graph_apply]
+  constructor
+  · rintro ⟨μ, ν, ⟨rfl, rfl⟩, h⟩
+    obtain ⟨⟨hμ, hν⟩, y, x, x', ⟨⟨hx, hx'⟩, hxx⟩, hR⟩ := (pm176_aux_12 P Q μ ν).1 h
+    have hSμ := pm176_aux_sumRel_sel hμ
+    have hTν := pm176_aux_sumRel_sel hν
+    have cμ := pm176_aux_cpl hμ
+    have cν := pm176_aux_cpl hν
+    refine ⟨⟨hSμ, hTν⟩, y, ⟨(pm176_aux_clsExp_couple hμ hx).2, ?_⟩, fun y' ⟨hy'y, hne⟩ => ?_⟩
+    · rw [pm172_aux_desc_sel hSμ ((pm176_aux_sumRel_apply cμ _ _).2 hx),
+        pm172_aux_desc_sel hTν ((pm176_aux_sumRel_apply cν _ _).2 hx')]
+      exact hxx
+    · obtain ⟨w, -, hw⟩ := (pm176_aux_mem_clsExp.1 hμ).1 y' ⟨y, Or.inl hy'y⟩
+      rw [pm172_aux_desc_sel hSμ ((pm176_aux_sumRel_apply cμ _ _).2 hw),
+        pm172_aux_desc_sel hTν ((pm176_aux_sumRel_apply cν _ _).2 (hR w y' ⟨⟨hy'y, hne⟩, hw⟩))]
+  · rintro ⟨⟨hS, hT⟩, y, ⟨hy, hD⟩, hR⟩
+    obtain ⟨hμ, eS⟩ := pm176_aux_sel_cross hS
+    obtain ⟨hν, eT⟩ := pm176_aux_sel_cross hT
+    refine ⟨_, _, ⟨eS.symm, eT.symm⟩, (pm176_aux_12 P Q _ _).2 ⟨⟨hμ, hν⟩, ?_⟩⟩
+    obtain ⟨x, hx⟩ := pm172_aux_sel_exists hS hy
+    obtain ⟨x', hx'⟩ := pm172_aux_sel_exists hT hy
+    rw [pm172_aux_desc_sel hS hx, pm172_aux_desc_sel hT hx'] at hD
+    refine ⟨y, x, x', ⟨⟨⟨x, y, hx, rfl⟩, ⟨x', y, hx', rfl⟩⟩, hD⟩, fun w z ⟨⟨hzy, hne⟩, hw⟩ => ?_⟩
+    obtain ⟨a, b, hab, e⟩ := hw
+    obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+    rw [← e1, ← e2] at hab
+    have := hR z ⟨hzy, hne⟩
+    rw [pm172_aux_desc_sel hS hab] at this
+    obtain ⟨b', hb'⟩ := pm172_aux_sel_exists hT (show z ∈ fld Q from ⟨y, Or.inl hzy⟩)
+    rw [pm172_aux_desc_sel hT hb'] at this
+    exact ⟨w, z, this ▸ hb', rfl⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v} {γ : Type w} {δ : Type u'}
+
+private def pm176_aux_map (g : γ → α) (k : δ → β) (μ : Set (γ → δ → Prop)) : Set (α → β → Prop) :=
+  {X | ∃ c d, c ↓ d ∈ μ ∧ X = g c ↓ k d}
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v} {γ : Type w} {δ : Type u'}
+variable {P : α → α → Prop} {Q : β → β → Prop} {R : γ → γ → Prop} {S : δ → δ → Prop}
+  {g : γ → α} {k : δ → β}
+
+private theorem pm176_aux_map_cpl (μ : Set (γ → δ → Prop)) :
+    ∀ X, X ∈ pm176_aux_map g k μ → ∃ x y, X = x ↓ y := fun _ ⟨_, _, _, e⟩ => ⟨_, _, e⟩
+
+private theorem pm176_aux_map_mem (ig : ∀ c c', c ∈ fld R → c' ∈ fld R → g c = g c' → c = c')
+    (ik : ∀ d d', d ∈ fld S → d' ∈ fld S → k d = k d' → d = d')
+    {μ : Set (γ → δ → Prop)} (hμ : μ ∈ clsExp (fld R) (fld S)) {c : γ} {d : δ}
+    (hc : c ∈ fld R) (hd : d ∈ fld S) : g c ↓ k d ∈ pm176_aux_map g k μ ↔ c ↓ d ∈ μ := by
+  constructor
+  · rintro ⟨c', d', h', e⟩
+    obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+    obtain ⟨hc', hd'⟩ := pm176_aux_clsExp_couple hμ h'
+    rw [ig c c' hc hc' e1, ik d d' hd hd' e2]; exact h'
+  · intro h'; exact ⟨c, d, h', rfl⟩
+
+private theorem pm176_aux_map_clsExp
+    (ik : ∀ d d', d ∈ fld S → d' ∈ fld S → k d = k d' → d = d')
+    (hP : ∀ x x', P x x' ↔ ∃ c c', R c c' ∧ x = g c ∧ x' = g c')
+    (hQ : ∀ y y', Q y y' ↔ ∃ d d', S d d' ∧ y = k d ∧ y' = k d')
+    {μ : Set (γ → δ → Prop)} (hμ : μ ∈ clsExp (fld R) (fld S)) :
+    pm176_aux_map g k μ ∈ clsExp (fld P) (fld Q) := by
+  obtain ⟨h1, h2, -⟩ := pm176_aux_mem_clsExp.1 hμ
+  refine pm176_aux_mem_clsExp.2 ⟨fun y hy => ?_, fun x x' y hx hx' => ?_, fun U hU => ?_⟩
+  · obtain ⟨d, hd, rfl⟩ := (pm172_aux_fld_img hQ).1 hy
+    obtain ⟨c, hc, hcμ⟩ := h1 d hd
+    exact ⟨g c, (pm172_aux_fld_img hP).2 ⟨c, hc, rfl⟩, c, d, hcμ, rfl⟩
+  · obtain ⟨c, d, hc, e⟩ := hx
+    obtain ⟨c', d', hc', e'⟩ := hx'
+    obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+    obtain ⟨e1', e2'⟩ := couple_eq_couple_iff.1 e'
+    obtain ⟨-, hdS⟩ := pm176_aux_clsExp_couple hμ hc
+    obtain ⟨-, hdS'⟩ := pm176_aux_clsExp_couple hμ hc'
+    have ed : d = d' := ik d d' hdS hdS' (e2.symm.trans e2')
+    rw [ed] at hc
+    rw [e1, e1', h2 c c' d' hc hc']
+  · obtain ⟨c, d, hc, rfl⟩ := hU
+    obtain ⟨hcR, hdS⟩ := pm176_aux_clsExp_couple hμ hc
+    exact ⟨g c, k d, ⟨(pm172_aux_fld_img hP).2 ⟨c, hcR, rfl⟩,
+      (pm172_aux_fld_img hQ).2 ⟨d, hdS, rfl⟩⟩, rfl⟩
+
+private theorem pm176_aux_map_inj (ig : ∀ c c', c ∈ fld R → c' ∈ fld R → g c = g c' → c = c')
+    (ik : ∀ d d', d ∈ fld S → d' ∈ fld S → k d = k d' → d = d')
+    {μ μ' : Set (γ → δ → Prop)} (hμ : μ ∈ clsExp (fld R) (fld S))
+    (hμ' : μ' ∈ clsExp (fld R) (fld S)) (e : pm176_aux_map g k μ = pm176_aux_map g k μ') :
+    μ = μ' := by
+  ext U; constructor
+  · intro hU
+    obtain ⟨c, d, rfl⟩ := pm176_aux_cpl hμ U hU
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ hU
+    rw [← pm176_aux_map_mem ig ik hμ' hc hd, ← e, pm176_aux_map_mem ig ik hμ hc hd]; exact hU
+  · intro hU
+    obtain ⟨c, d, rfl⟩ := pm176_aux_cpl hμ' U hU
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ' hU
+    rw [← pm176_aux_map_mem ig ik hμ hc hd, e, pm176_aux_map_mem ig ik hμ' hc hd]; exact hU
+
+private theorem pm176_aux_map_surj (ig : ∀ c c', c ∈ fld R → c' ∈ fld R → g c = g c' → c = c')
+    (hP : ∀ x x', P x x' ↔ ∃ c c', R c c' ∧ x = g c ∧ x' = g c')
+    (hQ : ∀ y y', Q y y' ↔ ∃ d d', S d d' ∧ y = k d ∧ y' = k d')
+    {ξ : Set (α → β → Prop)} (hξ : ξ ∈ clsExp (fld P) (fld Q)) :
+    ∃ μ, μ ∈ clsExp (fld R) (fld S) ∧ ξ = pm176_aux_map g k μ := by
+  obtain ⟨h1, h2, h3⟩ := pm176_aux_mem_clsExp.1 hξ
+  refine ⟨{V | ∃ c d, ((c ∈ fld R ∧ d ∈ fld S) ∧ g c ↓ k d ∈ ξ) ∧ V = c ↓ d},
+    pm176_aux_mem_clsExp.2 ⟨fun d hd => ?_, fun c c' d hc hc' => ?_, fun V hV => ?_⟩, ?_⟩
+  · obtain ⟨x, hx, hxξ⟩ := h1 (k d) ((pm172_aux_fld_img hQ).2 ⟨d, hd, rfl⟩)
+    obtain ⟨c, hc, rfl⟩ := (pm172_aux_fld_img hP).1 hx
+    exact ⟨c, hc, c, d, ⟨⟨hc, hd⟩, hxξ⟩, rfl⟩
+  · obtain ⟨a, b, ⟨⟨ha, -⟩, hab⟩, e⟩ := hc
+    obtain ⟨a', b', ⟨⟨ha', -⟩, hab'⟩, e'⟩ := hc'
+    obtain ⟨rfl, rfl⟩ := couple_eq_couple_iff.1 e
+    obtain ⟨rfl, rfl⟩ := couple_eq_couple_iff.1 e'
+    exact ig _ _ ha ha' (h2 _ _ _ hab hab')
+  · obtain ⟨c, d, ⟨hcd, -⟩, rfl⟩ := hV; exact ⟨c, d, hcd, rfl⟩
+  · ext X; constructor
+    · intro hX
+      obtain ⟨x, y, ⟨hx, hy⟩, rfl⟩ := h3 X hX
+      obtain ⟨c, hc, rfl⟩ := (pm172_aux_fld_img hP).1 hx
+      obtain ⟨d, hd, rfl⟩ := (pm172_aux_fld_img hQ).1 hy
+      exact ⟨c, d, ⟨c, d, ⟨⟨hc, hd⟩, hX⟩, rfl⟩, rfl⟩
+    · rintro ⟨c, d, ⟨a, b, ⟨-, hab⟩, e⟩, rfl⟩
+      obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+      rw [e1, e2]; exact hab
+
+private theorem pm176_aux_map_rexp (ig : ∀ c c', c ∈ fld R → c' ∈ fld R → g c = g c' → c = c')
+    (ik : ∀ d d', d ∈ fld S → d' ∈ fld S → k d = k d' → d = d')
+    (hP : ∀ x x', P x x' ↔ ∃ c c', R c c' ∧ x = g c ∧ x' = g c')
+    (hQ : ∀ y y', Q y y' ↔ ∃ d d', S d d' ∧ y = k d ∧ y' = k d')
+    {μ ν : Set (γ → δ → Prop)} (hμ : μ ∈ clsExp (fld R) (fld S))
+    (hν : ν ∈ clsExp (fld R) (fld S)) :
+    rexp P Q (pm176_aux_map g k μ) (pm176_aux_map g k ν) ↔ rexp R S μ ν := by
+  have mμ := pm176_aux_map_clsExp ik hP hQ hμ
+  have mν := pm176_aux_map_clsExp ik hP hQ hν
+  rw [pm176_aux_12, pm176_aux_12]
+  constructor
+  · rintro ⟨-, y, x, x', ⟨⟨hx, hx'⟩, hxx⟩, hR⟩
+    obtain ⟨c, d, hcd, e⟩ := hx
+    obtain ⟨c', d', hcd', e'⟩ := hx'
+    obtain ⟨rfl, rfl⟩ := couple_eq_couple_iff.1 e
+    obtain ⟨rfl, e2⟩ := couple_eq_couple_iff.1 e'
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ hcd
+    obtain ⟨hc', hd'⟩ := pm176_aux_clsExp_couple hν hcd'
+    have ed := ik d d' hd hd' e2
+    rw [← ed] at hcd'
+    obtain ⟨z, z', hzz, e3, e4⟩ := (hP _ _).1 hxx
+    have hRcc : R c c' := by
+      rw [ig c z hc ⟨z', Or.inl hzz⟩ e3, ig c' z' hc' ⟨z, Or.inr hzz⟩ e4]; exact hzz
+    refine ⟨⟨hμ, hν⟩, d, c, c', ⟨⟨hcd, hcd'⟩, hRcc⟩, fun a b ⟨⟨hbd, hne⟩, hab⟩ => ?_⟩
+    have hb : b ∈ fld S := ⟨d, Or.inl hbd⟩
+    have ha := (pm176_aux_clsExp_couple hμ hab).1
+    have := hR (g a) (k b) ⟨⟨(hQ _ _).2 ⟨b, d, hbd, rfl, rfl⟩, fun e => hne (ik b d hb hd e)⟩,
+      (pm176_aux_map_mem ig ik hμ ha hb).2 hab⟩
+    exact (pm176_aux_map_mem ig ik hν ha hb).1 this
+  · rintro ⟨-, d, c, c', ⟨⟨hcd, hcd'⟩, hRcc⟩, hR⟩
+    obtain ⟨-, hd⟩ := pm176_aux_clsExp_couple hμ hcd
+    refine ⟨⟨mμ, mν⟩, k d, g c, g c', ⟨⟨⟨c, d, hcd, rfl⟩, ⟨c', d, hcd', rfl⟩⟩,
+      (hP _ _).2 ⟨c, c', hRcc, rfl, rfl⟩⟩, fun x y ⟨⟨hyd, hne⟩, hxy⟩ => ?_⟩
+    obtain ⟨a, b, hab, e⟩ := hxy
+    obtain ⟨rfl, rfl⟩ := couple_eq_couple_iff.1 e
+    obtain ⟨-, hb⟩ := pm176_aux_clsExp_couple hμ hab
+    obtain ⟨b1, d1, hbd, e1, e2⟩ := (hQ _ _).1 hyd
+    have hb1 : b1 ∈ fld S := ⟨d1, Or.inl hbd⟩
+    have hd1 : d1 ∈ fld S := ⟨b1, Or.inr hbd⟩
+    rw [← ik b b1 hb hb1 e1, ← ik d d1 hd hd1 e2] at hbd
+    exact ⟨a, b, hR a b ⟨⟨hbd, fun e => hne (by rw [e])⟩, hab⟩, rfl⟩
+
+private theorem pm176_aux_tl_rexp (ig : ∀ c c', c ∈ fld R → c' ∈ fld R → g c = g c' → c = c')
+    (ik : ∀ d d', d ∈ fld S → d' ∈ fld S → k d = k d' → d = d')
+    (hP : ∀ x x', P x x' ↔ ∃ c c', R c c' ∧ x = g c ∧ x' = g c')
+    (hQ : ∀ y y', Q y y' ↔ ∃ d d', S d d' ∧ y = k d ∧ y' = k d') (μ ν : Set (α → β → Prop)) :
+    rexp P Q μ ν ↔ ∃ μ' ν', rexp R S μ' ν' ∧ μ = pm176_aux_map g k μ' ∧
+      ν = pm176_aux_map g k ν' := by
+  constructor
+  · intro hμν
+    obtain ⟨⟨hμ, hν⟩, -⟩ := (pm176_aux_12 P Q μ ν).1 hμν
+    obtain ⟨μ', hμ', rfl⟩ := pm176_aux_map_surj ig hP hQ hμ
+    obtain ⟨ν', hν', rfl⟩ := pm176_aux_map_surj ig hP hQ hν
+    exact ⟨μ', ν', (pm176_aux_map_rexp ig ik hP hQ hμ' hν').1 hμν, rfl, rfl⟩
+  · rintro ⟨μ', ν', h', rfl, rfl⟩
+    obtain ⟨⟨hμ', hν'⟩, -⟩ := (pm176_aux_12 R S μ' ν').1 h'
+    exact (pm176_aux_map_rexp ig ik hP hQ hμ' hν').2 h'
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v} {γ : Type w} {δ : Type u'}
+
+private theorem pm176_aux_fun_of_smorbar {P : α → α → Prop} {R : γ → γ → Prop} {U : α → γ → Prop}
+    (hU : U ↾ fld R ∈ smorbar P R) (hne : (fld R).Nonempty) :
+    ∃ g : γ → α, (∀ c, c ∈ fld R → ∀ a, U a c ↔ a = g c) ∧
+      (∀ c c', c ∈ fld R → c' ∈ fld R → g c = g c' → c = c') ∧
+      ∀ x x', P x x' ↔ ∃ c c', R c c' ∧ x = g c ∧ x' = g c' := by
+  obtain ⟨⟨hS, hcod⟩, hPe⟩ := hU
+  obtain ⟨s1, s2⟩ := mem_arrow_one_one.1 hS
+  have hex : ∀ c, c ∈ fld R → ∃ a, U a c := fun c hc => by
+    rw [hcod] at hc; obtain ⟨a, ha, -⟩ := hc; exact ⟨a, ha⟩
+  obtain ⟨c0, hc0⟩ := hne
+  obtain ⟨a0, -⟩ := hex c0 hc0
+  have : Nonempty α := ⟨a0⟩
+  let g : γ → α := fun c => Classical.epsilon (fun a => U a c)
+  have hg : ∀ c, c ∈ fld R → U (g c) c := fun c hc => Classical.epsilon_spec (hex c hc)
+  have hU' : ∀ c, c ∈ fld R → ∀ a, U a c ↔ a = g c := fun c hc a =>
+    ⟨fun ha => s1 a (g c) c ⟨⟨ha, hc⟩, ⟨hg c hc, hc⟩⟩, fun e => e ▸ hg c hc⟩
+  refine ⟨g, hU', fun c c' hc hc' e => s2 (g c) c c' ⟨⟨hg c hc, hc⟩, ⟨by rw [e]; exact hg c' hc', hc'⟩⟩,
+    fun x x' => ?_⟩
+  rw [hPe, semi_apply]
+  constructor
+  · rintro ⟨c, c', ⟨⟨hxc, hc⟩, ⟨hxc', hc'⟩⟩, hcc⟩
+    exact ⟨c, c', hcc, (hU' c hc x).1 hxc, (hU' c' hc' x').1 hxc'⟩
+  · rintro ⟨c, c', hcc, rfl, rfl⟩
+    have hc : c ∈ fld R := ⟨c', Or.inl hcc⟩
+    have hc' : c' ∈ fld R := ⟨c, Or.inr hcc⟩
+    exact ⟨c, c', ⟨⟨hg c hc, hc⟩, ⟨hg c' hc', hc'⟩⟩, hcc⟩
+
+private theorem pm176_aux_empty_of_smorbar {P : α → α → Prop} {R : γ → γ → Prop} {U : α → γ → Prop}
+    (hU : U ↾ fld R ∈ smorbar P R) (hne : ¬ (fld R).Nonempty) : ∀ x x', ¬ P x x' := by
+  intro x x' hxx
+  rw [hU.2, semi_apply] at hxx
+  obtain ⟨c, c', -, hcc⟩ := hxx
+  exact hne ⟨c, c', Or.inl hcc⟩
+
+private theorem pm176_aux_smorbar_empty {X : α → α → Prop} {Y : β → β → Prop} (T : α → β → Prop)
+    (hX : ∀ x y, ¬ X x y) (hY : ∀ x y, ¬ Y x y) : T ↾ fld Y ∈ smorbar X Y := by
+  have hf : ∀ y, y ∉ fld Y := fun y ⟨z, h⟩ => h.elim (hY _ _) (hY _ _)
+  refine ⟨⟨mem_arrow_one_one.2 ⟨fun _ _ _ h => (hf _ h.1.2).elim,
+    fun _ _ _ h => (hf _ h.1.2).elim⟩, ?_⟩, ?_⟩
+  · ext y; exact ⟨fun h => (hf y h).elim, fun ⟨x, h⟩ => (hf y h.2).elim⟩
+  · funext x y; apply propext; rw [semi_apply]
+    exact ⟨fun h => (hX _ _ h).elim, fun ⟨_, _, ⟨h, _⟩, _⟩ => (hf _ h.2).elim⟩
+
+private theorem pm176_aux_rexp_empty {P : α → α → Prop} {Q : β → β → Prop}
+    (h : (∀ x y, ¬ P x y) ∨ ∀ x y, ¬ Q x y) (μ ν : Set (α → β → Prop)) : ¬ rexp P Q μ ν := by
+  intro hμν
+  obtain ⟨⟨hμ, -⟩, y, x, x', ⟨⟨hx, -⟩, hxx⟩, -⟩ := (pm176_aux_12 P Q μ ν).1 hμν
+  rcases h with h | h
+  · exact h _ _ hxx
+  · obtain ⟨z, hz | hz⟩ := (pm176_aux_clsExp_couple hμ hx).2 <;> exact h _ _ hz
+
+private theorem pm176_aux_rpow_empty {P : α → α → Prop} {Q : β → β → Prop}
+    (h : (∀ x y, ¬ P x y) ∨ ∀ x y, ¬ Q x y) (S T : α → β → Prop) : ¬ rpow P Q S T := by
+  intro hST
+  obtain ⟨μ, ν, -, hμν⟩ := (semi_graph_apply sumRel (rexp P Q) S T).1 hST
+  exact pm176_aux_rexp_empty h μ ν hμν
+
+private theorem pm176_aux_UVW {U : α → γ → Prop} {W : β → δ → Prop} {c : γ} {d : δ} {a0 : α} {b0 : β}
+    (hU : ∀ a, U a c ↔ a = a0) (hW : ∀ b, W b d ↔ b = b0) : U ⨾ ((c ↓ d) ⨾ W˘) = a0 ↓ b0 := by
+  funext a b; apply propext
+  constructor
+  · rintro ⟨c', hac, d', hcd, hbd⟩
+    obtain ⟨rfl, rfl⟩ := (couple_apply _ _ _ _).1 hcd
+    exact (couple_apply _ _ _ _).2 ⟨(hU a).1 hac, (hW b).1 hbd⟩
+  · intro hab
+    obtain ⟨rfl, rfl⟩ := (couple_apply _ _ _ _).1 hab
+    exact ⟨c, (hU _).2 rfl, d, (couple_apply _ _ _ _).2 ⟨rfl, rfl⟩, (hW _).2 rfl⟩
+
+private theorem pm176_aux_img_dpar {R : γ → γ → Prop} {S : δ → δ → Prop} {g : γ → α} {k : δ → β}
+    {U : α → γ → Prop} {W : β → δ → Prop}
+    (hg : ∀ c, c ∈ fld R → ∀ a, U a c ↔ a = g c) (hk : ∀ d, d ∈ fld S → ∀ b, W b d ↔ b = k d)
+    {μ : Set (γ → δ → Prop)} (hμ : μ ∈ clsExp (fld R) (fld S)) :
+    img (U ∥ W˘) μ = pm176_aux_map g k μ := by
+  ext X; constructor
+  · rintro ⟨V, hV, hXV⟩
+    rw [dpar_iff] at hXV
+    obtain ⟨c, d, rfl⟩ := pm176_aux_cpl hμ V hV
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ hV
+    exact ⟨c, d, hV, hXV.trans (pm176_aux_UVW (hg c hc) (hk d hd))⟩
+  · rintro ⟨c, d, hcd, rfl⟩
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ hcd
+    exact ⟨c ↓ d, hcd, (dpar_iff _ _ _ _).2 (pm176_aux_UVW (hg c hc) (hk d hd)).symm⟩
+
+private theorem pm176_aux_sumRel_dpar {R : γ → γ → Prop} {S : δ → δ → Prop} {g : γ → α} {k : δ → β}
+    {U : α → γ → Prop} {W : β → δ → Prop}
+    (hg : ∀ c, c ∈ fld R → ∀ a, U a c ↔ a = g c) (hk : ∀ d, d ∈ fld S → ∀ b, W b d ↔ b = k d)
+    {μ : Set (γ → δ → Prop)} (hμ : μ ∈ clsExp (fld R) (fld S)) :
+    U ⨾ (sumRel μ ⨾ W˘) = sumRel (pm176_aux_map g k μ) := by
+  funext a b; apply propext
+  rw [pm176_aux_sumRel_apply (pm176_aux_map_cpl μ)]
+  constructor
+  · rintro ⟨c, hac, d, hcd, hbd⟩
+    rw [pm176_aux_sumRel_apply (pm176_aux_cpl hμ)] at hcd
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ hcd
+    exact ⟨c, d, hcd, by rw [(hg c hc a).1 hac, (hk d hd b).1 hbd]⟩
+  · rintro ⟨c, d, hcd, e⟩
+    obtain ⟨hc, hd⟩ := pm176_aux_clsExp_couple hμ hcd
+    obtain ⟨rfl, rfl⟩ := couple_eq_couple_iff.1 e
+    exact ⟨c, (hg c hc _).2 rfl, d, (pm176_aux_sumRel_apply (pm176_aux_cpl hμ) _ _).2 hcd,
+      (hk d hd _).2 rfl⟩
+
+private theorem pm176_aux_dpar_graph (U : α → γ → Prop) (W : β → δ → Prop) :
+    (U ∥ W˘) = graph (fun V => U ⨾ (V ⨾ W˘)) := by
+  funext X V; apply propext; exact dpar_iff _ _ _ _
+
+private theorem pm176_2 {P : α → α → Prop} {Q : β → β → Prop} {R : γ → γ → Prop} {S : δ → δ → Prop}
+    {U : α → γ → Prop} {W : β → δ → Prop} (H : U ↾ fld R ∈ smorbar P R ∧ W ↾ fld S ∈ smorbar Q S) :
+    imgRel (U ∥ W˘) ↾ fld (rexp R S) ∈ smorbar (rexp P Q) (rexp R S) := by
+  obtain ⟨hU, hW⟩ := H
+  by_cases hne : (fld R).Nonempty ∧ (fld S).Nonempty
+  · obtain ⟨g, hg, ig, hP⟩ := pm176_aux_fun_of_smorbar hU hne.1
+    obtain ⟨k, hk, ik, hQ⟩ := pm176_aux_fun_of_smorbar hW hne.2
+    apply pm170_aux_smorbar (img (U ∥ W˘))
+    · intro μ ν hμ hν e
+      have hμ' := pm176_aux_fld_sub R S hμ
+      have hν' := pm176_aux_fld_sub R S hν
+      rw [pm176_aux_img_dpar hg hk hμ', pm176_aux_img_dpar hg hk hν'] at e
+      exact pm176_aux_map_inj ig ik hμ' hν' e
+    · intro μ ν
+      rw [pm176_aux_tl_rexp ig ik hP hQ]
+      constructor
+      · rintro ⟨μ', ν', h', rfl, rfl⟩
+        refine ⟨μ', ν', h', ?_, ?_⟩
+        · rw [pm176_aux_img_dpar hg hk (pm176_aux_fld_sub R S ⟨ν', Or.inl h'⟩)]
+        · rw [pm176_aux_img_dpar hg hk (pm176_aux_fld_sub R S ⟨μ', Or.inr h'⟩)]
+      · rintro ⟨μ', ν', h', rfl, rfl⟩
+        refine ⟨μ', ν', h', ?_, ?_⟩
+        · rw [pm176_aux_img_dpar hg hk (pm176_aux_fld_sub R S ⟨ν', Or.inl h'⟩)]
+        · rw [pm176_aux_img_dpar hg hk (pm176_aux_fld_sub R S ⟨μ', Or.inr h'⟩)]
+  · rcases not_and_or.1 hne with h | h
+    · exact pm176_aux_smorbar_empty _
+        (pm176_aux_rexp_empty (Or.inl (pm176_aux_empty_of_smorbar hU h)))
+        (pm176_aux_rexp_empty (Or.inl fun c c' hcc => h ⟨c, c', Or.inl hcc⟩))
+    · exact pm176_aux_smorbar_empty _
+        (pm176_aux_rexp_empty (Or.inr (pm176_aux_empty_of_smorbar hW h)))
+        (pm176_aux_rexp_empty (Or.inr fun c c' hcc => h ⟨c, c', Or.inl hcc⟩))
+
+private theorem pm176_21 {P : α → α → Prop} {Q : β → β → Prop} {R : γ → γ → Prop} {S : δ → δ → Prop}
+    {U : α → γ → Prop} {W : β → δ → Prop} (H : U ↾ fld R ∈ smorbar P R ∧ W ↾ fld S ∈ smorbar Q S) :
+    (U ∥ W˘) ↾ fld (rpow R S) ∈ smorbar (rpow P Q) (rpow R S) := by
+  obtain ⟨hU, hW⟩ := H
+  rw [pm176_aux_dpar_graph]
+  by_cases hne : (fld R).Nonempty ∧ (fld S).Nonempty
+  · obtain ⟨g, hg, ig, hP⟩ := pm176_aux_fun_of_smorbar hU hne.1
+    obtain ⟨k, hk, ik, hQ⟩ := pm176_aux_fun_of_smorbar hW hne.2
+    have key : ∀ T, T ∈ fld (rpow R S) → ∃ μ, μ ∈ fld (rexp R S) ∧ T = sumRel μ ∧
+        U ⨾ (T ⨾ W˘) = sumRel (pm176_aux_map g k μ) := by
+      intro T hT
+      rw [pm176_133] at hT
+      obtain ⟨μ, hμ, rfl⟩ := hT
+      exact ⟨μ, hμ, rfl, pm176_aux_sumRel_dpar hg hk (pm176_aux_fld_sub R S hμ)⟩
+    apply pm170_aux_smorbar
+    · intro T T' hT hT' e
+      have e' : U ⨾ (T ⨾ W˘) = U ⨾ (T' ⨾ W˘) := e
+      obtain ⟨μ, hμ, rfl, e1⟩ := key T hT
+      obtain ⟨μ', hμ', rfl, e2⟩ := key T' hT'
+      rw [e1, e2] at e'
+      rw [pm176_aux_map_inj ig ik (pm176_aux_fld_sub R S hμ) (pm176_aux_fld_sub R S hμ')
+        (pm176_aux_sumRel_inj (pm176_aux_map_cpl μ) (pm176_aux_map_cpl μ') e')]
+    · intro X Y
+      show (graph sumRel ⁏ rexp P Q) X Y ↔ _
+      rw [semi_graph_apply]
+      constructor
+      · rintro ⟨μ, ν, ⟨rfl, rfl⟩, hμν⟩
+        obtain ⟨μ', ν', h', rfl, rfl⟩ := (pm176_aux_tl_rexp ig ik hP hQ μ ν).1 hμν
+        refine ⟨sumRel μ', sumRel ν', (semi_graph_apply _ _ _ _).2 ⟨μ', ν', ⟨rfl, rfl⟩, h'⟩, ?_, ?_⟩
+        · show _ = U ⨾ (sumRel μ' ⨾ W˘)
+          rw [pm176_aux_sumRel_dpar hg hk (pm176_aux_fld_sub R S ⟨ν', Or.inl h'⟩)]
+        · show _ = U ⨾ (sumRel ν' ⨾ W˘)
+          rw [pm176_aux_sumRel_dpar hg hk (pm176_aux_fld_sub R S ⟨μ', Or.inr h'⟩)]
+      · rintro ⟨T, T', hTT, rfl, rfl⟩
+        obtain ⟨μ', ν', ⟨rfl, rfl⟩, h'⟩ := (semi_graph_apply sumRel (rexp R S) T T').1 hTT
+        refine ⟨pm176_aux_map g k μ', pm176_aux_map g k ν', ⟨?_, ?_⟩,
+          (pm176_aux_tl_rexp ig ik hP hQ _ _).2 ⟨μ', ν', h', rfl, rfl⟩⟩
+        · show U ⨾ (sumRel μ' ⨾ W˘) = _
+          rw [pm176_aux_sumRel_dpar hg hk (pm176_aux_fld_sub R S ⟨ν', Or.inl h'⟩)]
+        · show U ⨾ (sumRel ν' ⨾ W˘) = _
+          rw [pm176_aux_sumRel_dpar hg hk (pm176_aux_fld_sub R S ⟨μ', Or.inr h'⟩)]
+  · rcases not_and_or.1 hne with h | h
+    · exact pm176_aux_smorbar_empty _
+        (pm176_aux_rpow_empty (Or.inl (pm176_aux_empty_of_smorbar hU h)))
+        (pm176_aux_rpow_empty (Or.inl fun c c' hcc => h ⟨c, c', Or.inl hcc⟩))
+    · exact pm176_aux_smorbar_empty _
+        (pm176_aux_rpow_empty (Or.inr (pm176_aux_empty_of_smorbar hW h)))
+        (pm176_aux_rpow_empty (Or.inr fun c c' hcc => h ⟨c, c', Or.inl hcc⟩))
+
+private theorem pm176_aux_cres_smorbar {P : α → α → Prop} {R : γ → γ → Prop} {U : α → γ → Prop}
+    (hU : U ∈ smorbar P R) : U ↾ fld R ∈ smorbar P R := by
+  have e : U ↾ fld R = U := by
+    funext a c; apply propext
+    exact ⟨fun h => h.1, fun h => ⟨h, by rw [hU.1.2]; exact ⟨a, h⟩⟩⟩
+  rw [e]; exact hU
+
+private theorem pm176_22 {P : α → α → Prop} {Q : β → β → Prop} {R : γ → γ → Prop} {S : δ → δ → Prop}
+    (H : smor P R ∧ smor Q S) : smor (rexp P Q) (rexp R S) ∧ smor (rpow P Q) (rpow R S) := by
+  obtain ⟨⟨U, hU⟩, ⟨W, hW⟩⟩ := H
+  have h := And.intro (pm176_aux_cres_smorbar hU) (pm176_aux_cres_smorbar hW)
+  exact ⟨⟨_, pm176_2 h⟩, ⟨_, pm176_21 h⟩⟩
+
+private theorem pm176_aux_fld_empty {X : α → α → Prop} (h : ∀ x y, ¬ X x y) : fld X = ∅ :=
+  Set.eq_empty_iff_forall_notMem.2 fun _ ⟨_, hh⟩ => hh.elim (h _ _) (h _ _)
+
+private theorem pm176_aux_sigma_dagger {γ' : Type w} (f : β → γ')
+    (S : (β → β → Prop) → (β → β → Prop) → Prop) :
+    relSigma (daggerRel (graph f) ⁏ S) = graph f ⁏ relSigma S := by
+  have hfT : ∀ Z, Z ∈ fld (daggerRel (graph f) ⁏ S) ↔ ∃ Q, Q ∈ fld S ∧ Z = graph f ⁏ Q :=
+    fun Z => by
+      rw [show daggerRel (graph f) = graph (daggerOp (graph f)) from rfl, fld_semi_graph]; rfl
+  have hfZ : ∀ (Q : β → β → Prop) X, X ∈ fld (graph f ⁏ Q) ↔ ∃ y, y ∈ fld Q ∧ X = f y :=
+    fun Q X => by rw [fld_semi_graph]; rfl
+  funext X Y; apply propext
+  rw [relSigma_apply, semi_graph_apply]
+  constructor
+  · rintro (⟨Z, hZ, hXY⟩ | ⟨Z, Z', ⟨hX, hY⟩, hZZ⟩)
+    · obtain ⟨Q, hQ, rfl⟩ := (hfT Z).1 hZ
+      obtain ⟨y, y', ⟨rfl, rfl⟩, hyy⟩ := (semi_graph_apply f Q X Y).1 hXY
+      exact ⟨y, y', ⟨rfl, rfl⟩, (relSigma_apply S y y').2 (Or.inl ⟨Q, hQ, hyy⟩)⟩
+    · obtain ⟨Q, Q', ⟨rfl, rfl⟩, hQQ⟩ := (semi_graph_apply (daggerOp (graph f)) S Z Z').1 hZZ
+      obtain ⟨y, hy, rfl⟩ := (hfZ Q X).1 hX
+      obtain ⟨y', hy', rfl⟩ := (hfZ Q' Y).1 hY
+      exact ⟨y, y', ⟨rfl, rfl⟩, (relSigma_apply S y y').2 (Or.inr ⟨Q, Q', ⟨hy, hy'⟩, hQQ⟩)⟩
+  · rintro ⟨y, y', ⟨rfl, rfl⟩, h⟩
+    rcases (relSigma_apply S y y').1 h with ⟨Q, hQ, hyy⟩ | ⟨Q, Q', ⟨hy, hy'⟩, hQQ⟩
+    · exact Or.inl ⟨graph f ⁏ Q, (hfT _).2 ⟨Q, hQ, rfl⟩,
+        (semi_graph_apply f Q _ _).2 ⟨y, y', ⟨rfl, rfl⟩, hyy⟩⟩
+    · exact Or.inr ⟨graph f ⁏ Q, graph f ⁏ Q', ⟨(hfZ Q _).2 ⟨y, hy, rfl⟩, (hfZ Q' _).2 ⟨y', hy', rfl⟩⟩,
+        (semi_graph_apply (daggerOp (graph f)) S _ _).2 ⟨Q, Q', ⟨rfl, rfl⟩, hQQ⟩⟩
+
+private theorem pm176_aux_fld_cS_inter {P : α → α → Prop} (hP : rEx P) {Q Q' : β → β → Prop}
+    (h : (fld (coupleSemi P ⁏ Q) ∩ fld (coupleSemi P ⁏ Q')).Nonempty) :
+    (fld Q ∩ fld Q').Nonempty := by
+  obtain ⟨X, h1, h2⟩ := h
+  rw [fld_coupleSemi_semi] at h1 h2
+  obtain ⟨y, hy, rfl⟩ := h1
+  obtain ⟨y', hy', e⟩ := h2
+  rw [pm176_aux_X_inj hP e] at hy
+  exact ⟨y', hy, hy'⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm176_aux_GL1 {Ix : Type*} {Q : β → β → Prop} {Rr : Ix → Ix → Prop} {K : Ix → α → β → Prop}
+    {Tg : α → (β → Ix → Prop) → Prop}
+    (hT : ∀ x V, Tg x V ↔ ∃ u i, (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u ∧ V = u ↓ i)
+    {x : α} {u : β} {i : Ix} : Tg x (u ↓ i) ↔ (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u := by
+  rw [hT]; constructor
+  · rintro ⟨u', i', h, hK, e⟩
+    obtain ⟨e1, e2⟩ := couple_eq_couple_iff.1 e
+    rw [e1, e2]; exact ⟨h, hK⟩
+  · rintro ⟨h, hK⟩; exact ⟨u, i, h, hK, rfl⟩
+
+private theorem pm176_aux_GL2 {Ix : Type*} {Q : β → β → Prop} {Rr : Ix → Ix → Prop} {K : Ix → α → β → Prop}
+    {Tg : α → (β → Ix → Prop) → Prop}
+    (k1 : ∀ i, i ∈ fld Rr → K i ∈ arrow one one)
+    (k3 : ∀ i j, i ∈ fld Rr → j ∈ fld Rr → (dom (K i) ∩ dom (K j)).Nonempty → i = j)
+    (hT : ∀ x V, Tg x V ↔ ∃ u i, (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u ∧ V = u ↓ i) :
+    Tg ∈ arrow one one := by
+  refine mem_arrow_one_one.2 ⟨fun x y V ⟨hx, hy⟩ => ?_, fun x V V' ⟨hV, hV'⟩ => ?_⟩
+  · obtain ⟨u, i, ⟨hu, hi⟩, hxK, rfl⟩ := (hT x V).1 hx
+    obtain ⟨-, hyK⟩ := (pm176_aux_GL1 hT).1 hy
+    exact (mem_arrow_one_one.1 (k1 i hi)).1 x y u ⟨hxK, hyK⟩
+  · obtain ⟨u, i, ⟨hu, hi⟩, hxK, rfl⟩ := (hT x V).1 hV
+    obtain ⟨u', i', ⟨hu', hi'⟩, hxK', rfl⟩ := (hT x V').1 hV'
+    have e := k3 i i' hi hi' ⟨x, ⟨u, hxK⟩, ⟨u', hxK'⟩⟩
+    subst e
+    rw [(mem_arrow_one_one.1 (k1 i hi)).2 x u u' ⟨hxK, hxK'⟩]
+
+private theorem pm176_aux_GL3 {Ix : Type*} {Q : β → β → Prop} {Rr : Ix → Ix → Prop} {K : Ix → α → β → Prop}
+    {Tg : α → (β → Ix → Prop) → Prop}
+    (k2 : ∀ i, i ∈ fld Rr → fld Q ⊆ codom (K i))
+    (hT : ∀ x V, Tg x V ↔ ∃ u i, (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u ∧ V = u ↓ i) :
+    codom Tg = fld (relSigma (coupleSemi Q ⁏ Rr)) := by
+  ext V; constructor
+  · rintro ⟨x, hx⟩
+    obtain ⟨u, i, ⟨hu, hi⟩, -, rfl⟩ := (hT x V).1 hx
+    refine pm172_aux_mem_fld_relSigma (Q := opSemi couple Q i) ?_ ?_
+    · rw [fld_coupleSemi_semi]; exact ⟨i, hi, rfl⟩
+    · rw [fld_opSemi_couple]; exact ⟨u, hu, rfl⟩
+  · intro hV
+    obtain ⟨Z, hZ, hVZ⟩ := pm172_aux_fld_relSigma hV
+    rw [fld_coupleSemi_semi] at hZ
+    obtain ⟨i, hi, rfl⟩ := hZ
+    rw [fld_opSemi_couple] at hVZ
+    obtain ⟨u, hu, rfl⟩ := hVZ
+    obtain ⟨x, hx⟩ := k2 i hi hu
+    exact ⟨x, (hT x _).2 ⟨u, i, ⟨hu, hi⟩, hx, rfl⟩⟩
+
+private theorem pm176_aux_GL4 {Ix : Type*} {Q : β → β → Prop} {Rr : Ix → Ix → Prop} {K : Ix → α → β → Prop}
+    {Tg : α → (β → Ix → Prop) → Prop}
+    (hT : ∀ x V, Tg x V ↔ ∃ u i, (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u ∧ V = u ↓ i)
+    {i : Ix} (hi : i ∈ fld Rr) : Tg ⁏ opSemi couple Q i = K i ⁏ Q := by
+  funext x y; apply propext
+  rw [semi_apply, semi_apply]
+  constructor
+  · rintro ⟨V, V', ⟨hx, hy⟩, hVV⟩
+    rw [opSemi_couple_apply] at hVV
+    obtain ⟨u, u', ⟨rfl, rfl⟩, huu⟩ := hVV
+    exact ⟨u, u', ⟨((pm176_aux_GL1 hT).1 hx).2, ((pm176_aux_GL1 hT).1 hy).2⟩, huu⟩
+  · rintro ⟨u, u', ⟨hx, hy⟩, huu⟩
+    exact ⟨u ↓ i, u' ↓ i, ⟨(pm176_aux_GL1 hT).2 ⟨⟨⟨u', Or.inl huu⟩, hi⟩, hx⟩,
+      (pm176_aux_GL1 hT).2 ⟨⟨⟨u, Or.inr huu⟩, hi⟩, hy⟩⟩,
+      (opSemi_couple_apply Q i _ _).2 ⟨u, u', ⟨rfl, rfl⟩, huu⟩⟩
+
+private theorem pm176_aux_GL5 {Ix : Type*} {Q : β → β → Prop} {Rr : Ix → Ix → Prop} {K : Ix → α → β → Prop}
+    {Tg : α → (β → Ix → Prop) → Prop}
+    (k1 : ∀ i, i ∈ fld Rr → K i ∈ arrow one one)
+    (k2 : ∀ i, i ∈ fld Rr → fld Q ⊆ codom (K i))
+    (k3 : ∀ i j, i ∈ fld Rr → j ∈ fld Rr → (dom (K i) ∩ dom (K j)).Nonempty → i = j)
+    (hT : ∀ x V, Tg x V ↔ ∃ u i, (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u ∧ V = u ↓ i) :
+    Tg ∈ smorsmorbar (graph (fun i => K i ⁏ Q) ⁏ Rr) (coupleSemi Q ⁏ Rr) := by
+  refine ⟨⟨pm176_aux_GL2 k1 k3 hT, (pm176_aux_GL3 k2 hT).symm⟩, ?_⟩
+  show graph (fun i => K i ⁏ Q) ⁏ Rr = daggerRel Tg ⁏ coupleSemi Q ⁏ Rr
+  rw [semi_semi]
+  apply pm173_aux_semi_congr
+  intro Y i hi
+  show Y = K i ⁏ Q ↔ ∃ V, daggerRel Tg Y V ∧ coupleSemi Q V i
+  constructor
+  · intro h
+    exact ⟨_, (show Y = Tg ⁏ opSemi couple Q i by rw [h, pm176_aux_GL4 hT hi]), rfl⟩
+  · rintro ⟨V, h1, h2⟩
+    have h1' : Y = Tg ⁏ V := h1
+    have h2' : V = opSemi couple Q i := h2
+    rw [h1', h2', pm176_aux_GL4 hT hi]
+
+private theorem pm176_aux_GLC {Ix : Type*} {Q : β → β → Prop} {Rr : Ix → Ix → Prop} (K : Ix → α → β → Prop)
+    (k1 : ∀ i, i ∈ fld Rr → K i ∈ arrow one one)
+    (k2 : ∀ i, i ∈ fld Rr → fld Q ⊆ codom (K i))
+    (k3 : ∀ i j, i ∈ fld Rr → j ∈ fld Rr → (dom (K i) ∩ dom (K j)).Nonempty → i = j) :
+    smorsmor (graph (fun i => K i ⁏ Q) ⁏ Rr) (coupleSemi Q ⁏ Rr) :=
+  ⟨_, pm176_aux_GL5 (Tg := fun x V => ∃ u i, (u ∈ fld Q ∧ i ∈ fld Rr) ∧ K i x u ∧ V = u ↓ i)
+    k1 k2 k3 fun _ _ => Iff.rfl⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v} {δ : Type w}
+
+private theorem pm176_aux_I_relProd {γ : Type*} (Y : α → γ → Prop) : (I : α → α → Prop) ⨾ Y = Y := by
+  funext a b; apply propext
+  exact ⟨fun ⟨c, hac, hcb⟩ => (show a = c from hac) ▸ hcb, fun h => ⟨a, rfl, h⟩⟩
+
+private theorem pm176_aux_I_smorbar (P : α → α → Prop) : I ↾ fld P ∈ smorbar P P := by
+  refine ⟨⟨mem_arrow_one_one.2 ⟨fun x y z ⟨⟨h1, _⟩, ⟨h2, _⟩⟩ => (show x = z from h1).trans
+    (show y = z from h2).symm, fun x y z ⟨⟨h1, _⟩, ⟨h2, _⟩⟩ => (show x = y from h1).symm.trans h2⟩,
+    ?_⟩, ?_⟩
+  · ext x; exact ⟨fun h => ⟨x, rfl, h⟩, fun ⟨_, _, h⟩ => h⟩
+  · funext x y; apply propext; rw [semi_apply]
+    constructor
+    · intro h; exact ⟨x, y, ⟨⟨rfl, y, Or.inl h⟩, ⟨rfl, x, Or.inr h⟩⟩, h⟩
+    · rintro ⟨c, c', ⟨⟨h1, -⟩, ⟨h2, -⟩⟩, h⟩
+      rw [show x = c from h1, show y = c' from h2]; exact h
+
+private theorem pm176_aux_X_smorbar (Q : β → β → Prop) (z : δ) :
+    coupleR z ↾ fld Q ∈ smorbar (opSemi couple Q z) Q :=
+  pm170_aux_smorbar (fun u => u ↓ z) (fun _ _ _ _ e => (couple_eq_couple_iff.1 e).1)
+    (fun X X' => by
+      rw [opSemi_couple_apply]
+      exact ⟨fun ⟨x, x', ⟨h1, h2⟩, h⟩ => ⟨x, x', h, h1, h2⟩,
+        fun ⟨x, x', h, h1, h2⟩ => ⟨x, x', ⟨h1, h2⟩, h⟩⟩)
+
+private theorem pm176_aux_imgRel_eq (z : δ) :
+    imgRel (relProdR ((coupleR z)˘ : β → (β → δ → Prop) → Prop) : (α → (β → δ → Prop) → Prop) →
+      (α → β → Prop) → Prop) = imgRel ((I : α → α → Prop) ∥ (coupleR z)˘) := by
+  congr 1
+  funext X V; apply propext
+  rw [dpar_iff, pm176_aux_I_relProd]; rfl
+
+private theorem pm176_aux_kappa54 (P : α → α → Prop) (Q : β → β → Prop) (z : δ) :
+    imgRel (relProdR ((coupleR z)˘ : β → (β → δ → Prop) → Prop)) ↾ fld (rexp P Q) ∈
+      smorbar (prodR (coupleSemi P ⁏ opSemi couple Q z)) (prodR (coupleSemi P ⁏ Q)) := by
+  rw [pm176_aux_imgRel_eq]
+  exact pm176_2 ⟨pm176_aux_I_smorbar P, pm176_aux_X_smorbar Q z⟩
+
+private theorem pm176_aux_T_eq (P : α → α → Prop) (Q : β → β → Prop) (R : δ → δ → Prop) :
+    daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R =
+      graph (fun z => coupleSemi P ⁏ opSemi couple Q z) ⁏ R := by
+  rw [semi_semi]
+  congr 1
+  funext Y z; apply propext
+  constructor
+  · rintro ⟨V, h1, h2⟩
+    have h1' : Y = daggerOp (coupleSemi P) V := h1
+    have h2' : V = opSemi couple Q z := h2
+    subst h2'; exact h1'
+  · intro h; exact ⟨opSemi couple Q z, h, rfl⟩
+
+private theorem pm176_aux_ProdT_eq (P : α → α → Prop) (Q : β → β → Prop) (R : δ → δ → Prop) :
+    ProdR ⁏ daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R =
+      graph (fun z => rexp P (opSemi couple Q z)) ⁏ R := by
+  rw [pm176_aux_T_eq, semi_semi]
+  congr 1
+  funext Y z; apply propext
+  constructor
+  · rintro ⟨V, h1, h2⟩
+    have h1' : Y = prodR V := h1
+    have h2' : V = coupleSemi P ⁏ opSemi couple Q z := h2
+    subst h2'; exact h1'
+  · intro h; exact ⟨_, h, rfl⟩
+
+private theorem pm176_aux_rexpX_disj {P : α → α → Prop} {Q : β → β → Prop} (hQ : rEx Q) {z z' : δ}
+    {μ : Set (α → (β → δ → Prop) → Prop)} (h1 : μ ∈ fld (rexp P (opSemi couple Q z)))
+    (h2 : μ ∈ fld (rexp P (opSemi couple Q z'))) : z = z' := by
+  have c1 := pm176_aux_fld_sub _ _ h1
+  have c2 := pm176_aux_fld_sub _ _ h2
+  obtain ⟨u, hu⟩ := pm170_aux_rEx_iff_fld.1 hQ
+  have hV : u ↓ z ∈ fld (opSemi couple Q z) := by rw [fld_opSemi_couple]; exact ⟨u, hu, rfl⟩
+  obtain ⟨x, -, hx⟩ := (pm176_aux_mem_clsExp.1 c1).1 _ hV
+  have := (pm176_aux_clsExp_couple c2 hx).2
+  rw [fld_opSemi_couple] at this
+  obtain ⟨u', -, e⟩ := this
+  exact (couple_eq_couple_iff.1 e).2
+
+private theorem pm176_aux_cS_rNull {P : α → α → Prop} (hP : ¬ rEx P) (Y : β → β → Prop) :
+    coupleSemi P ⁏ Y = fun X X' => (X = rNull ∧ X' = rNull) ∧ rEx Y := by
+  have h0 : ∀ y : β, opSemi couple P y = rNull := fun y =>
+    (pm176_aux_eq_rNull_iff _).2 fun h => hP ((pm173_aux_rEx_semi_graph _ P).1 h)
+  funext X X'; apply propext
+  rw [coupleSemi_semi_apply]
+  constructor
+  · rintro ⟨y, y', ⟨rfl, rfl⟩, h⟩; exact ⟨⟨h0 y, h0 y'⟩, y, y', h⟩
+  · rintro ⟨⟨rfl, rfl⟩, y, y', h⟩; exact ⟨y, y', ⟨(h0 y).symm, (h0 y').symm⟩, h⟩
+
+private theorem pm176_541 (P : α → α → Prop) (Q : β → β → Prop) (R : δ → δ → Prop) :
+    daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R ∈ Rel3arithm ∧
+      relSigma (daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R) =
+        coupleSemi P ⁏ relSigma (coupleSemi Q ⁏ R) := by
+  have e2 : relSigma (daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R) =
+      coupleSemi P ⁏ relSigma (coupleSemi Q ⁏ R) :=
+    pm176_aux_sigma_dagger (opSemi couple P) (coupleSemi Q ⁏ R)
+  refine ⟨⟨?_, by show relSigma _ ∈ Rel2excl; rw [e2]; exact pm176_aux_excl P _⟩, e2⟩
+  rw [pm176_aux_T_eq]
+  rintro A B ⟨⟨hA, hB⟩, hne⟩
+  rw [fld_semi_graph] at hA hB
+  obtain ⟨z, -, rfl⟩ := hA
+  obtain ⟨z', -, rfl⟩ := hB
+  refine pm172_aux_inter_Null.2 fun X h1 h2 => hne ?_
+  show coupleSemi P ⁏ opSemi couple Q z = coupleSemi P ⁏ opSemi couple Q z'
+  by_cases hP : rEx P
+  · have h1' : X ∈ fld (coupleSemi P ⁏ opSemi couple Q z) := h1
+    have h2' : X ∈ fld (coupleSemi P ⁏ opSemi couple Q z') := h2
+    obtain ⟨V, hV1, hV2⟩ := pm176_aux_fld_cS_inter hP ⟨X, h1', h2'⟩
+    rw [fld_opSemi_couple] at hV1 hV2
+    obtain ⟨u, -, rfl⟩ := hV1
+    obtain ⟨u', -, e⟩ := hV2
+    rw [(couple_eq_couple_iff.1 e).2]
+  · have e : rEx (opSemi couple Q z) = rEx (opSemi couple Q z') :=
+      propext ((pm173_aux_rEx_semi_graph _ Q).trans (pm173_aux_rEx_semi_graph _ Q).symm)
+    rw [pm176_aux_cS_rNull hP, pm176_aux_cS_rNull hP, e]
+
+private theorem pm176_55 (P : α → α → Prop) (Q : β → β → Prop) (R : δ → δ → Prop) (h : rEx P ∧ rEx Q) :
+    smorsmor (ProdR ⁏ daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R)
+      (coupleSemi (prodR (coupleSemi P ⁏ Q)) ⁏ R) := by
+  rw [pm176_aux_ProdT_eq]
+  have hk := fun z : δ => pm176_aux_kappa54 P Q z
+  have e : graph (fun z => rexp P (opSemi couple Q z)) ⁏ R =
+      graph (fun z => (imgRel (relProdR ((coupleR z)˘ : β → (β → δ → Prop) → Prop)) ↾
+        fld (rexp P Q)) ⁏ rexp P Q) ⁏ R := by
+    congr 1; funext Y z; apply propext
+    show Y = rexp P (opSemi couple Q z) ↔ Y = _ ⁏ rexp P Q
+    constructor
+    · intro hY; rw [hY]; exact (hk z).2
+    · intro hY; rw [hY]; exact (hk z).2.symm
+  rw [e]
+  refine pm176_aux_GLC (fun z => imgRel (relProdR ((coupleR z)˘ : β → (β → δ → Prop) → Prop)) ↾
+    fld (rexp P Q)) (fun z _ => (hk z).1.1)
+    (fun z _ x hx => by rw [← (hk z).1.2]; exact hx) fun z z' _ _ hne => ?_
+  obtain ⟨μ, h1, h2⟩ := hne
+  rw [← pm170_aux_fld_semi (hk z).1.2, ← (hk z).2] at h1
+  rw [← pm170_aux_fld_semi (hk z').1.2, ← (hk z').2] at h2
+  exact pm176_aux_rexpX_disj h.2 h1 h2
+
+private theorem pm176_56 (P : α → α → Prop) (Q : β → β → Prop) (R : δ → δ → Prop)
+    (h : (rEx P ∧ rEx Q) ∧ R ⪽ J) :
+    smor (prodR (relSigma (daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R)))
+      (prodR (coupleSemi (prodR (coupleSemi P ⁏ Q)) ⁏ R)) := by
+  obtain ⟨⟨hP, hQ⟩, hJ⟩ := h
+  have h3 := (pm176_541 P Q R).1
+  have hTJ : daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R ⪽ J := by
+    rw [pm176_aux_T_eq]
+    intro A B hAB
+    obtain ⟨z, z', ⟨rfl, rfl⟩, hzz⟩ := (semi_graph_apply _ R A B).1 hAB
+    have hne : z ≠ z' := hJ _ _ hzz
+    show ¬ I _ _
+    intro e
+    obtain ⟨u, hu⟩ := pm170_aux_rEx_iff_fld.1 hQ
+    have hX : opSemi couple P (u ↓ z) ∈ fld (coupleSemi P ⁏ opSemi couple Q z) := by
+      rw [fld_coupleSemi_semi]
+      exact ⟨u ↓ z, by rw [fld_opSemi_couple]; exact ⟨u, hu, rfl⟩, rfl⟩
+    have e' : coupleSemi P ⁏ opSemi couple Q z = coupleSemi P ⁏ opSemi couple Q z' := e
+    rw [e', fld_coupleSemi_semi] at hX
+    obtain ⟨V, hV, eV⟩ := hX
+    rw [fld_opSemi_couple] at hV
+    obtain ⟨u', -, rfl⟩ := hV
+    exact hne (couple_eq_couple_iff.1 (pm176_aux_X_inj hP eV)).2
+  have hT0 : rNull ∉ fld (daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R) := by
+    rw [pm176_aux_T_eq, fld_semi_graph]
+    rintro ⟨z, -, e⟩
+    have : rEx (coupleSemi P ⁏ opSemi couple Q z) :=
+      (pm173_aux_rEx_semi_graph _ _).2 ((pm173_aux_rEx_semi_graph _ Q).2 hQ)
+    rw [← (show rNull = coupleSemi P ⁏ opSemi couple Q z from e)] at this
+    obtain ⟨a, b, hab⟩ := this; exact rNull_apply a b hab
+  have hPT2 : ProdR ⁏ daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R ∈ Rel2excl := by
+    rw [pm176_aux_ProdT_eq]
+    rintro A B ⟨⟨hA, hB⟩, hne⟩
+    rw [fld_semi_graph] at hA hB
+    obtain ⟨z, -, rfl⟩ := hA
+    obtain ⟨z', -, rfl⟩ := hB
+    refine pm172_aux_inter_Null.2 fun μ h1 h2 => hne ?_
+    show rexp P (opSemi couple Q z) = rexp P (opSemi couple Q z')
+    rw [pm176_aux_rexpX_disj hQ h1 h2]
+  have s1 := pm174_43 ⟨⟨h3, hTJ⟩, hT0⟩
+  have s2 := (pm173_16 hPT2).1
+  have s3 := pm172_44 (pm176_55 P Q R ⟨hP, hQ⟩)
+  have s4 := smor_symm (pm173_16 (pm176_aux_excl (prodR (coupleSemi P ⁏ Q)) R)).1
+  exact smor_trans s1 (smor_trans s2 (smor_trans s3 s4))
+
+private theorem pm176_57 (P : α → α → Prop) (Q : β → β → Prop) (R : δ → δ → Prop) (hJ : R ⪽ J) :
+    smor (rexp (rexp P Q) R) (rexp P (R ×ᵣ Q)) ∧ smor (rpow (rpow P Q) R) (rpow P (R ×ᵣ Q)) := by
+  have e1 : smor (rexp (rexp P Q) R) (rexp P (R ×ᵣ Q)) := by
+    by_cases h : rEx P ∧ rEx Q
+    · have e : rexp P (R ×ᵣ Q) =
+          prodR (relSigma (daggerRel (coupleSemi P) ⁏ coupleSemi Q ⁏ R)) := by
+        show prodR (coupleSemi P ⁏ relSigma (coupleSemi Q ⁏ R)) = _
+        rw [(pm176_541 P Q R).2]
+      rw [e]; exact smor_symm (pm176_56 P Q R ⟨h, hJ⟩)
+    · have h0 : (∀ x y, ¬ P x y) ∨ ∀ x y, ¬ Q x y := by
+        rcases not_and_or.1 h with h | h
+        · exact Or.inl fun x y hh => h ⟨x, y, hh⟩
+        · exact Or.inr fun x y hh => h ⟨x, y, hh⟩
+      refine pm172_aux_smor_empty (pm176_aux_rexp_empty (Or.inl (pm176_aux_rexp_empty h0)))
+        (pm176_aux_rexp_empty ?_)
+      rcases h0 with h0 | h0
+      · exact Or.inl h0
+      · exact Or.inr (pm172_aux_rtimes_empty (Or.inr (pm176_aux_fld_empty h0)))
+  exact ⟨e1, smor_trans (pm176_181 _ R) (smor_trans (pm176_22 ⟨pm176_181 P Q, smor_refl R⟩).1
+    (smor_trans e1 (smor_symm (pm176_181 P _))))⟩
+
+end CopyBlock
+
+section CopyBlock
+variable {α : Type u} {β : Type v}
+variable {α : Type u} {β : Type v}
+
+private theorem pm177_aux_Pdf_iff {P : α → α → Prop} {A B : Set α} :
+    Pdf P A B ↔ (A ⊆ fld P ∧ B ⊆ fld P) ∧
+      ∃ z, (z ∈ A ∧ z ∉ B) ∧ ∀ w, P w z → w ≠ z → (w ∈ A ↔ w ∈ B) := by
+  rw [pm171_1]
+  refine and_congr Iff.rfl (exists_congr fun z => and_congr_right fun hz => ?_)
+  constructor
+  · intro e w hw hne
+    have h1 : w ∈ (refs P z ∩ A) \ ι z ↔ w ∈ refs P z ∩ B := by rw [e]
+    constructor
+    · intro h; exact (h1.1 ⟨⟨hw, h⟩, fun h' => hne (pm170_aux_mem_iota.1 h')⟩).2
+    · intro h; exact (h1.2 ⟨hw, h⟩).1.2
+  · intro h; ext w
+    constructor
+    · rintro ⟨⟨hw, hA⟩, hne⟩
+      exact ⟨hw, (h w hw fun e => hne (pm170_aux_mem_iota.2 e)).1 hA⟩
+    · rintro ⟨hw, hB⟩
+      have hne : w ≠ z := fun e => hz.2 (e ▸ hB)
+      exact ⟨⟨hw, (h w hw hne).2 hB⟩, fun h' => hne (pm170_aux_mem_iota.1 h')⟩
+
+private theorem pm177_aux_K_val {x y : β} {A : Set α} {R : β → α → Prop}
+    (hR : R ∈ sel (cross (ι x ∪ ι y) A) A) {b : β} {a : α} (h : R b a) :
+    (b = x ∨ b = y) ∧ a ∈ A := by
+  obtain ⟨hb, ha⟩ := pm172_aux_sel_sub hR h
+  rcases hb with hb | hb
+  · exact ⟨Or.inl (pm170_aux_mem_iota.1 hb), ha⟩
+  · exact ⟨Or.inr (pm170_aux_mem_iota.1 hb), ha⟩
+
+private theorem pm177_aux_K_iff {x y : β} (hxy : x ≠ y) {A : Set α} {R : β → α → Prop}
+    (hR : R ∈ sel (cross (ι x ∪ ι y) A) A) (b : β) (a : α) :
+    R b a ↔ (b = x ∧ R x a) ∨ (b = y ∧ a ∈ A ∧ ¬ R x a) := by
+  constructor
+  · intro h
+    obtain ⟨hb | hb, ha⟩ := pm177_aux_K_val hR h
+    · subst hb; exact Or.inl ⟨rfl, h⟩
+    · subst hb; exact Or.inr ⟨rfl, ha, fun h' => hxy (pm172_aux_sel_unique hR h' h)⟩
+  · rintro (⟨rfl, h⟩ | ⟨rfl, ha, hn⟩)
+    · exact h
+    · obtain ⟨c, hc⟩ := pm172_aux_sel_exists hR ha
+      obtain ⟨hc' | hc', -⟩ := pm177_aux_K_val hR hc
+      · subst hc'; exact absurd hc hn
+      · subst hc'; exact hc
+
+private theorem pm177_aux_mk {x y : β} (hxy : x ≠ y) {A μ : Set α} (hμ : μ ⊆ A) :
+    (fun b a => (b = x ∧ a ∈ μ) ∨ (b = y ∧ a ∈ A ∧ a ∉ μ)) ∈ sel (cross (ι x ∪ ι y) A) A ∧
+      μ = rels (fun b a => (b = x ∧ a ∈ μ) ∨ (b = y ∧ a ∈ A ∧ a ∉ μ)) x := by
+  refine ⟨pm172_aux_mk_sel ?_ ?_ ?_, ?_⟩
+  · rintro b b' a (⟨rfl, h⟩ | ⟨rfl, -, h⟩) (⟨rfl, h'⟩ | ⟨rfl, -, h'⟩)
+    · rfl
+    · exact absurd h h'
+    · exact absurd h' h
+    · rfl
+  · rintro b a (⟨rfl, h⟩ | ⟨rfl, ha, -⟩)
+    · exact ⟨Or.inl (pm170_aux_mem_iota.2 rfl), hμ h⟩
+    · exact ⟨Or.inr (pm170_aux_mem_iota.2 rfl), ha⟩
+  · ext a; constructor
+    · rintro ⟨b, ⟨-, h⟩ | ⟨-, ha, -⟩⟩
+      · exact hμ h
+      · exact ha
+    · intro ha
+      by_cases h : a ∈ μ
+      · exact ⟨x, Or.inl ⟨rfl, h⟩⟩
+      · exact ⟨y, Or.inr ⟨rfl, ha, h⟩⟩
+  · ext a; constructor
+    · intro h; exact Or.inl ⟨rfl, h⟩
+    · rintro (⟨-, h⟩ | ⟨e, -, -⟩)
+      · exact h
+      · exact absurd e hxy
+
+private theorem pm177_aux_desc {x y : β} (hxy : x ≠ y) {A : Set α} {R : β → α → Prop}
+    (hR : R ∈ sel (cross (ι x ∪ ι y) A) A) {a : α} (ha : a ∈ A) (ψ : β → Prop) :
+    Desc R a ψ ↔ (R x a ∧ ψ x) ∨ (¬ R x a ∧ ψ y) := by
+  by_cases h : R x a
+  · rw [pm172_aux_desc_sel hR h]; tauto
+  · have h' : R y a := (pm177_aux_K_iff hxy hR y a).2 (Or.inr ⟨rfl, ha, h⟩)
+    rw [pm172_aux_desc_sel hR h']; tauto
+
+private theorem pm177_aux_rpow_iff {x y : β} (hxy : x ≠ y) {P : α → α → Prop} (R S : β → α → Prop) :
+    rpow (x ↓ y) P R S ↔
+      (R ∈ sel (cross (ι x ∪ ι y) (fld P)) (fld P) ∧ S ∈ sel (cross (ι x ∪ ι y) (fld P)) (fld P)) ∧
+        ∃ z, (z ∈ fld P ∧ R x z ∧ ¬ S x z) ∧ ∀ w, P w z ∧ w ≠ z → (R x w ↔ S x w) := by
+  rw [pm176_19, pm170_aux_fld_couple]
+  refine and_congr_right fun ⟨hR, hS⟩ => exists_congr fun z => ?_
+  constructor
+  · rintro ⟨⟨hz, hD⟩, hA⟩
+    simp only [pm177_aux_desc hxy hR hz, pm177_aux_desc hxy hS hz, couple_apply] at hD
+    refine ⟨⟨hz, ?_⟩, fun w hw => ?_⟩
+    · have := hxy.symm; tauto
+    · have hwP : w ∈ fld P := ⟨z, Or.inl hw.1⟩
+      have := hA w hw
+      simp only [pm177_aux_desc hxy hR hwP, pm177_aux_desc hxy hS hwP] at this
+      have := hxy.symm; tauto
+  · rintro ⟨⟨hz, hD⟩, hA⟩
+    refine ⟨⟨hz, ?_⟩, fun w hw => ?_⟩
+    · simp only [pm177_aux_desc hxy hR hz, pm177_aux_desc hxy hS hz, couple_apply]
+      tauto
+    · have hwP : w ∈ fld P := ⟨z, Or.inl hw.1⟩
+      have := hA w hw
+      simp only [pm177_aux_desc hxy hR hwP, pm177_aux_desc hxy hS hwP]
+      tauto
+
+private theorem pm177_1 {x y : β} {A : Set α} {T : Set α → (β → α → Prop) → Prop}
+    (h : x ≠ y ∧ T = (fun μ R => R ∈ sel (cross (ι x ∪ ι y) A) A ∧ μ = rels R x)) :
+    T ∈ smbar (cl A) (sel (cross (ι x ∪ ι y) A) A) := by
+  obtain ⟨hxy, rfl⟩ := h
+  refine ⟨⟨mem_arrow_one_one.2 ⟨?_, ?_⟩, ?_⟩, ?_⟩
+  · rintro μ ν R ⟨⟨-, rfl⟩, ⟨-, rfl⟩⟩; rfl
+  · rintro μ R S ⟨⟨hR, e1⟩, ⟨hS, e2⟩⟩
+    have e : ∀ a, R x a ↔ S x a := fun a => by
+      show a ∈ rels R x ↔ a ∈ rels S x
+      rw [← e1, ← e2]
+    funext b a; apply propext
+    rw [pm177_aux_K_iff hxy hR, pm177_aux_K_iff hxy hS, e a]
+  · show cl A = dom _
+    ext μ; constructor
+    · intro hμ; exact ⟨_, pm177_aux_mk hxy hμ⟩
+    · rintro ⟨R, hR, rfl⟩ a ha; exact (pm177_aux_K_val hR ha).2
+  · show _ = codom _
+    ext R; exact ⟨fun hR => ⟨_, hR, rfl⟩, fun ⟨_, hR, _⟩ => hR⟩
+
+private theorem pm177_11 {x y : β} {A : Set α} {T : Set α → (β → α → Prop) → Prop}
+    {P : α → α → Prop}
+    (h : (x ≠ y ∧ T = (fun μ R => R ∈ sel (cross (ι x ∪ ι y) A) A ∧ μ = rels R x)) ∧ A = fld P) :
+    T ⁏ rpow (x ↓ y) P = Pdf P := by
+  obtain ⟨⟨hxy, rfl⟩, rfl⟩ := h
+  funext μ ν; apply propext
+  rw [semi_apply, pm177_aux_Pdf_iff]
+  constructor
+  · rintro ⟨R, S, ⟨⟨hR, rfl⟩, ⟨hS, rfl⟩⟩, hRS⟩
+    obtain ⟨-, z, ⟨-, hRz, hSz⟩, hA⟩ := (pm177_aux_rpow_iff hxy R S).1 hRS
+    exact ⟨⟨fun a ha => (pm177_aux_K_val hR ha).2, fun a ha => (pm177_aux_K_val hS ha).2⟩, z,
+      ⟨hRz, hSz⟩, fun w hw hne => hA w ⟨hw, hne⟩⟩
+  · rintro ⟨⟨hμ, hν⟩, z, ⟨hzμ, hzν⟩, hA⟩
+    obtain ⟨hR, eR⟩ := pm177_aux_mk hxy hμ
+    obtain ⟨hS, eS⟩ := pm177_aux_mk hxy hν
+    refine ⟨_, _, ⟨⟨hR, eR⟩, ⟨hS, eS⟩⟩, (pm177_aux_rpow_iff hxy _ _).2
+      ⟨⟨hR, hS⟩, z, ⟨hμ hzμ, Or.inl ⟨rfl, hzμ⟩, ?_⟩, fun w ⟨hw, hne⟩ => ?_⟩⟩
+    · rintro (⟨-, h⟩ | ⟨e, -⟩)
+      · exact hzν h
+      · exact hxy e
+    · constructor
+      · rintro (⟨-, h⟩ | ⟨e, -⟩)
+        · exact Or.inl ⟨rfl, (hA w hw hne).1 h⟩
+        · exact absurd e hxy
+      · rintro (⟨-, h⟩ | ⟨e, -⟩)
+        · exact Or.inl ⟨rfl, (hA w hw hne).2 h⟩
+        · exact absurd e hxy
+
+private theorem pm177_12 {x y : β} {A : Set α} {T : Set α → (β → α → Prop) → Prop}
+    {P : α → α → Prop}
+    (h : ((x ≠ y ∧ T = (fun μ R => R ∈ sel (cross (ι x ∪ ι y) A) A ∧ μ = rels R x)) ∧
+      A = fld P) ∧ rEx P) :
+    T ∈ smorbar (Pdf P) (rpow (x ↓ y) P) := by
+  obtain ⟨⟨⟨hxy, hT⟩, hA⟩, hP⟩ := h
+  have h1 := pm177_1 ⟨hxy, hT⟩
+  have h11 := pm177_11 ⟨⟨hxy, hT⟩, hA⟩
+  refine ⟨⟨h1.1.1, ?_⟩, h11.symm⟩
+  rw [(pm176_14 (x ↓ y) P hP).2, pm170_aux_fld_couple, ← hA]
+  exact h1.2
+
+private theorem pm177_13 {x y : β} (P : α → α → Prop) (h : x ≠ y) :
+    smor (Pdf P) (rpow (x ↓ y) P) := by
+  by_cases hP : rEx P
+  · exact ⟨_, pm177_12 ⟨⟨⟨h, rfl⟩, rfl⟩, hP⟩⟩
+  · refine pm172_aux_smor_empty (fun A B hAB => hP ?_) ?_
+    · obtain ⟨⟨hA, -⟩, z, ⟨hz, -⟩, -⟩ := hAB
+      exact pm170_aux_rEx_iff_fld.2 ⟨z, hA hz⟩
+    · rw [(pm176_131 (P := (x ↓ y : β → β → Prop)) (pm172_aux_eq_rNull_of_not_rEx hP)).2]
+      exact rNull_apply
+
+end CopyBlock
+
+end CopiedHelpers
+
 variable {α β γ δ : Type*}
 
 section Helpers180
@@ -5372,7 +8188,7 @@ proofs (`Classical.choice`). The `ΠNr` and `Nr` of arithmetical components have
 adequate types (IIT). ✱185·4·41 are false as printed when `Λ̇ ∈ C'P` (then `Π'Λ̇ = Λ̇` is in
 `C'Π;P` but `Λ̇` contributes nothing to `Σ'P`).
 
-**Status.** proved (all propositions except ✱185·4·41; ✱185·01 definition; ✱185·31·32·321 proved (reading); ✱185·4·41 stated (open here), with the counterexamples to the printed forms proved), see their docstrings
+**Status.** proved (all propositions; ✱185·01 definition; ✱185·31·32·321 proved (reading); ✱185·4·41 proved (corrected), with the counterexamples to the printed forms proved), see their docstrings
 -/
 
 /-- ✱185·01 (Df). \(\Pi \text{Nr}ʻP=\text{Nr}ʻ\Pi ʻP \quad\text{Df}\) -/
@@ -5589,24 +8405,25 @@ theorem pm185_41_printed_false : ¬ ∀ P : ((Bool → Bool → Prop) → (Bool 
 
 /-- ✱185·4. \[\begin{align}&\vdash \colon\ldotp P\in \text{Rel}^{2}\text{excl}:QPQ.\supset _{Q}.CʻQ\in 0\cup 1:\supset .\Pi \text{Nr}ʻ\Pi ^{;}P=\Pi \text{Nr}ʻ\Sigma ʻP\\ &[*174·241]\end{align}\]
 
-**Status.** stated (open here): PM's statement is false when `Λ̇ ∈ C'P` (`Π'Λ̇ = Λ̇ ∈ C'Π;P` gives
+**Status.** proved (corrected): PM's statement is false when `Λ̇ ∈ C'P` (`Π'Λ̇ = Λ̇ ∈ C'Π;P` gives
 `ΠNr'Π;P = 0_r`, while `Λ̇` contributes nothing to `Σ'P`; `pm185_4_printed_false`); the
-corrected statement, with the further hypothesis `Λ̇ ∼∈ C'P`, is stated; its proof (the
-associative law of `Π`, ✱174·241) is not given here -/
-def pm185_4 : Prop :=
-  ∀ {α : Type u} {γ : Type w}
-    {P : ((α → α → Prop) → (α → α → Prop) → Prop) → ((α → α → Prop) → (α → α → Prop) → Prop) → Prop},
+hypothesis `Λ̇ ∼∈ C'P` is added (as in ✱174·241). -/
+theorem pm185_4
+    {P : ((α → α → Prop) → (α → α → Prop) → Prop) → ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} :
     ((P ∈ Rel2excl ∧ rNull ∉ fld P) ∧ ∀ Q, P Q Q → fld Q ∈ (zero ∪ one : Set (Set (α → α → Prop)))) →
-      piNr γ (RelPi ⁏ P) = piNr γ (relSigma P)
+      piNr γ (RelPi ⁏ P) = piNr γ (relSigma P) := by
+  rintro ⟨⟨hP, h0⟩, h01⟩
+  rw [piNr, piNr]
+  exact nr_eq_nr_of_smor (smor_symm ⟨_, (pm174_221 ⟨⟨hP, h01⟩, h0⟩).2⟩)
 
 /-- ✱185·41. \(\vdash :P\in \text{Rel}^{2}\text{excl}.P\,\unicode{x2abd}\, J.\supset .\Pi \text{Nr}ʻ\Pi ^{;}P=\Pi \text{Nr}ʻ\Sigma ʻP \quad[*174·25]\)
 
-**Status.** stated (open here): false as printed when `Λ̇ ∈ C'P` (`pm185_41_printed_false`); the
-corrected statement (with `Λ̇ ∼∈ C'P`) is stated, its proof (✱174·25) is not given here -/
-def pm185_41 : Prop :=
-  ∀ {α : Type u} {γ : Type w}
-    {P : ((α → α → Prop) → (α → α → Prop) → Prop) → ((α → α → Prop) → (α → α → Prop) → Prop) → Prop},
-    (P ∈ Rel2excl ∧ rNull ∉ fld P) ∧ P ⪽ J → piNr γ (RelPi ⁏ P) = piNr γ (relSigma P)
+**Status.** proved (corrected): false as printed when `Λ̇ ∈ C'P` (`pm185_41_printed_false`); the
+hypothesis `Λ̇ ∼∈ C'P` is added (as in ✱174·25). -/
+theorem pm185_41
+    {P : ((α → α → Prop) → (α → α → Prop) → Prop) → ((α → α → Prop) → (α → α → Prop) → Prop) → Prop} :
+    (P ∈ Rel2excl ∧ rNull ∉ fld P) ∧ P ⪽ J → piNr γ (RelPi ⁏ P) = piNr γ (relSigma P) :=
+  fun ⟨h, hJ⟩ => pm185_4 ⟨h, pm174_216 hJ⟩
 
 /-- ✱185·5. \(\vdash : P \in \text{Rel}^{2}\text{excl} . \dot{\exists} ! P . \supset . Cʻʻ\Pi \text{Nr}ʻP = \Pi \text{Nc}ʻCʻʻCʻP\) -/
 theorem pm185_5 {P : (α → α → Prop) → (α → α → Prop) → Prop} :
@@ -5965,7 +8782,7 @@ is `rpow P Q`, `P_df` is `Pdf P`; arguments `Nr'P` are `n₀r P` (✱186·02·03
 as in ✱185·29. In ✱186·3·31 PM's base and exponent are interchanged: `ΠNr'P` is the `Nr'R`-th
 power of `Nr'S` (✱185·29), not the converse.
 
-**Status.** proved (all propositions except ✱186·15·4·5; ✱186·01·02·03 definition; ✱186·11·111·13·14·2·21·22·23 proved (reading); ✱186·3·31 proved (corrected); ✱186·15·4·5 stated (open here)), see their docstrings
+**Status.** proved (all propositions; ✱186·01·02·03 definition; ✱186·11·111·13·14·15·2·21·22·23·4 proved (reading); ✱186·3·31 proved (corrected)), see their docstrings
 -/
 
 /-- ✱186·01 (Df). \(\mu \,\text{exp}\,\,_{r}\nu =\hat{R} \{(\exists P,Q).\mu =\text{N}_{0}\text{r}ʻP.\nu =\text{N}_{0}\text{r}ʻQ.R\,\text{smor}\,(P\,\text{exp}\,\,Q)\} \quad\text{Df}\) -/
@@ -6085,13 +8902,36 @@ theorem pm186_14 {α₁ α₂ α₃ W W₁ W₂ : Type*} {μ : Set (α₁ → α
 The inner product and exponential are arithmetical components with their own adequate types
 (IIT); `ϖ ⊂ Rl'J` is `ϖ ⊆ rl J`.
 
-**Status.** stated (open here): the second formal law of exponentiation (✱176·57,
-`R ⊂̇ J . ⊃ . (P exp Q) exp R smor P exp (R × Q)`) is not proved here -/
-def pm186_15 : Prop :=
-  ∀ {α₁ α₂ α₃ W W₁ γ : Type u} {μ : Set (α₁ → α₁ → Prop)} {ν : Set (α₂ → α₂ → Prop)}
-    {ϖ : Set (α₃ → α₃ → Prop)}, AdeqNrMul W ϖ ν → AdeqNrExp W₁ μ ν →
+**Status.** proved (reading): convention IIT (Prefatory Statement, IV): the actual types of the
+arithmetical components ϖ ×̇ ν and μ exp_r ν are adequate -/
+theorem pm186_15 {α₁ α₂ α₃ W W₁ : Type*} {μ : Set (α₁ → α₁ → Prop)} {ν : Set (α₂ → α₂ → Prop)}
+    {ϖ : Set (α₃ → α₃ → Prop)} (h : AdeqNrMul W ϖ ν) (h₁ : AdeqNrExp W₁ μ ν) :
     ϖ ⊆ rl J → (nrExp μ (ϖ ⨰ ν : Set (W → W → Prop)) : Set (γ → γ → Prop)) =
-      nrExp (nrExp μ ν : Set (W₁ → W₁ → Prop)) ϖ
+      nrExp (nrExp μ ν : Set (W₁ → W₁ → Prop)) ϖ := by
+  intro hJ
+  have h0 : ∀ P : W₁ → W₁ → Prop, (∅ : Set (W₁ → W₁ → Prop)) ≠ n₀r P :=
+    fun P e => n₀r_ne_empty P e.symm
+  by_cases hμ : ∃ P, μ = n₀r P
+  swap
+  · push Not at hμ
+    rw [nrExp_eq_empty_of_left hμ, nrExp_eq_empty_of_left hμ, nrExp_eq_empty_of_left h0]
+  by_cases hν : ∃ Q, ν = n₀r Q
+  swap
+  · push Not at hν
+    rw [nrMul_eq_empty_of_right _ hν, nrExp_eq_empty_of_right _ (fun Q e => n₀r_ne_empty Q e.symm),
+      nrExp_eq_empty_of_right _ hν, nrExp_eq_empty_of_left h0]
+  by_cases hϖ : ∃ R, ϖ = n₀r R
+  swap
+  · push Not at hϖ
+    rw [nrMul_eq_empty_of_left hϖ, nrExp_eq_empty_of_right _ (fun Q e => n₀r_ne_empty Q e.symm),
+      nrExp_eq_empty_of_right _ hϖ]
+  obtain ⟨P, rfl⟩ := hμ; obtain ⟨Q, rfl⟩ := hν; obtain ⟨R, rfl⟩ := hϖ
+  have hRJ : R ⪽ J := mem_rl.1 (hJ (self_mem_n₀r R))
+  obtain ⟨X, hX, eX⟩ := h.eq_n₀r R Q
+  obtain ⟨Y, hY, eY⟩ := h₁.eq_n₀r P Q
+  rw [eX, eY, n₀r_nrExp_n₀r, n₀r_nrExp_n₀r]
+  exact nr_eq_nr_of_smor (smor_trans (smor_rexp (smor_refl P) hX) (smor_trans
+    (smor_symm (pm176_57 P Q R hRJ).1) (smor_rexp (smor_symm hY) (smor_refl R))))
 
 /-- ✱186·2. \(\vdash :\mu \in \text{N}_{0}\text{R}\supset .0_{r}\,\text{exp}\,\,_{r}\mu =0_{r}.\mu \,\text{exp}\,\,_{r}0_{r}=0_{r} \quad[*176·151]\)
 
@@ -6257,22 +9097,24 @@ theorem pm186_31 {β₁ β₂ : Type*} {μ : Set ((α → α → Prop) → (α �
 
 The `2_r` has its own type, adequate (IIT).
 
-**Status.** stated (open here): the likeness `P_df smor (x ↓ y)^P` (✱177·13), on which the
-proposition rests, is not proved here -/
-def pm186_4 : Prop :=
-  ∀ {α W γ : Type u} {P : α → α → Prop}, (two_r : Set (W → W → Prop)).Nonempty →
-    nr γ (Pdf P) = (nrExp (two_r : Set (W → W → Prop)) (n₀r P) : Set (γ → γ → Prop))
+**Status.** proved (reading): convention IIT (Prefatory Statement, IV): the type of the
+arithmetical component 2_r is adequate (2_r exists in it) -/
+theorem pm186_4 {W : Type*} {P : α → α → Prop} (h : (two_r : Set (W → W → Prop)).Nonempty) :
+    nr γ (Pdf P) = (nrExp (two_r : Set (W → W → Prop)) (n₀r P) : Set (γ → γ → Prop)) := by
+  obtain ⟨_, a, b, hab, -⟩ := h
+  rw [nrExp_of (two_r_eq_n₀r hab) rfl]
+  exact nr_eq_nr_of_smor (smor_trans (pm177_13 P hab) (smor_rpow_rexp _ _))
 
 /-- ✱186·5. \(\vdash :\mu ,\nu \in \text{N}_{0}\text{R}.\nu \neq 0_{r}.\supset .Cʻʻ(\mu \,\text{exp}\,\,_{r}\nu )=(Cʻʻ\mu )^{Cʻʻ\nu }\)
 
-`(C''μ)^{C''ν}` is `C ʻʻ μ ^ᶜ C ʻʻ ν` (✱116·02).
-
-**Status.** stated (open here): the identification of `C'(P exp Q)` with `(C'P) exp (C'Q)`
-(✱176·14) and its cardinal (✱116·222), on which the proposition rests, are not proved here -/
-def pm186_5 : Prop :=
-  ∀ {α β γ : Type u} {μ : Set (α → α → Prop)} {ν : Set (β → β → Prop)},
+`(C''μ)^{C''ν}` is `C ʻʻ μ ^ᶜ C ʻʻ ν` (✱116·02). -/
+theorem pm186_5 {μ : Set (α → α → Prop)} {ν : Set (β → β → Prop)} :
     (μ ∈ N₀R ∧ ν ∈ N₀R) ∧ ν ≠ zero_r →
-      C ʻʻ (nrExp μ ν : Set (γ → γ → Prop)) = (C ʻʻ μ ^ᶜ C ʻʻ ν : Set (Set γ))
+      C ʻʻ (nrExp μ ν : Set (γ → γ → Prop)) = (C ʻʻ μ ^ᶜ C ʻʻ ν : Set (Set γ)) := by
+  rintro ⟨⟨⟨P, rfl⟩, ⟨Q, rfl⟩⟩, hν⟩
+  have hQ : rEx Q := ne_rNull_iff.1 fun e => hν (by rw [e]; exact zero_r_eq_n₀r.symm)
+  rw [n₀r_nrExp_n₀r, C_img_nr, n₀r_eq_nr P, n₀r_eq_nr Q, C_img_nr, C_img_nr,
+    ← n₀c_eq_nc (fld P), ← n₀c_eq_nc (fld Q), pmB2_n₀c_exp, (pm176_14 P Q hQ).1]
 
 
 end PrincipiaMathematica

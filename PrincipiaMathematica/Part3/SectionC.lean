@@ -4980,7 +4980,7 @@ real variables `ν`, `μ` have their own types, and the hypotheses `[Nonempty �
 otherwise fail (✱121·35·351·5·51·601·602·632·633·634·638·65·66).
 
 **Status.** proved (all propositions; ✱121·27·271·272·273·3·301·302·303·304·308·31·331·332·333·
-35·351·36·5·501·502·51·52·601·602·61·62·632·633·634·638·65·66 proved (reading), see their
+35·351·36·5·501·502·51·52·601·602·61·62·632·633·634·638·641·65·66 proved (reading), see their
 docstrings; ✱121·01·011·012·013·02·03·031·04 definition)
 -/
 
@@ -7857,7 +7857,10 @@ theorem pm121_638 {α β W W' : Type*} {P : α → α → Prop} {ν : Set (Set �
 
 /-- ✱121·641. \[\begin{align}\vdash \colon\ldotp P\in \text{Cls}\rightarrow 1.P_{\text{po}}\,\unicode{x2abd}\, J.\nu \in &\text{NC induct}-\iota ʻ0.\supset :\\ &\text{Nc}ʻ\overleftarrow{P}_{*}ʻBʻP\geq \nu .\equiv .\text{E}!\nu _{P}\\ &[*121·64·63·32]\end{align}\]
 
-The side `Nc'P⃖_*'B'P` of `≥` is `N₀c'P⃖_*'B'P` (normal adjustment); `ν` has its own type `β`. -/
+The side `Nc'P⃖_*'B'P` of `≥` is `N₀c'P⃖_*'B'P` (normal adjustment); `ν` has its own type `β`.
+
+**Status.** proved (reading): the side `Nc'P⃖_*'B'P` of `≥` is `N₀c'P⃖_*'B'P` (the analogue of
+✱117·02·03 for `≥`, PM's note after ✱117·06, normal adjustment). -/
 theorem pm121_641 {α β : Type*} {P : α → α → Prop} {ν : Set (Set β)} :
     ((P ∈ arrow Cls one ∧ po P ⪽ J) ∧ ν ∈ NCinduct \ ι zero) →
       (Desc Beg P (fun b => n₀c (rels (anc P) b) ≥ᶜ ν) ↔ EDesc (nuP ν) P) := by
@@ -7947,8 +7950,9 @@ theorem pm121_65 {α β₁ β₂ W : Type*} [Nonempty β₂] {P : α → α → 
 The side `Nc'P(B'P⊢⊣x)` of `>` is `N₀c'P(B'P⊢⊣x)` (normal adjustment); the type `β` of `ν` has a
 member (for the `1` of `P_ν`; in an empty type `P₀ = Λ̇`).
 
-**Status.** proved (reading): PM assumes every type has a member (Introduction, Ch. I): `[Nonempty
-β]` for the type of the `1` of `P_ν`. -/
+**Status.** proved (reading): the side `Nc'P(B'P⊢⊣x)` of `>` is `N₀c'P(B'P⊢⊣x)` (✱117·02·03,
+normal adjustment); PM assumes every type has a member (Introduction, Ch. I): `[Nonempty β]` for
+the type of the `1` of `P_ν`. -/
 theorem pm121_66 {α β : Type*} [Nonempty β] {P : α → α → Prop} {ν : Set (Set β)} {x : α} :
     ((P ∈ arrow Cls one ∧ po P ⪽ J) ∧ Desc Beg P (fun b => n₀c (itvCC P b x) >ᶜ ν)) →
       x ∈ codom (Pnu P ν) := by

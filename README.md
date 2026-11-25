@@ -2,7 +2,7 @@
 
 *Principia Mathematica*, Volumes I and II (second edition), formalized proposition by proposition in Lean 4 and mathlib, from the Project Gutenberg texts ([#78050](https://www.gutenberg.org/ebooks/78050), [#78255](https://www.gutenberg.org/ebooks/78255); public domain in the USA). Volume III will be added once its Gutenberg edition is published.
 
-> **Work in progress.** Every numbered proposition of Volumes I and II has a Lean declaration and a status. A pass proving the propositions still marked `stated (open here)` is under way, and the documentation is not yet written.
+> **Work in progress.** Every numbered proposition of Volumes I and II is stated and proved. The full build check and the documentation of the readings and corrections are still to come.
 
 ## Status
 
@@ -10,12 +10,11 @@ Every proposition `✱N·M` is the declaration `pmN_M`. Its docstring gives the 
 
 | Status | Propositions |
 |---|---|
-| proved | 6004 |
-| proved (reading): the printed formula admits more than one reading in Lean; the docstring explains the one taken | 804 |
+| proved | 6051 |
+| proved (reading): the printed formula admits more than one reading in Lean; the docstring explains the one taken | 817 |
 | definition | 332 |
-| proved (corrected): false as printed; a counterexample and the corrected statement are proved | 64 |
+| proved (corrected): false as printed; a counterexample and the corrected statement are proved | 87 |
 | remark | 17 |
-| stated (open here): stated, not yet proved | 83 |
 | **total** | **7304**, with no `sorry` |
 
 ## Layout

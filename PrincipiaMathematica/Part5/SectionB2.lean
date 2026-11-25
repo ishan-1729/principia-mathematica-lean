@@ -7149,7 +7149,8 @@ theorem pm216_621 {P : α → α → Prop} (h : P ∈ Ser ∧ rEx (nabla P)) :
 
 **Lean reading.** `(C'P ∪)` and `(C'P −)` are the relations `opL (· ∪ ·) (fld P)`, `opL (· \ ·) (fld P)`
 (✱38·01); `P_∈` is `imgRel P`, `(P̆)_∈ | (C'P −)` is `imgRel P˘ ⨾ opL (· \ ·) (fld P)`;
-`R;S;T` is `R ⁏ S ⁏ T` (right associative); `(D'P) ↓ α` is `dom P ↓ A`. Hypotheses are kept as
+`R;S;T` is `R ⁏ S ⁏ T` (right associative); the printed `(D'P) ↓ α` is `dom P ↓ A` (read
+`codom P ↓ A` in ✱217·43). Hypotheses are kept as
 printed. ✱217·16 and ✱217·3 correct e-text misprints. ✱217·23, ·37 and ·41 are false in
 degenerate cases (a null `P`, or `Q` with a single non-null segment) and are proved with the
 minimal added hypotheses. ✱217·411, ·42, ·43 are proved pointwise: the segments of `P̆ ⤉ Q` are the
@@ -8321,9 +8322,12 @@ private theorem b2_seg_three {P : ℕ → ℕ → Prop} (hP : ∀ x y, P x y ↔
   · rintro rfl
     exact ⟨b, hb, (hP _ _).2 ⟨by omega, hwb.2⟩⟩
 
-/-- The printed ✱217·42 fails: for `P` the series `0, 1, 2` and `Q = Λ̇`, the pair `(ι'2, 1 ⤚ 2)`
-(`P̆''ι'1`, `P̆''ι'0`) remains on the left, while `(ς'P)⥏(−ι'Λ−ι'D'P) = Λ̇` (`ι'0` is the only
-segment it keeps) and the right side is `Λ̇`. -/
+/-- The printed ✱217·42 fails: for `P` the series `0, 1, 2` and `Q` the series `…, 5, 4, 3`
+(decreasing, without beginning), the pair `(ι'2, ι'1 ∪ ι'2)` (`(P̆ ⤉ Q)''ι'1`, `(P̆ ⤉ Q)''ι'0`)
+of the left side is lost on the right, where `(ς'P)⥏(−ι'Λ−ι'D'P) = Λ̇` (`ι'0` is the only segment
+it keeps), so that `X̆ ⇸ ᗡ'P` is null and every left term of the `(C'P ∪)` part contains `C'P`.
+Neither class is `D'(P ⤉ Q)` or `D'(P̆ ⤉ Q)` (both contain `0`), so the failure does not depend
+on the e-text's `D'(P ⤉ Q)`. -/
 theorem pm217_42_printed_false :
     ¬∀ P Q : ℕ → ℕ → Prop,
       ((P ∈ Ser ∧ Q ∈ Ser) ∧ fld P ∩ fld Q = Λ) ∧ (¬EDesc Beg P ∨ ¬EDesc Beg Q) →
@@ -8332,78 +8336,101 @@ theorem pm217_42_printed_false :
             opL (· ∪ ·) (fld P) ⁏ (segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q))) := by
   intro H
   obtain ⟨P, hP⟩ : ∃ P : ℕ → ℕ → Prop, ∀ x y, P x y ↔ x < y ∧ y ≤ 2 := ⟨_, fun _ _ => Iff.rfl⟩
+  obtain ⟨Q, hQ⟩ : ∃ Q : ℕ → ℕ → Prop, ∀ x y, Q x y ↔ y < x ∧ 3 ≤ y := ⟨_, fun _ _ => Iff.rfl⟩
   have fP : ∀ x, x ∈ fld P → x ≤ 2 := by
     rintro x ⟨w, h | h⟩ <;> rw [hP] at h <;> omega
+  have fQ : ∀ x, x ∈ fld Q → 3 ≤ x := by
+    rintro x ⟨w, h | h⟩ <;> rw [hQ] at h <;> omega
   have hPs : P ∈ Ser := by
     refine mem_Ser.2 ⟨⟨fun x h => ?_, fun x y z h => ?_⟩, fun x y h => ?_⟩
     · rw [hP] at h; omega
     · rw [hP, hP] at h; rw [hP]; omega
     · have := fP x h.1; have := fP y h.2
       rw [hP, hP]; omega
-  have hN : ∀ x y, ¬(rNull : ℕ → ℕ → Prop) x y := fun x y => rNull_apply x y
-  have hNs : (rNull : ℕ → ℕ → Prop) ∈ Ser := by
-    refine mem_Ser.2 ⟨⟨fun x h => hN x x h, fun x y z h => (hN x y h.1).elim⟩, ?_⟩
-    rintro x y ⟨⟨w, hw | hw⟩, -⟩ <;> exact (hN _ _ hw).elim
-  have hfN : fld (rNull : ℕ → ℕ → Prop) = ∅ :=
-    Set.eq_empty_iff_forall_notMem.2 fun _ ⟨_, h⟩ => h.elim (hN _ _) (hN _ _)
-  have hd : fld P ∩ fld (rNull : ℕ → ℕ → Prop) = Λ := by
-    rw [hfN, Set.inter_empty, Null_eq_empty]
-  have hor : ¬EDesc Beg P ∨ ¬EDesc Beg (rNull : ℕ → ℕ → Prop) := by
+  have hQs : Q ∈ Ser := by
+    refine mem_Ser.2 ⟨⟨fun x h => ?_, fun x y z h => ?_⟩, fun x y h => ?_⟩
+    · rw [hQ] at h; omega
+    · rw [hQ, hQ] at h; rw [hQ]; omega
+    · have := fQ x h.1; have := fQ y h.2
+      rw [hQ, hQ]; omega
+  have hd : fld P ∩ fld Q = Λ := by
+    rw [Null_eq_empty]
+    refine Set.eq_empty_iff_forall_notMem.2 fun z ⟨h1, h2⟩ => ?_
+    have := fP z h1; have := fQ z h2; omega
+  have hor : ¬EDesc Beg P ∨ ¬EDesc Beg Q := by
     right; rintro ⟨b, hb⟩
-    obtain ⟨⟨w, hw⟩, -⟩ := (hb b).2 rfl
-    exact hN _ _ hw
-  have e := H P rNull ⟨⟨⟨hPs, hNs⟩, hd⟩, hor⟩
-  rw [b2r_rsum_rNull, b2r_rsum_rNull] at e
-  have hu : ∀ x, x ∈ P˘ ʻʻ {1} ↔ x = 2 := by
+    obtain ⟨⟨w, hw⟩, hn⟩ := (hb b).2 rfl
+    rw [hQ] at hw
+    exact hn ⟨b + 1, (hQ _ _).2 ⟨by omega, by omega⟩⟩
+  have e := H P Q ⟨⟨⟨hPs, hQs⟩, hd⟩, hor⟩
+  have hT : ∀ x y, (P˘ ⤉ Q) x y ↔ (P y x ∨ Q x y) ∨ (x ∈ fld P ∧ y ∈ fld Q) := by
+    intro x y; rw [rsum_apply, fld_cnv]; exact Iff.rfl
+  have hu : ∀ x, x ∈ (P˘ ⤉ Q) ʻʻ {1} ↔ x = 2 := by
     intro x
     constructor
     · rintro ⟨y, hy, hxy⟩
       have hy1 : y = 1 := hy
-      rw [hy1] at hxy
-      have := (hP 1 x).1 hxy; omega
-    · rintro rfl; exact ⟨1, rfl, (hP 1 2).2 ⟨by omega, le_rfl⟩⟩
-  have hv : ∀ x, x ∈ P˘ ʻʻ {0} ↔ 1 ≤ x ∧ x ≤ 2 := by
+      rw [hy1, hT] at hxy
+      rcases hxy with (h | h) | ⟨-, h⟩
+      · rw [hP] at h; omega
+      · rw [hQ] at h; omega
+      · have := fQ 1 h; omega
+    · rintro rfl
+      exact ⟨1, rfl, (hT 2 1).2 (Or.inl (Or.inl ((hP 1 2).2 ⟨by omega, le_rfl⟩)))⟩
+  have hv : ∀ x, x ∈ (P˘ ⤉ Q) ʻʻ {0} ↔ 1 ≤ x ∧ x ≤ 2 := by
     intro x
     constructor
     · rintro ⟨y, hy, hxy⟩
       have hy0 : y = 0 := hy
-      rw [hy0] at hxy
-      have := (hP 0 x).1 hxy; omega
-    · rintro ⟨h1, h2⟩; exact ⟨0, rfl, (hP 0 x).2 ⟨by omega, h2⟩⟩
-  have h0d : (0 : ℕ) ∈ dom P := ⟨1, (hP 0 1).2 ⟨by omega, by omega⟩⟩
-  have memE : ∀ U : Set ℕ, (2 : ℕ) ∈ U → (0 : ℕ) ∉ U → U ∈ (ι Λ)ᶜ \ ι (dom P) := fun U h2 h0 =>
-    ⟨b2_not_mem_iotaNull.2 ⟨2, h2⟩, fun e' => h0 ((b2_mem_iota.1 e') ▸ h0d)⟩
-  have hL : (segSer P˘ ⥏ ((ι Λ)ᶜ \ ι (dom P))) (P˘ ʻʻ {1}) (P˘ ʻʻ {0}) := by
-    refine ⟨⟨memE _ ((hu 2).2 rfl) (fun h => by have := (hu 0).1 h; omega),
-      (b2_segSer_ser (b2_cnv_ser hPs)).2 ⟨⟨⟨_, rfl⟩, ⟨_, rfl⟩⟩, fun z hz => ?_, fun e' => ?_⟩⟩,
+      rw [hy0, hT] at hxy
+      rcases hxy with (h | h) | ⟨-, h⟩
+      · rw [hP] at h; omega
+      · rw [hQ] at h; omega
+      · have := fQ 0 h; omega
+    · rintro ⟨h1, h2⟩
+      exact ⟨0, rfl, (hT x 0).2 (Or.inl (Or.inl ((hP 0 x).2 ⟨by omega, h2⟩)))⟩
+  have h0d : (0 : ℕ) ∈ dom (P ⤉ Q) :=
+    ⟨1, (rsum_apply _ _ _ _).2 (Or.inl (Or.inl ((hP 0 1).2 ⟨by omega, by omega⟩)))⟩
+  have memE : ∀ U : Set ℕ, (2 : ℕ) ∈ U → (0 : ℕ) ∉ U → U ∈ (ι Λ)ᶜ \ ι (dom (P ⤉ Q)) :=
+    fun U h2 h0 => ⟨b2_not_mem_iotaNull.2 ⟨2, h2⟩, fun e' => h0 ((b2_mem_iota.1 e') ▸ h0d)⟩
+  have himg : ∀ B : Set ℕ, (P˘ ⤉ Q) ʻʻ B ⊆ fld (P˘ ⤉ Q) := fun B z ⟨y, _, h⟩ => ⟨y, Or.inl h⟩
+  have hsub : (P˘ ⤉ Q) ʻʻ {1} ⊆ (P˘ ⤉ Q) ʻʻ {0} := fun z hz =>
+    (hv z).2 (by have := (hu z).1 hz; omega)
+  have hne : (P˘ ⤉ Q) ʻʻ {1} ≠ (P˘ ⤉ Q) ʻʻ {0} := fun e' => by
+    have h1 : (1 : ℕ) ∈ (P˘ ⤉ Q) ʻʻ {0} := (hv 1).2 ⟨le_rfl, by omega⟩
+    rw [← e'] at h1
+    have := (hu 1).1 h1; omega
+  have h0L : (0 : ℕ) ∉ (P˘ ⤉ Q) ʻʻ {1} := fun h => by have := (hu 0).1 h; omega
+  have hL : (segSer (P˘ ⤉ Q) ⥏ ((ι Λ)ᶜ \ ι (dom (P ⤉ Q))))
+      ((P˘ ⤉ Q) ʻʻ {1}) ((P˘ ⤉ Q) ʻʻ {0}) :=
+    ⟨⟨memE _ ((hu 2).2 rfl) h0L, ⟨⟨_, rfl⟩,
+      (b2_Plc_nested (himg _) (himg _) (Or.inl hsub)).2 ⟨hsub, hne⟩⟩, ⟨_, rfl⟩⟩,
       memE _ ((hv 2).2 ⟨by omega, le_rfl⟩) (fun h => by have := (hv 0).1 h; omega)⟩
-    · have := (hu z).1 hz; exact (hv z).2 (by omega)
-    · have h1 : (1 : ℕ) ∈ P˘ ʻʻ {0} := (hv 1).2 ⟨le_rfl, by omega⟩
-      rw [← e'] at h1
-      have := (hu 1).1 h1; omega
   have nP : ∀ G1 G2 : Set ℕ, ¬(segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P))) G1 G2 := by
     rintro G1 G2 ⟨⟨hG1, hseg⟩, hG2⟩
-    obtain ⟨⟨h1, h2⟩, -, hne⟩ := (b2_segSer_ser hPs).1 hseg
-    exact hne (Set.ext fun x => (b2_seg_three hP h1 hG1 x).trans (b2_seg_three hP h2 hG2 x).symm)
-  have nQ : ∀ (U V : Set ℕ) (E : Set (Set ℕ)),
-      ¬(opL (· ∪ ·) (fld P) ⁏ (segSer (rNull : ℕ → ℕ → Prop) ⥏ E)) U V := by
-    intro U V E h'
-    obtain ⟨_, _, -, ⟨⟨-, h''⟩, -⟩⟩ := (semi_apply _ _ _ _).1 h'
-    exact b2_segSer_rNull_none _ _ h''
+    obtain ⟨⟨h1, h2⟩, -, hne'⟩ := (b2_segSer_ser hPs).1 hseg
+    exact hne' (Set.ext fun x => (b2_seg_three hP h1 hG1 x).trans (b2_seg_three hP h2 hG2 x).symm)
   have nR1 : ∀ U V : Set ℕ,
       ¬(imgRel P˘ ⁏ opL (· \ ·) (fld P) ⁏ (segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P)))˘) U V := by
     intro U V h'
     rw [b2_K_eq, semi_graph_apply] at h'
     obtain ⟨G1, G2, -, h''⟩ := h'
     exact nP _ _ h''
+  have h0U : ∀ U V : Set ℕ,
+      (opL (· ∪ ·) (fld P) ⁏ (segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q)))) U V → (0 : ℕ) ∈ U := by
+    intro U V h'
+    obtain ⟨H1, H2, ⟨hU, -⟩, -⟩ := (semi_apply _ _ _ _).1 h'
+    have hU' : U = fld P ∪ H1 := hU
+    rw [hU']
+    exact Or.inl ⟨1, Or.inl ((hP 0 1).2 ⟨by omega, by omega⟩)⟩
   rw [e, rsum_apply, addLast_apply] at hL
-  rcases hL with ((h1 | ⟨⟨V, h1 | h1⟩, -⟩) | h1) | ⟨-, ⟨V, h1 | h1⟩⟩
+  rcases hL with ((h1 | ⟨⟨V, h1 | h1⟩, -⟩) | h1) | ⟨h1, -⟩
   · exact nR1 _ _ h1
   · exact nR1 _ _ h1
   · exact nR1 _ _ h1
-  · exact nQ _ _ _ h1
-  · exact nQ _ _ _ h1
-  · exact nQ _ _ _ h1
+  · exact h0L (h0U _ _ h1)
+  · obtain ⟨-, a, b, hab⟩ := b2r_mem_fld_addLast.1 h1
+    exact nR1 _ _ hab
 
 /-- ✱217·42. \[\begin{align}\vdash :\text{Hp}*217·41.&\supset .\{\varsigma ʻ(\breve{P} \unicode{x2909} Q)\}\unicode{x0294f}\{-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻ(P\unicode{x2909} Q)\}=\\ &(\breve{P} )_{\in }^{;}(CʻP-)^{;}\text{Cnv}ʻ(\varsigma ʻP)\unicode{x0294f}(-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻP)\unicode{x21f8}\text{ᗡ}ʻP\\ &\unicode{x2909} (CʻP\cup )^{;}(\varsigma ʻQ)\unicode{x0294f}(-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻQ) \quad[*217·411]\end{align}\]
 
@@ -8411,7 +8438,8 @@ theorem pm217_42_printed_false :
 or `Y = (ς'Q)⥏(−ι'Λ−ι'D'Q)` (notation of ✱217·43) is null although `P` or `Q` has one segment
 besides `Λ` and its domain: then `X̆ ⇸ ᗡ'P` or the `C'P ∪ H` part loses its pairs. The hypotheses
 `∃̇!X . ∃̇!Y` are added; `pm217_42_printed_false` proves the failure (`P` the series `0, 1, 2` and
-`Q = Λ̇`, on `ℕ`). (For `∃̇!Q`, `D'(P ⤉ Q) = D'(P̆ ⤉ Q) = C'P ∪ D'Q`, so the e-text's `D'(P ⤉ Q)`
+`Q` the series `…, 4, 3` without beginning, on `ℕ`; the example does not depend on reading
+`D'(P ⤉ Q)` or `D'(P̆ ⤉ Q)`). (For `∃̇!Q`, `D'(P ⤉ Q) = D'(P̆ ⤉ Q) = C'P ∪ D'Q`, so the e-text's `D'(P ⤉ Q)`
 agrees with the `D'(P̆ ⤉ Q)` of ✱217·43.) -/
 theorem pm217_42 {P Q : α → α → Prop}
     (h : ((P ∈ Ser ∧ Q ∈ Ser) ∧ fld P ∩ fld Q = Λ) ∧ (¬EDesc Beg P ∨ ¬EDesc Beg Q))
@@ -8490,51 +8518,167 @@ theorem pm217_42 {P Q : α → α → Prop}
     · refine ⟨⟨?_, Or.inr ⟨⟨∅, b2_seg_empty P, hcod⟩, H, ⟨hH, hHn⟩, rfl⟩⟩, memg H hH hHd⟩
       rw [hcod]; exact memf ∅ (b2_seg_empty P) (Ne.symm hdP)
 
-/-- The printed ✱217·43 fails: for `P = Q = Λ̇`, `X = Y = Λ̇` and `W = Λ̇`, so `C'W = Λ`, but the
-correlator relates `D'P` to `α`, so `α ∈ ᗡ'S`. -/
+/-- The printed ✱217·43 fails, and both corrections are needed.
+
+(1) The printed correlator, with `(D'P) ↓ α`, fails even when `∃̇!X . ∃̇!Y` is added: for `P` the
+series `0, 1, 2, 3`, `Q` the series `…, 6, 5, 4` (decreasing, without beginning) and `α = Λ`,
+`X` and `Y` are not null, but `D'P = ι'0 ∪ ι'1 ∪ ι'2` is not a segment of `P̆ ⤉ Q` (a segment
+containing `0` contains `C'P`), while the correlator relates it to `α ∈ C'W`, so that `D'P ∈ C'Z`.
+
+(2) With the couple `(ᗡ'P) ↓ α`, the hypotheses `∃̇!X . ∃̇!Y` cannot be dropped: for `P = Q = Λ̇`,
+`X = Y = Λ̇` and `W = Λ̇`, so `C'W = Λ`, but the correlator relates `ᗡ'P` to `α`, so `α ∈ ᗡ'S`. -/
 theorem pm217_43_printed_false :
+    (¬∀ (P Q : ℕ → ℕ → Prop) (X Y Z W : Set ℕ → Set ℕ → Prop) (A : Set ℕ),
+      (((((((P ∈ Ser ∧ Q ∈ Ser) ∧ fld P ∩ fld Q = Λ) ∧ (¬EDesc Beg P ∨ ¬EDesc Beg Q)) ∧
+        X = segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P))) ∧ Y = segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q))) ∧
+        Z = segSer (P˘ ⤉ Q) ⥏ ((ι Λ)ᶜ \ ι (dom (P˘ ⤉ Q)))) ∧ W = X˘ ⇸ A ⤉ Y) ∧
+        A ∉ fld X ∪ fld Y → rEx X → rEx Y →
+      (imgRel P˘ ⨾ opL (· \ ·) (fld P)) ↾ ((dom (imgRel P) \ ι Λ) \ ι (dom P)) ⊍ dom P ↓ A ⊍
+        opL (· ∪ ·) (fld P) ↾ ((dom (imgRel Q) \ ι Λ) \ ι (dom Q)) ∈ smorbar Z W) ∧
     ¬∀ (P Q : ℕ → ℕ → Prop) (X Y Z W : Set ℕ → Set ℕ → Prop) (A : Set ℕ),
       (((((((P ∈ Ser ∧ Q ∈ Ser) ∧ fld P ∩ fld Q = Λ) ∧ (¬EDesc Beg P ∨ ¬EDesc Beg Q)) ∧
         X = segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P))) ∧ Y = segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q))) ∧
         Z = segSer (P˘ ⤉ Q) ⥏ ((ι Λ)ᶜ \ ι (dom (P˘ ⤉ Q)))) ∧ W = X˘ ⇸ A ⤉ Y) ∧
         A ∉ fld X ∪ fld Y →
-      (imgRel P˘ ⨾ opL (· \ ·) (fld P)) ↾ ((dom (imgRel P) \ ι Λ) \ ι (dom P)) ⊍ dom P ↓ A ⊍
+      (imgRel P˘ ⨾ opL (· \ ·) (fld P)) ↾ ((dom (imgRel P) \ ι Λ) \ ι (dom P)) ⊍ codom P ↓ A ⊍
         opL (· ∪ ·) (fld P) ↾ ((dom (imgRel Q) \ ι Λ) \ ι (dom Q)) ∈ smorbar Z W := by
-  intro H
-  have hN : ∀ x y, ¬(rNull : ℕ → ℕ → Prop) x y := fun x y => rNull_apply x y
-  have hNs : (rNull : ℕ → ℕ → Prop) ∈ Ser := by
-    refine mem_Ser.2 ⟨⟨fun x h => hN x x h, fun x y z h => (hN x y h.1).elim⟩, ?_⟩
-    rintro x y ⟨⟨w, hw | hw⟩, -⟩ <;> exact (hN _ _ hw).elim
-  have hfN : fld (rNull : ℕ → ℕ → Prop) = ∅ :=
-    Set.eq_empty_iff_forall_notMem.2 fun _ ⟨_, h⟩ => h.elim (hN _ _) (hN _ _)
-  have hnE : ¬EDesc Beg (rNull : ℕ → ℕ → Prop) := by
-    rintro ⟨b, hb⟩
-    obtain ⟨⟨w, hw⟩, -⟩ := (hb b).2 rfl
-    exact hN _ _ hw
-  have nX : ∀ (E : Set (Set ℕ)) (U V : Set ℕ), ¬(segSer (rNull : ℕ → ℕ → Prop) ⥏ E) U V :=
-    fun E U V h => b2_segSer_rNull_none _ _ h.1.2
-  have fX : ∀ (E : Set (Set ℕ)) (U : Set ℕ), U ∉ fld (segSer (rNull : ℕ → ℕ → Prop) ⥏ E) :=
-    fun E U ⟨V, h⟩ => h.elim (nX E U V) (nX E V U)
-  have r := H rNull rNull _ _ _ _ ∅ ⟨⟨⟨⟨⟨⟨⟨⟨hNs, hNs⟩, by rw [hfN, Set.inter_empty, Null_eq_empty]⟩,
-    Or.inl hnE⟩, rfl⟩, rfl⟩, rfl⟩, rfl⟩, fun h => h.elim (fX _ _) (fX _ _)⟩
-  have hA : (∅ : Set ℕ) ∈ fld ((segSer (rNull : ℕ → ℕ → Prop) ⥏
-      ((ι Λ)ᶜ \ ι (dom (rNull : ℕ → ℕ → Prop))))˘ ⇸ ∅ ⤉
-      segSer (rNull : ℕ → ℕ → Prop) ⥏ ((ι Λ)ᶜ \ ι (dom (rNull : ℕ → ℕ → Prop)))) := by
-    rw [r.1.2]
-    exact ⟨dom (rNull : ℕ → ℕ → Prop), Or.inl (Or.inr ⟨rfl, rfl⟩)⟩
-  obtain ⟨V, h | h⟩ := hA
-  · rcases (rsum_apply _ _ _ _).1 h with ((h' | ⟨h', -⟩) | h') | ⟨h', -⟩
-    · exact nX _ _ _ h'
-    · exact fX _ _ (by rw [fld_cnv] at h'; exact h')
-    · exact nX _ _ _ h'
-    · obtain ⟨-, hr⟩ := b2r_mem_fld_addLast.1 h'
-      obtain ⟨a, b, hab⟩ := hr
-      exact nX _ _ _ hab
-  · rcases (rsum_apply _ _ _ _).1 h with ((h' | ⟨h', -⟩) | h') | ⟨-, h'⟩
-    · exact nX _ _ _ h'
-    · exact fX _ _ (by rw [fld_cnv] at h'; exact h')
-    · exact nX _ _ _ h'
-    · exact fX _ _ h'
+  have nE : ∀ (R : Set ℕ → Set ℕ → Prop) (E : Set (Set ℕ)), E ⊆ (ι Λ)ᶜ →
+      (∅ : Set ℕ) ∉ fld (R ⥏ E) := by
+    rintro R E hE ⟨V, ⟨⟨h, -⟩, -⟩ | ⟨-, h⟩⟩ <;> exact hE h (b2_mem_iotaNull.2 rfl)
+  refine ⟨fun H => ?_, fun H => ?_⟩
+  · obtain ⟨P, hP⟩ : ∃ P : ℕ → ℕ → Prop, ∀ x y, P x y ↔ x < y ∧ y ≤ 3 :=
+      ⟨_, fun _ _ => Iff.rfl⟩
+    obtain ⟨Q, hQ⟩ : ∃ Q : ℕ → ℕ → Prop, ∀ x y, Q x y ↔ y < x ∧ 4 ≤ y :=
+      ⟨_, fun _ _ => Iff.rfl⟩
+    have fP : ∀ x, x ∈ fld P → x ≤ 3 := by
+      rintro x ⟨w, h | h⟩ <;> rw [hP] at h <;> omega
+    have fQ : ∀ x, x ∈ fld Q → 4 ≤ x := by
+      rintro x ⟨w, h | h⟩ <;> rw [hQ] at h <;> omega
+    have hPs : P ∈ Ser := by
+      refine mem_Ser.2 ⟨⟨fun x h => ?_, fun x y z h => ?_⟩, fun x y h => ?_⟩
+      · rw [hP] at h; omega
+      · rw [hP, hP] at h; rw [hP]; omega
+      · have := fP x h.1; have := fP y h.2
+        rw [hP, hP]; omega
+    have hQs : Q ∈ Ser := by
+      refine mem_Ser.2 ⟨⟨fun x h => ?_, fun x y z h => ?_⟩, fun x y h => ?_⟩
+      · rw [hQ] at h; omega
+      · rw [hQ, hQ] at h; rw [hQ]; omega
+      · have := fQ x h.1; have := fQ y h.2
+        rw [hQ, hQ]; omega
+    have hd : fld P ∩ fld Q = Λ := by
+      rw [Null_eq_empty]
+      refine Set.eq_empty_iff_forall_notMem.2 fun z ⟨h1, h2⟩ => ?_
+      have := fP z h1; have := fQ z h2; omega
+    have hor : ¬EDesc Beg P ∨ ¬EDesc Beg Q := by
+      right; rintro ⟨b, hb⟩
+      obtain ⟨⟨w, hw⟩, hn⟩ := (hb b).2 rfl
+      rw [hQ] at hw
+      exact hn ⟨b + 1, (hQ _ _).2 ⟨by omega, by omega⟩⟩
+    have hPimg : ∀ n x : ℕ, x ∈ P ʻʻ {n} ↔ x < n ∧ n ≤ 3 := by
+      intro n x
+      constructor
+      · rintro ⟨y, hy, hxy⟩
+        have hy' : y = n := hy
+        rw [hy'] at hxy
+        exact (hP x n).1 hxy
+      · intro h; exact ⟨n, rfl, (hP x n).2 h⟩
+    have hQimg : ∀ n x : ℕ, x ∈ Q ʻʻ {n} ↔ n < x ∧ 4 ≤ n := by
+      intro n x
+      constructor
+      · rintro ⟨y, hy, hxy⟩
+        have hy' : y = n := hy
+        rw [hy'] at hxy
+        exact (hQ x n).1 hxy
+      · intro h; exact ⟨n, rfl, (hQ x n).2 h⟩
+    have h2d : (2 : ℕ) ∈ dom P := ⟨3, (hP 2 3).2 ⟨by omega, le_rfl⟩⟩
+    have h5d : (5 : ℕ) ∈ dom Q := ⟨4, (hQ 5 4).2 ⟨by omega, le_rfl⟩⟩
+    have memP : ∀ U : Set ℕ, (0 : ℕ) ∈ U → (2 : ℕ) ∉ U → U ∈ (ι Λ)ᶜ \ ι (dom P) :=
+      fun U h0 h2 => ⟨b2_not_mem_iotaNull.2 ⟨0, h0⟩, fun e' => h2 ((b2_mem_iota.1 e') ▸ h2d)⟩
+    have memQ : ∀ U : Set ℕ, (7 : ℕ) ∈ U → (5 : ℕ) ∉ U → U ∈ (ι Λ)ᶜ \ ι (dom Q) :=
+      fun U h7 h5 => ⟨b2_not_mem_iotaNull.2 ⟨7, h7⟩, fun e' => h5 ((b2_mem_iota.1 e') ▸ h5d)⟩
+    have hXp : (segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P))) (P ʻʻ {1}) (P ʻʻ {2}) := by
+      refine ⟨⟨memP _ ((hPimg 1 0).2 ⟨by omega, by omega⟩)
+        (fun h => by have := (hPimg 1 2).1 h; omega),
+        (b2_segSer_ser hPs).2 ⟨⟨⟨_, rfl⟩, ⟨_, rfl⟩⟩, fun z hz => ?_, fun e' => ?_⟩⟩,
+        memP _ ((hPimg 2 0).2 ⟨by omega, by omega⟩) (fun h => by have := (hPimg 2 2).1 h; omega)⟩
+      · have := (hPimg 1 z).1 hz; exact (hPimg 2 z).2 ⟨by omega, by omega⟩
+      · have h1 : (1 : ℕ) ∈ P ʻʻ {2} := (hPimg 2 1).2 ⟨by omega, by omega⟩
+        rw [← e'] at h1
+        have := (hPimg 1 1).1 h1; omega
+    have hYp : (segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q))) (Q ʻʻ {6}) (Q ʻʻ {5}) := by
+      refine ⟨⟨memQ _ ((hQimg 6 7).2 ⟨by omega, by omega⟩)
+        (fun h => by have := (hQimg 6 5).1 h; omega),
+        (b2_segSer_ser hQs).2 ⟨⟨⟨_, rfl⟩, ⟨_, rfl⟩⟩, fun z hz => ?_, fun e' => ?_⟩⟩,
+        memQ _ ((hQimg 5 7).2 ⟨by omega, by omega⟩) (fun h => by have := (hQimg 5 5).1 h; omega)⟩
+      · have := (hQimg 6 z).1 hz; exact (hQimg 5 z).2 ⟨by omega, by omega⟩
+      · have h6 : (6 : ℕ) ∈ Q ʻʻ {5} := (hQimg 5 6).2 ⟨by omega, by omega⟩
+        rw [← e'] at h6
+        have := (hQimg 6 6).1 h6; omega
+    have r := H P Q _ _ _ _ ∅ ⟨⟨⟨⟨⟨⟨⟨⟨hPs, hQs⟩, hd⟩, hor⟩, rfl⟩, rfl⟩, rfl⟩, rfl⟩,
+      fun h => h.elim (nE _ _ fun _ h' => h'.1) (nE _ _ fun _ h' => h'.1)⟩
+      ⟨_, _, hXp⟩ ⟨_, _, hYp⟩
+    obtain ⟨⟨-, hcod⟩, hsemi⟩ := r
+    have hW : ((segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P)))˘ ⇸ ∅ ⤉ segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q)))
+        (P ʻʻ {1}) ∅ :=
+      (rsum_apply _ _ _ _).2 (Or.inl (Or.inl
+        ((addLast_apply _ _ _ _).2 (Or.inr ⟨⟨_, Or.inr hXp⟩, rfl⟩))))
+    have hc : P ʻʻ {1} ∈ fld ((segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P)))˘ ⇸ ∅ ⤉
+        segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q))) := ⟨∅, Or.inl hW⟩
+    rw [hcod] at hc
+    obtain ⟨a, ha⟩ := hc
+    have hZ := (semi_apply _ _ _ _).2 ⟨_, _, ⟨ha, Or.inl (Or.inr ⟨rfl, rfl⟩)⟩, hW⟩
+    rw [← hsemi] at hZ
+    obtain ⟨B, hB⟩ := hZ.1.2.2
+    have hB' : dom P = (P˘ ⤉ Q) ʻʻ B := hB
+    have hT : ∀ x y, (P˘ ⤉ Q) x y ↔ (P y x ∨ Q x y) ∨ (x ∈ fld P ∧ y ∈ fld Q) := by
+      intro x y; rw [rsum_apply, fld_cnv]; exact Iff.rfl
+    have h0 : (0 : ℕ) ∈ dom P := ⟨1, (hP 0 1).2 ⟨by omega, by omega⟩⟩
+    rw [hB'] at h0
+    obtain ⟨y, hy, hy0⟩ := h0
+    rw [hT] at hy0
+    rcases hy0 with (h | h) | ⟨-, hyQ⟩
+    · rw [hP] at h; omega
+    · rw [hQ] at h; omega
+    · have h3 : (3 : ℕ) ∈ (P˘ ⤉ Q) ʻʻ B :=
+        ⟨y, hy, (hT 3 y).2 (Or.inr ⟨⟨2, Or.inr ((hP 2 3).2 ⟨by omega, le_rfl⟩)⟩, hyQ⟩)⟩
+      rw [← hB'] at h3
+      obtain ⟨w, hw⟩ := h3
+      rw [hP] at hw; omega
+  · have hN : ∀ x y, ¬(rNull : ℕ → ℕ → Prop) x y := fun x y => rNull_apply x y
+    have hNs : (rNull : ℕ → ℕ → Prop) ∈ Ser := by
+      refine mem_Ser.2 ⟨⟨fun x h => hN x x h, fun x y z h => (hN x y h.1).elim⟩, ?_⟩
+      rintro x y ⟨⟨w, hw | hw⟩, -⟩ <;> exact (hN _ _ hw).elim
+    have hfN : fld (rNull : ℕ → ℕ → Prop) = ∅ :=
+      Set.eq_empty_iff_forall_notMem.2 fun _ ⟨_, h⟩ => h.elim (hN _ _) (hN _ _)
+    have hnE : ¬EDesc Beg (rNull : ℕ → ℕ → Prop) := by
+      rintro ⟨b, hb⟩
+      obtain ⟨⟨w, hw⟩, -⟩ := (hb b).2 rfl
+      exact hN _ _ hw
+    have nX : ∀ (E : Set (Set ℕ)) (U V : Set ℕ), ¬(segSer (rNull : ℕ → ℕ → Prop) ⥏ E) U V :=
+      fun E U V h => b2_segSer_rNull_none _ _ h.1.2
+    have fX : ∀ (E : Set (Set ℕ)) (U : Set ℕ), U ∉ fld (segSer (rNull : ℕ → ℕ → Prop) ⥏ E) :=
+      fun E U ⟨V, h⟩ => h.elim (nX E U V) (nX E V U)
+    have r := H rNull rNull _ _ _ _ ∅ ⟨⟨⟨⟨⟨⟨⟨⟨hNs, hNs⟩, by rw [hfN, Set.inter_empty, Null_eq_empty]⟩,
+      Or.inl hnE⟩, rfl⟩, rfl⟩, rfl⟩, rfl⟩, fun h => h.elim (fX _ _) (fX _ _)⟩
+    have hA : (∅ : Set ℕ) ∈ fld ((segSer (rNull : ℕ → ℕ → Prop) ⥏
+        ((ι Λ)ᶜ \ ι (dom (rNull : ℕ → ℕ → Prop))))˘ ⇸ ∅ ⤉
+        segSer (rNull : ℕ → ℕ → Prop) ⥏ ((ι Λ)ᶜ \ ι (dom (rNull : ℕ → ℕ → Prop)))) := by
+      rw [r.1.2]
+      exact ⟨codom (rNull : ℕ → ℕ → Prop), Or.inl (Or.inr ⟨rfl, rfl⟩)⟩
+    obtain ⟨V, h | h⟩ := hA
+    · rcases (rsum_apply _ _ _ _).1 h with ((h' | ⟨h', -⟩) | h') | ⟨h', -⟩
+      · exact nX _ _ _ h'
+      · exact fX _ _ (by rw [fld_cnv] at h'; exact h')
+      · exact nX _ _ _ h'
+      · obtain ⟨-, hr⟩ := b2r_mem_fld_addLast.1 h'
+        obtain ⟨a, b, hab⟩ := hr
+        exact nX _ _ _ hab
+    · rcases (rsum_apply _ _ _ _).1 h with ((h' | ⟨h', -⟩) | h') | ⟨-, h'⟩
+      · exact nX _ _ _ h'
+      · exact fX _ _ (by rw [fld_cnv] at h'; exact h')
+      · exact nX _ _ _ h'
+      · exact fX _ _ h'
 
 /-- ✱217·43. \[\begin{align}&\vdash \colon\ldotp P,Q\in \text{Ser}.CʻP\cap CʻQ=\Lambda :{\sim}\text{E}!BʻP.\lor.{\sim}\text{E}!BʻQ:\\ &X=(\varsigma ʻP)\unicode{x0294f}(-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻP).Y=(\varsigma ʻQ)\unicode{x0294f}(-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻQ).\\ &Z=\{\varsigma ʻ(\breve{P} \unicode{x2909} Q)\}\unicode{x0294f}\{-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻ(\breve{P} \unicode{x2909} Q)\}.\\ &W=\breve{X} \unicode{x21f8}\alpha \unicode{x2909} Y.\alpha {\sim}\in CʻX\cup CʻY.\supset .\\ &(\breve{P} )_{\in }\mid (CʻP-)\upharpoonright (\text{D}ʻP_{\in }-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻP)\unicode{x228d} (\text{D}ʻP)\downarrow \alpha \\ &\unicode{x228d} (CʻP\cup )\upharpoonright (\text{D}ʻQ_{\in }-{℩}ʻ\Lambda -{℩}ʻ\text{D}ʻQ)\in Z\,\overline{\text{smor}}\,\,W \quad[*217·37·25·42]\end{align}\]
 
@@ -8542,8 +8686,9 @@ theorem pm217_43_printed_false :
 `α` stands in `W` for the term `ᗡ'P` (`= P̆''C'P`, the last segment of `P̆`) of ✱217·42, while
 `D'P` is a segment of `P̆ ⤉ Q` only when `D'P = ᗡ'P` (`P` without beginning and end, as in Part VI,
 Section A); (2) it inherits the degenerate failures of ✱217·42, so `∃̇!X . ∃̇!Y` are added.
-`pm217_43_printed_false` proves the failure of the printed form (`P = Q = Λ̇`, where `C'W = Λ` but
-`α ∈ ᗡ'S`). -/
+`pm217_43_printed_false` proves that both are needed: the printed correlator fails even with
+`∃̇!X . ∃̇!Y` (`P` the series `0, 1, 2, 3`, `Q` the series `…, 5, 4`, where `D'P ∉ C'Z`), and the
+corrected one fails without them (`P = Q = Λ̇`, where `C'W = Λ` but `α ∈ ᗡ'S`). -/
 theorem pm217_43 {P Q : α → α → Prop} {X Y Z W : Set α → Set α → Prop} {A : Set α}
     (h : (((((((P ∈ Ser ∧ Q ∈ Ser) ∧ fld P ∩ fld Q = Λ) ∧ (¬EDesc Beg P ∨ ¬EDesc Beg Q)) ∧
       X = segSer P ⥏ ((ι Λ)ᶜ \ ι (dom P))) ∧ Y = segSer Q ⥏ ((ι Λ)ᶜ \ ι (dom Q))) ∧
